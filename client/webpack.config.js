@@ -23,13 +23,13 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './src/index.html',
+      template: path.resolve('./src/index.html'),
     }),
     new webpack.HotModuleReplacementPlugin(),
     new CleanWebpackPlugin(['dist']),
   ],
   devtool: 'source-map',
   resolve: {
-    extensions: ['tsx', 'ts', 'js'],
+    extensions: ['', '.ts', '.tsx', '.js'],
   },
 };
