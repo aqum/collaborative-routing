@@ -19,6 +19,10 @@ module.exports = {
         test: /\.tsx$/,
         loaders: ['react-hot', 'ts'],
       },
+      {
+        test: /\.scss$/,
+        loaders: ['style', 'css', 'sass'],
+      }
     ],
   },
   plugins: [
