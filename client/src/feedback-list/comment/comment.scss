@@ -1,0 +1,8 @@
+@import '../../variables.scss';
+
+.cr-comment {
+  background: $bg-light;
+  box-shadow: $bg-light-shadow;
+  padding: $spacing-base;
+  border-radius: $radius-base;
+}

@@ -1,0 +1,18 @@
+@import '../variables';
+
+.cr-app {
+  position: relative;
+
+  &__feedback-list {
+    position: absolute;
+    top: $spacing-base;
+    right: $spacing-base;
+    width: 300px;
+  }
+
+  &__map {
+    position: relative;
+    z-index: -1;
+    height: 100vh;
+  }
+}

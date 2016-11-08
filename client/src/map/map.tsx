@@ -1,10 +1,13 @@
 import * as React from 'react';
 import * as L from 'leaflet';
 
-import './map.scss';
 import { config } from '../../config/config';
 
-export class Map extends React.Component<{}, {}> {
+export interface IMap {
+  className: string;
+}
+
+export class Map extends React.Component<IMap, {}> {
   createMap(node) {
     const mapInstance = L.map(node).setView([51.505, -0.09], 13);
 
@@ -21,7 +24,7 @@ export class Map extends React.Component<{}, {}> {
   render() {
     return (
       <div ref={node => this.createMap(node)}
-        className='cr-map' />
+        className={this.props.className} />
     );
   }
 }

@@ -4,6 +4,7 @@
     "react-dom": "registry:npm/react-dom#15.0.1+20160826174104"
   },
   "globalDependencies": {
+    "core-js": "registry:dt/core-js#0.0.0+20160914114559",
     "geojson": "registry:dt/geojson#0.0.0+20160619034323",
     "leaflet": "registry:dt/leaflet#1.0.0-rc3+20161013145239"
   }
