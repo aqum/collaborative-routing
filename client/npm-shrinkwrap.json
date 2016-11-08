@@ -672,7 +672,7 @@
     },
     "core-js": {
       "version": "1.2.7",
-      "from": "core-js@>=1.0.0 <2.0.0",
+      "from": "https://registry.npmjs.org/core-js/-/core-js-1.2.7.tgz",
       "resolved": "https://registry.npmjs.org/core-js/-/core-js-1.2.7.tgz"
     },
     "core-util-is": {

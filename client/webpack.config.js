@@ -16,7 +16,7 @@ module.exports = {
   module: {
     loaders: [
       {
-        test: /\.tsx$/,
+        test: /\.(tsx|ts)$/,
         loaders: ['react-hot', 'ts'],
       },
       {
