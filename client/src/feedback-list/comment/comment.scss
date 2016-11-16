@@ -5,4 +5,8 @@
   box-shadow: $bg-light-shadow;
   padding: $spacing-base;
   border-radius: $radius-base;
+
+  &__content {
+    margin-top: 10px;
+  }
 }
