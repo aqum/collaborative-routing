@@ -1,17 +1,16 @@
 import * as React from 'react';
-import * as moment from 'moment';
-
 import './comment.scss';
 import { FeedbackMeta } from '../feedback-meta/feedback-meta';
+import { IComment } from '../../../interfaces/comment';
 
-export class Comment extends React.Component<{}, {}> {
+export class Comment extends React.Component<IComment, {}> {
   render() {
     return (
        <div className='cr-comment'>
-         <FeedbackMeta name='Maria'
-                       date={moment().subtract(10, 'days')} />
+         <FeedbackMeta name={this.props.author.name}
+                       date={this.props.date} />
          <div className='cr-comment__content'>
-           Some content
+           {this.props.content}
          </div>
        </div>
     );

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as L from 'leaflet';
 
-import { config } from '../../config/config';
+import { config } from '../../../config/config';
 
 export interface IMap {
   className: string;
