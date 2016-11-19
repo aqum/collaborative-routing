@@ -1,24 +1,53 @@
 import * as React from 'react';
 import * as L from 'leaflet';
-
+import './map.scss';
 import { config } from '../../../config/config';
+import { IComment } from '../../interfaces/comment';
 
 export interface IMap {
-  className: string;
+  comments?: IComment[];
+  className?: string;
+  onMapClick?: Function;
 }
 
 export class Map extends React.Component<IMap, {}> {
-  createMap(node) {
-    const mapInstance = L.map(node).setView([51.505, -0.09], 13);
+  private mapContainer = document.createElement('div');
+  private mapInstance = L.map(this.mapContainer);
+  private markers: L.Marker[] = [];
 
+  constructor() {
+    super();
+
+    this.mapInstance.setView([51.505, -0.09], 13);
     L.tileLayer(
       config.mapTileUrl,
       {
         maxZoom: 18,
         attribution: config.mapAttribution,
       }
-    )
-      .addTo(mapInstance);
+    ).addTo(this.mapInstance);
+  }
+
+  componentWillMount() {
+    if (this.props.onMapClick) {
+      this.mapInstance.on('click', (ev) => this.props.onMapClick(ev));
+    }
+
+    this.bindCommentMarkers(this.props.comments);
+  }
+
+  componentWillUpdate({ comments }) {
+    this.bindCommentMarkers(comments);
+  }
+
+  createMap(node) {
+    if (!node) {
+      return;
+    }
+
+    node.appendChild(this.mapContainer);
+
+    this.mapInstance.invalidateSize(false);
   }
 
   render() {
@@ -26,5 +55,13 @@ export class Map extends React.Component<IMap, {}> {
       <div ref={node => this.createMap(node)}
         className={this.props.className} />
     );
+  }
+
+  private bindCommentMarkers(comments: IComment[] = []) {
+    const markers = comments.map(({coordinates}) => L.marker(coordinates));
+    this.markers.forEach(marker => this.mapInstance.removeLayer(marker));
+
+    markers.forEach(marker => marker.addTo(this.mapInstance));
+    this.markers = markers;
   }
 }

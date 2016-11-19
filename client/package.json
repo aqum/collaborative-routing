@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "classnames": "^2.2.5",
     "core-js": "https://registry.npmjs.org/core-js/-/core-js-1.2.7.tgz",
     "leaflet": "^1.0.1",
     "moment": "^2.16.0",

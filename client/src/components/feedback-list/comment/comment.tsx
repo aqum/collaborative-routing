@@ -1,12 +1,17 @@
 import * as React from 'react';
+import * as classNames from 'classnames';
 import './comment.scss';
 import { FeedbackMeta } from '../feedback-meta/feedback-meta';
 import { IComment } from '../../../interfaces/comment';
 
-export class Comment extends React.Component<IComment, {}> {
+export interface ICommentProps extends IComment {
+  className?: string;
+}
+
+export class Comment extends React.Component<ICommentProps, {}> {
   render() {
     return (
-       <div className='cr-comment'>
+       <div className={classNames(this.props.className, 'cr-comment')}>
          <FeedbackMeta name={this.props.author.name}
                        date={this.props.date} />
          <div className='cr-comment__content'>
