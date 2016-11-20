@@ -3,19 +3,35 @@ import * as classNames from 'classnames';
 import './comment.scss';
 import { FeedbackMeta } from '../feedback-meta/feedback-meta';
 import { IComment } from '../../../interfaces/comment';
+import { CommentForm } from './comment-form/comment-form';
 
-export interface ICommentProps extends IComment {
+export interface ICommentProps {
+  comment: IComment;
   className?: string;
+  onSave?: Function;
 }
 
 export class Comment extends React.Component<ICommentProps, {}> {
+  handleOnSave(content: string) {
+    if (!this.props.onSave) {
+      return;
+    }
+
+    const updatedComment = Object.assign({}, this.props.comment, { content });
+    this.props.onSave(updatedComment);
+  }
+
   render() {
     return (
        <div className={classNames(this.props.className, 'cr-comment')}>
-         <FeedbackMeta name={this.props.author.name}
-                       date={this.props.date} />
+         <FeedbackMeta name={this.props.comment.author.name}
+                       date={this.props.comment.date} />
          <div className='cr-comment__content'>
-           {this.props.content}
+           {
+             this.props.comment.isBeingEdited ?
+               <CommentForm onSave={this.handleOnSave.bind(this)} /> :
+               this.props.comment.content
+           }
          </div>
        </div>
     );

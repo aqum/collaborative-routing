@@ -1,6 +1,9 @@
 @import '../../variables';
 
 .cr-feedback-list {
+  height: 100%;
+  overflow: auto;
+
   &__item {
     margin: $spacing-base;
   }

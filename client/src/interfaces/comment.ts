@@ -7,4 +7,5 @@ export interface IComment {
   date: Moment;
   content: string;
   coordinates: LatLngLiteral;
+  isBeingEdited: boolean;
 }
