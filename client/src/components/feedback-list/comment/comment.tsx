@@ -9,6 +9,7 @@ export interface ICommentProps {
   comment: IComment;
   className?: string;
   onSave?: Function;
+  onRemove?: Function;
 }
 
 export class Comment extends React.Component<ICommentProps, {}> {
@@ -21,6 +22,14 @@ export class Comment extends React.Component<ICommentProps, {}> {
     this.props.onSave(updatedComment);
   }
 
+  handleOnCancel() {
+    if (!this.props.onRemove) {
+      return;
+    }
+
+    this.props.onRemove(this.props.comment);
+  }
+
   render() {
     return (
        <div className={classNames(this.props.className, 'cr-comment')}>
@@ -29,7 +38,8 @@ export class Comment extends React.Component<ICommentProps, {}> {
          <div className='cr-comment__content'>
            {
              this.props.comment.isBeingEdited ?
-               <CommentForm onSave={this.handleOnSave.bind(this)} /> :
+               <CommentForm onSave={this.handleOnSave.bind(this)}
+                            onCancel={this.handleOnCancel.bind(this)} /> :
                this.props.comment.content
            }
          </div>

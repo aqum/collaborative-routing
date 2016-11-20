@@ -28,3 +28,10 @@ export function saveComment(comment: IComment) {
     }),
   };
 }
+
+export function removeComment(comment: IComment) {
+  return {
+    type: 'REMOVE_COMMENT',
+    payload: comment,
+  };
+}

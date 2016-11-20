@@ -5,6 +5,7 @@ import './comment-form.scss';
 export interface ICommentForm {
   content?: string;
   onSave?: Function;
+  onCancel?: Function;
 }
 
 export class CommentForm extends React.Component<ICommentForm, ICommentForm> {
@@ -44,6 +45,11 @@ export class CommentForm extends React.Component<ICommentForm, ICommentForm> {
              <button className='cr-comment-form__btn'
                      type='submit'>
                Save
+             </button>
+             <button className='cr-comment-form__btn'
+                     type='button'
+                     onClick={this.props.onCancel}>
+               Cancel
              </button>
            </div>
        </form>

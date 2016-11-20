@@ -7,9 +7,9 @@ export function commentsReducer(
 ): IComment[] {
   switch (action.type) {
     case 'SAVE_COMMENT':
-      const index = _.findIndex(state, _.pick(action.payload, ['date', 'author']));
-      if (index !== -1) {
-        state[index] = _.clone(action.payload);
+      const editedIndex = findCommentIndex(state, action.payload);
+      if (editedIndex !== -1) {
+        state[editedIndex] = _.clone(action.payload);
       }
       return [...state];
 
@@ -17,7 +17,15 @@ export function commentsReducer(
       const withoutPending = state.filter(comment => !comment.isBeingEdited);
       return [action.payload, ...withoutPending];
 
+    case 'REMOVE_COMMENT':
+      const removedIndex = findCommentIndex(state, action.payload);
+      return _.without(state, state[removedIndex]);
+
     default:
       return state;
   }
+}
+
+function findCommentIndex(state, comment: IComment): number {
+  return _.findIndex(state, _.pick(comment, ['date', 'author']));
 }
