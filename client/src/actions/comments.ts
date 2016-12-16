@@ -2,11 +2,18 @@ import { LatLngLiteral } from 'leaflet';
 import * as moment from 'moment';
 import { IComment } from '../interfaces/comment';
 
+export const types = {
+  ADD: 'comment/ADD',
+  SAVE: 'comment/SAVE',
+  REMOVE: 'comment/REMOVE',
+  RECEIVE: 'comment/RECEIVE',
+};
+
 export function addComment(
   { content, coordinates }: { content: string, coordinates: LatLngLiteral }
 ) {
   return {
-    type: 'ADD_COMMENT',
+    type: types.ADD,
     payload: {
       author: {
         avatarUrl: '',
@@ -22,7 +29,7 @@ export function addComment(
 
 export function saveComment(comment: IComment) {
   return {
-    type: 'SAVE_COMMENT',
+    type: types.SAVE,
     payload: Object.assign({}, comment, {
       isBeingEdited: false,
     }),
@@ -31,7 +38,20 @@ export function saveComment(comment: IComment) {
 
 export function removeComment(comment: IComment) {
   return {
-    type: 'REMOVE_COMMENT',
+    type: types.REMOVE,
     payload: comment,
+  };
+}
+
+export function receiveComment(comment: IComment) {
+  return {
+    type: types.RECEIVE,
+    payload: Object.assign(
+      {},
+      comment,
+      {
+        date: moment(comment.date),
+      }
+    ),
   };
 }
