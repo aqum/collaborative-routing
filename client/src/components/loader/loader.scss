@@ -1,0 +1,35 @@
+@import '../../variables';
+
+.cr-loader {
+  height: 3px;
+  overflow: hidden;
+
+  &__progress {
+    display: none;
+    position: relative;
+    height: 100%;
+    background: $brand-primary;
+    width: 10%;
+    animation: 2s loader-movement infinite ease-in-out;
+  }
+
+  &--is-visible .cr-loader__progress {
+    display: block;
+  }
+}
+
+@keyframes loader-movement {
+  0% {
+    transform: translateX(-1vw);
+    width: 1vw;
+  }
+
+  70% {
+    width: 50vw;
+  }
+
+  100% {
+    transform: translateX(100vw);
+    width: 10vw;
+  }
+}
