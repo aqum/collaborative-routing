@@ -31,6 +31,9 @@ export function commentsReducer(
 
       return [action.payload, ...state];
 
+    case types.RECEIVE_ALL:
+      return _.clone(action.payload);
+
     default:
       return state;
   }

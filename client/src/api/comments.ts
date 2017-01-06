@@ -1,4 +1,9 @@
-import { receiveComment, types } from '../actions/comments';
+import {
+  receiveComment,
+  types as commentTypes,
+  receiveAllComments,
+} from '../actions/comments';
+import { types as metaTypes, finishFetchAllComments } from '../actions/meta';
 
 export function registerEvents(channel, store) {
   channel.on(
@@ -11,16 +16,26 @@ export function createMiddleware(channel) {
   return store => next => action => {
     const result = next(action);
 
-    if (action.type !== types.SAVE) {
-      return result;
-    }
+    switch (action.type) {
+      case commentTypes.SAVE:
+        channel.push(
+          'method:comment.add',
+          {
+            payload: result.payload,
+          }
+        );
+        break;
+      case metaTypes.FETCH_ALL_COMMENTS:
+        channel.push('method:feedback.list')
+          .receive('ok', ({ comments }) => {
+            store.dispatch(receiveAllComments(comments));
+            store.dispatch(finishFetchAllComments());
+          })
+          .receive('error', () => store.dispatch(finishFetchAllComments(true)))
+          .receive('timeout', () => store.dispatch(finishFetchAllComments(true)));
 
-    channel.push(
-      'method:comment.add',
-      {
-        payload: result.payload,
-      }
-    );
+      default:
+    }
 
     return result;
   };

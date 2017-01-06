@@ -7,6 +7,7 @@ export const types = {
   SAVE: 'comment/SAVE',
   REMOVE: 'comment/REMOVE',
   RECEIVE: 'comment/RECEIVE',
+  RECEIVE_ALL: 'comment/RECEIVE_ALL',
 };
 
 export function addComment(
@@ -53,5 +54,30 @@ export function receiveComment(comment: IComment) {
         date: moment(comment.date),
       }
     ),
+  };
+}
+
+export function receiveAllComments(comments: any[]) {
+  const normalizedComments = comments.map(comment =>
+    Object.assign(
+      {},
+      comment,
+      {
+        author: {
+          avatarUrl: '',
+          name: 'Maria',
+        },
+        date: moment(comment.date),
+        coordinates: {
+          lat: comment.lat,
+          lng: comment.lng,
+        },
+      }
+    )
+  );
+
+  return {
+    type: types.RECEIVE_ALL,
+    payload: normalizedComments,
   };
 }

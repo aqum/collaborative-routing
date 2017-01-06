@@ -17,5 +17,6 @@ function createConnection(resolve, reject) {
   const channel = socket.channel('rooms:lobby');
   channel.join()
     .receive('ok', response => resolve(channel))
-    .receive('error', error => reject(error));
+    .receive('error', error => reject(error))
+    .receive('timeout', error => reject(error));
 }

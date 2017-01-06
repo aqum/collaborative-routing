@@ -1,6 +1,7 @@
 defmodule CollaborativeRouting.Comment do
   use CollaborativeRouting.Web, :model
 
+  @derive {Poison.Encoder, except: [:__meta__, :user]}
   schema "comments" do
     field :content, :string
     field :lat, :float

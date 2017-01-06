@@ -7,6 +7,11 @@ defmodule CollaborativeRouting.RoomChannel do
     {:ok, socket}
   end
 
+  def handle_in("method:feedback.list", _message, socket) do
+    comments = Repo.all(Comment)
+    {:reply, {:ok, %{ :comments => comments }}, socket}
+  end
+
   def handle_in("method:comment.add", message, socket) do
     comment = %{
       :content => message["payload"]["content"],
@@ -27,10 +32,11 @@ defmodule CollaborativeRouting.RoomChannel do
             :name => "Natalia",
           },
         }}
+        {:ok, socket}
+
       {:error, changeset} ->
         broadcast! socket, "event:error", %{payload: changeset}
+        {:error, socket}
     end
-
-    {:noreply, socket}
   end
 end
