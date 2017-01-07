@@ -33,8 +33,7 @@ export class Comment extends React.Component<ICommentProps, {}> {
   render() {
     return (
        <div className={classNames(this.props.className, 'cr-comment')}>
-         <FeedbackMeta name={this.props.comment.author.name}
-                       date={this.props.comment.date} />
+         <FeedbackMeta date={this.props.comment.date} />
          <div className='cr-comment__content'>
            {
              this.props.comment.isBeingEdited ?

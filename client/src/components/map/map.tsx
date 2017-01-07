@@ -58,7 +58,7 @@ export class Map extends React.Component<IMap, {}> {
   }
 
   private bindCommentMarkers(comments: IComment[] = []) {
-    const markers = comments.map(({coordinates}) => L.marker(coordinates));
+    const markers = comments.map(({lat, lng}) => L.marker({lat, lng}));
     this.markers.forEach(marker => this.mapInstance.removeLayer(marker));
 
     markers.forEach(marker => marker.addTo(this.mapInstance));

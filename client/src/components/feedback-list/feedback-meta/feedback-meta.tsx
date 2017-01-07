@@ -18,7 +18,7 @@ export class FeedbackMeta extends React.Component<IFeedbackMeta, {}> {
                 src={this.props.avatarUrl} />
          </div>
          <div>
-           <h5 className='cr-feedback-meta__name'>{this.props.name}</h5>
+           <h5 className='cr-feedback-meta__name'>Maria</h5>
            <h6 className='cr-feedback-meta__date'>{this.props.date.fromNow()}</h6>
          </div>
        </div>

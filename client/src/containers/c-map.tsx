@@ -18,7 +18,8 @@ function mapDispatchToProps(dispatch) {
   return {
     onMapClick: (ev: MouseEvent) => dispatch(addComment({
       content: 'Testing',
-      coordinates: ev.latlng,
+      lat: ev.latlng.lat,
+      lng: ev.latlng.lng,
     })),
   };
 }

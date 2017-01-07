@@ -1,4 +1,3 @@
-import { LatLngLiteral } from 'leaflet';
 import * as moment from 'moment';
 import { IComment } from '../interfaces/comment';
 
@@ -11,7 +10,7 @@ export const types = {
 };
 
 export function addComment(
-  { content, coordinates }: { content: string, coordinates: LatLngLiteral }
+  { content, lat, lng }: { content: string, lat: number, lng: number }
 ) {
   return {
     type: types.ADD,
@@ -22,7 +21,8 @@ export function addComment(
       },
       date: moment(),
       content,
-      coordinates,
+      lat,
+      lng,
       isBeingEdited: true,
     },
   };
@@ -63,15 +63,7 @@ export function receiveAllComments(comments: any[]) {
       {},
       comment,
       {
-        author: {
-          avatarUrl: '',
-          name: 'Maria',
-        },
         date: moment(comment.date),
-        coordinates: {
-          lat: comment.lat,
-          lng: comment.lng,
-        },
       }
     )
   );

@@ -13,25 +13,12 @@ defmodule CollaborativeRouting.RoomChannel do
   end
 
   def handle_in("method:comment.add", message, socket) do
-    comment = %{
-      :content => message["payload"]["content"],
-      :lat => message["payload"]["coordinates"]["lat"],
-      :lng => message["payload"]["coordinates"]["lng"],
-    }
+    comment = message["payload"]
 
     changeset = Comment.changeset(%Comment{}, comment)
     case Repo.insert(changeset) do
       {:ok, comment} ->
-        broadcast! socket, "event:comment_added", %{payload: %{
-          :content => comment.content,
-          :coordinates => %{
-            :lat => comment.lat,
-            :lng => comment.lng,
-          },
-          :author => %{
-            :name => "Natalia",
-          },
-        }}
+        broadcast! socket, "event:comment_added", %{payload: comment}
         {:ok, socket}
 
       {:error, changeset} ->

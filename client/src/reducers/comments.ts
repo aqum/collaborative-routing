@@ -42,6 +42,6 @@ export function commentsReducer(
 function findCommentIndex(state: IComment[], comment: IComment): number {
   return _.findIndex(
     state,
-    c => _.isEqual(c.author, comment.author) && c.date.diff(comment.date) === 0
+    c => c.lng === comment.lng && c.lat === comment.lat
   );
 }
