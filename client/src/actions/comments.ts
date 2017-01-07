@@ -6,6 +6,7 @@ export const types = {
   SAVE: 'comment/SAVE',
   REMOVE: 'comment/REMOVE',
   RECEIVE: 'comment/RECEIVE',
+  RECEIVE_ERROR: 'comment/RECEIVE_ERROR',
   RECEIVE_ALL: 'comment/RECEIVE_ALL',
 };
 
@@ -23,7 +24,7 @@ export function addComment(
       content,
       lat,
       lng,
-      isBeingEdited: true,
+      isEdited: true,
     },
   };
 }
@@ -32,7 +33,8 @@ export function saveComment(comment: IComment) {
   return {
     type: types.SAVE,
     payload: Object.assign({}, comment, {
-      isBeingEdited: false,
+      isEdited: false,
+      isSaving: true,
     }),
   };
 }
@@ -71,5 +73,14 @@ export function receiveAllComments(comments: any[]) {
   return {
     type: types.RECEIVE_ALL,
     payload: normalizedComments,
+  };
+}
+
+export function receiveCommentError(comment: IComment) {
+  alert(`Couldn't save comment "${comment.content}".`);
+
+  return {
+    type: types.RECEIVE_ERROR,
+    payload: comment,
   };
 }

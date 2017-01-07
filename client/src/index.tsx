@@ -3,7 +3,6 @@ import * as React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
-import thunkMiddleware from 'redux-thunk';
 
 import './index.scss';
 import { App } from './components/app/app';
@@ -28,5 +27,5 @@ init(middlewares => createStore(
   )
   .catch(err => {
     console.error(err);
-    alert(`Couldn't connect to socket`);
+    alert(`Couldn't connect to server.`);
   });

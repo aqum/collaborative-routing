@@ -36,7 +36,7 @@ export class Comment extends React.Component<ICommentProps, {}> {
          <FeedbackMeta date={this.props.comment.date} />
          <div className='cr-comment__content'>
            {
-             this.props.comment.isBeingEdited ?
+             this.props.comment.isEdited ?
                <CommentForm onSave={this.handleOnSave.bind(this)}
                             onCancel={this.handleOnCancel.bind(this)} /> :
                this.props.comment.content

@@ -15,7 +15,7 @@ export function commentsReducer(
       return [...state];
 
     case types.ADD:
-      const withoutPending = state.filter(comment => !comment.isBeingEdited);
+      const withoutPending = state.filter(comment => !comment.isEdited);
       return [action.payload, ...withoutPending];
 
     case types.REMOVE:
@@ -34,14 +34,22 @@ export function commentsReducer(
     case types.RECEIVE_ALL:
       return _.clone(action.payload);
 
+    case types.RECEIVE_ERROR:
+      const compareFn = createCompareFn(action.payload);
+      const existingComment = state.find(compareFn);
+
+      return _.without(state, existingComment);
+
     default:
       return state;
   }
 }
 
 function findCommentIndex(state: IComment[], comment: IComment): number {
-  return _.findIndex(
-    state,
-    c => c.lng === comment.lng && c.lat === comment.lat
-  );
+  const compareFn = createCompareFn(comment);
+  return _.findIndex(state, compareFn);
+}
+
+function createCompareFn(compareTo: IComment) {
+  return (c: IComment) => c.lng === compareTo.lng && c.lat === compareTo.lat;
 }

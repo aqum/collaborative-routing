@@ -7,5 +7,6 @@ export interface IComment {
   content: string;
   lat: number;
   lng: number;
-  isBeingEdited: boolean;
+  isEdited: boolean;
+  isSaving: boolean;
 }

@@ -10,6 +10,10 @@ export function fetchAllComments() {
 }
 
 export function finishFetchAllComments(hasError = false) {
+  if (hasError) {
+    alert(`Couldn't fetch existing comments. Check your connection.`);
+  }
+
   return {
     type: types.FINISH_FETCH_ALL_COMMENTS,
   };
