@@ -1,3 +1,7 @@
+## Tech
+- frontend: React + Typescript, Redux, Leaflet, webpack
+- backend: Elixir, Phoenix
+
 ## Development setup
 - get to know Docker and docker-compose tool
 - build containers `docker-compose build`
