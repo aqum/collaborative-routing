@@ -1,0 +1,16 @@
+@import '../../../../variables';
+
+.cr-comment-form {
+  &__field {
+    display: block;
+    padding: $spacing-small;
+    width: 100%;
+    border: 1px solid $border-color-base;
+    border-radius: $radius-base;
+    resize: vertical;
+  }
+
+  &__actions {
+    margin-top: $spacing-small;
+  }
+}

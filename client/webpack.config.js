@@ -16,20 +16,24 @@ module.exports = {
   module: {
     loaders: [
       {
-        test: /\.tsx$/,
+        test: /\.(tsx|ts)$/,
         loaders: ['react-hot', 'ts'],
       },
+      {
+        test: /\.scss$/,
+        loaders: ['style', 'css', 'sass'],
+      }
     ],
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './src/index.html',
+      template: path.resolve('./src/index.html'),
     }),
     new webpack.HotModuleReplacementPlugin(),
     new CleanWebpackPlugin(['dist']),
   ],
   devtool: 'source-map',
   resolve: {
-    extensions: ['tsx', 'ts', 'js'],
+    extensions: ['', '.ts', '.tsx', '.js'],
   },
 };

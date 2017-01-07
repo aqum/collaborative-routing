@@ -1,17 +1,31 @@
-import './typings/webpack-require';
-const phoenix = require<any>('phoenix-socket');
+import 'core-js/fn/object/assign';
+import * as React from 'react';
+import { render } from 'react-dom';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
 
-let socket = new phoenix.Socket('ws://localhost:4000/socket', {
-  logger: ((kind, msg, data) => { console.log(`${kind}: ${msg}`, data); }),
-});
-socket.connect({user_id: '123'});
-socket.onOpen( ev => console.log('OPEN', ev) );
-socket.onError( ev => console.log('ERROR', ev) );
-socket.onClose( e => console.log('CLOSE', e));
+import './index.scss';
+import { App } from './components/app/app';
+import { appReducer } from './reducers';
+import { init } from './api/index';
+import { fetchAllComments } from './actions/meta';
 
-const chan = socket.channel('rooms:lobby', {});
-chan.join().receive('ignore', () => console.log('auth error'))
-           .receive('ok', () => console.log('join ok'));
-chan.onError(e => console.log('something went wrong', e));
-chan.onClose(e => console.log('channel closed', e));
-chan.push('new:msg', {});
+init(middlewares => createStore(
+  appReducer,
+  applyMiddleware(...middlewares)
+))
+  .then(store => {
+      store.dispatch(fetchAllComments());
+
+      render(
+        <Provider store={store}>
+        <App />
+        </Provider>,
+        document.getElementById('app')
+      );
+    }
+  )
+  .catch(err => {
+    console.error(err);
+    alert(`Couldn't connect to server.`);
+  });

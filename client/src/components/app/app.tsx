@@ -1,0 +1,18 @@
+import * as React from 'react';
+
+import './app.scss';
+import { CFeedbackList } from '../../containers/c-feedback-list';
+import { CMap } from '../../containers/c-map';
+import { CLoader } from '../../containers/c-loader';
+
+export class App extends React.Component<{}, {}> {
+  render() {
+    return (
+      <div className='cr-app'>
+        <CLoader className='cr-app__loader' />
+        <CFeedbackList className='cr-app__feedback-list' />
+        <CMap className='cr-app__map' />
+      </div>
+    );
+  }
+}

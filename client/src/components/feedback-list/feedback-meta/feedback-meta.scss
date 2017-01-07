@@ -1,0 +1,31 @@
+@import '../../../variables';
+
+.cr-feedback-meta {
+  display: flex;
+  align-items: center;
+
+  &__avatar {
+    flex-basis: 24px;
+    margin-right: $spacing-base;
+  }
+
+  &__avatar-img {
+    width: 100%;
+    width: 24px;
+    height: 24px;
+    border-radius: $radius-base;
+  }
+
+  &__name {
+    font-size: $font-size-base;
+    font-weight: bold;
+    margin: 0;
+  }
+
+  &__date {
+    margin: 3px 0 0 0;
+    font-size: $font-size-smallest;
+    color: $color-secondary;
+    font-weight: normal;
+  }
+}

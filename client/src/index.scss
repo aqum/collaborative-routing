@@ -1,0 +1,17 @@
+@import './variables';
+
+body {
+  margin: 0;
+}
+
+body,
+input,
+textarea,
+select {
+  font-size: $font-size-base;
+  font-family: $font-family-base;
+}
+
+* {
+  box-sizing: border-box;
+}

@@ -1,0 +1,10 @@
+@import '../../variables';
+
+.cr-feedback-list {
+  max-height: 100%;
+  overflow: auto;
+
+  &__item {
+    margin: $spacing-base;
+  }
+}
