@@ -2,6 +2,7 @@
 
 .cr-app {
   position: relative;
+  display: flex;
 
   &__feedback-list {
     position: absolute;
@@ -23,5 +24,15 @@
     left: 0;
     width: 100%;
     z-index: 1;
+  }
+
+  &__main {
+    flex-grow: 1;
+  }
+
+  &__sidebar {
+    position: relative;
+    z-index: 1;
+    flex-basis: 250px;
   }
 }
