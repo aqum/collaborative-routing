@@ -11,7 +11,7 @@ export const types = {
 };
 
 export function addComment(
-  { content, lat, lng }: { content: string, lat: number, lng: number }
+  { lat, lng }: { lat: number, lng: number }
 ) {
   return {
     type: types.ADD,
@@ -21,7 +21,7 @@ export function addComment(
         name: 'Maria',
       },
       date: moment(),
-      content,
+      content: '',
       lat,
       lng,
       isEdited: true,

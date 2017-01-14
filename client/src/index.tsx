@@ -1,8 +1,10 @@
-import 'core-js/fn/object/assign';
+import './polyfills';
+
 import * as React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
+import thunk from 'redux-thunk';
 
 import './index.scss';
 import { App } from './components/app/app';
@@ -10,9 +12,11 @@ import { appReducer } from './reducers';
 import { init } from './api/index';
 import { fetchAllComments } from './actions/meta';
 
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
 init(middlewares => createStore(
   appReducer,
-  applyMiddleware(...middlewares)
+  composeEnhancers(applyMiddleware(...middlewares, thunk))
 ))
   .then(store => {
       store.dispatch(fetchAllComments());

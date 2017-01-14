@@ -12,6 +12,9 @@ export function metaReducer(
     case types.FINISH_FETCH_ALL_COMMENTS:
       return Object.assign({}, state, { isFetching: false });
 
+    case types.SET_MAP_CLICK_ACTION:
+      return Object.assign({}, state, { mapClickAction: action.payload });
+
     default:
       return state;
   }

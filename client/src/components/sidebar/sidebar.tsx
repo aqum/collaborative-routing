@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
-import { InputAddress } from './input-address/input-address';
+import { CInputStart } from '../../containers/c-input-start';
+import { CInputFinish } from '../../containers/c-input-finish';
 import './sidebar.scss';
 
 export interface ISidebar {
@@ -11,7 +12,8 @@ export class Sidebar extends React.Component<ISidebar, {}> {
   render() {
     return (
       <div className={classNames(this.props.className, 'cr-sidebar')}>
-        <InputAddress />
+        <CInputStart />
+        <CInputFinish />
       </div>
     );
   }
