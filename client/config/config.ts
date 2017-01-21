@@ -1,5 +1,12 @@
+import { defaults } from 'lodash';
+
+interface IAppConfig {
+  mapboxToken?: string;
+  mapTileUrl?: string;
+  mapAttribution?: string;
+}
+
 const defaultConfig = {
-  mapTileUrl: '',
   mapAttribution: `
     © <a href="https://www.mapbox.com/map-feedback/">Mapbox</a>
     © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>
@@ -7,16 +14,13 @@ const defaultConfig = {
   `,
 };
 
-let localConfig = {};
+export const config: IAppConfig = defaults({}, defaultConfig, getLocalConfig());
 
-try {
-  localConfig = require<any>('./local.config').default;
-} catch (err) {
-  if (err.code === 'MODULE_NOT_FOUND') {
-    console.log('local.config.ts not found - using default instead');
-  } else {
-    throw err;
+function getLocalConfig() {
+  try {
+    return require<any>('./local.config').default;
+  } catch (err) {
+    console.warn(`local.config.ts not found - using default instead`);
+    return {};
   }
 }
-
-export const config = Object.assign({}, defaultConfig, localConfig);

@@ -12,6 +12,7 @@ function mapStateToProps(state) {
   return {
     comments: state.comments,
     onMapClick: state.meta.mapClickAction,
+    control: state.route.control,
   };
 }
 

@@ -1,10 +1,10 @@
 import { LatLngLiteral } from 'leaflet';
 import { setMapClickAction } from './meta';
-import { addComment } from './comments';
 
 export const types = {
   SET_START: 'route/SET_START',
   SET_FINISH: 'route/SET_FINISH',
+  CREATE_ROUTE: 'route/CREATE_ROUTE',
 };
 
 export function setStart(coordinates: LatLngLiteral) {
@@ -20,11 +20,17 @@ export function setStart(coordinates: LatLngLiteral) {
 
 export function setFinish(coordinates: LatLngLiteral) {
   return dispatch => {
-    dispatch(setMapClickAction(addComment));
-
-    return dispatch({
+    dispatch(setMapClickAction(null));
+    dispatch({
       type: types.SET_FINISH,
       payload: coordinates,
     });
+    dispatch(createRoute());
+  };
+}
+
+export function createRoute() {
+  return {
+    type: types.CREATE_ROUTE,
   };
 }

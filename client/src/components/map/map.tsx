@@ -8,6 +8,7 @@ export interface IMap {
   comments?: IComment[];
   className?: string;
   onMapClick?: Function;
+  control?: any;
 }
 
 export class Map extends React.Component<IMap, {}> {
@@ -36,8 +37,14 @@ export class Map extends React.Component<IMap, {}> {
     this.bindCommentMarkers(this.props.comments);
   }
 
-  componentWillUpdate({ comments }) {
-    this.bindCommentMarkers(comments);
+  componentWillUpdate({ comments, control }) {
+    if (comments) {
+      this.bindCommentMarkers(comments);
+    }
+
+    if (control) {
+      control.addTo(this.mapInstance);
+    }
   }
 
   createMap(node) {

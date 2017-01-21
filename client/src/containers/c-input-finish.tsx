@@ -6,7 +6,7 @@ export const CInputFinish = connect(
 )(InputAddress);
 
 function mapStateToProps(state) {
-  const coordinates = state.route.finish;
+  const coordinates = state.route.end;
 
   return {
     value: coordinates ? `${coordinates.lat} ${coordinates.lng}` : '',

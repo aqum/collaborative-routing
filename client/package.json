@@ -15,6 +15,7 @@
     "classnames": "^2.2.5",
     "core-js": "https://registry.npmjs.org/core-js/-/core-js-1.2.7.tgz",
     "leaflet": "^1.0.1",
+    "leaflet-routing-machine": "^3.2.5",
     "lodash": "https://registry.npmjs.org/lodash/-/lodash-4.16.6.tgz",
     "moment": "^2.16.0",
     "phoenix": "^1.2.1",
