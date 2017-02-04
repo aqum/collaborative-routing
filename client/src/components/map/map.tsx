@@ -17,6 +17,7 @@ export class Map extends React.Component<IMap, {}> {
   private mapContainer = document.createElement('div');
   private mapInstance = L.map(this.mapContainer);
   private markers: L.Marker[] = [];
+  private appliedControl;
 
   constructor() {
     super();
@@ -41,7 +42,9 @@ export class Map extends React.Component<IMap, {}> {
       this.bindCommentMarkers(comments);
     }
 
-    if (control) {
+    if (control && this.appliedControl !== control) {
+      // when reapplying same control route line is removed
+      this.appliedControl = control;
       control.addTo(this.mapInstance);
 
       if (isFunction(this.props.onReroute)) {

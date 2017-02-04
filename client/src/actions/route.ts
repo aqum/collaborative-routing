@@ -1,5 +1,6 @@
 import { LatLngLiteral } from 'leaflet';
 import { setMapClickAction } from './meta';
+import { addComment } from './comments';
 
 export const types = {
   SET_WAYPOINTS: 'route/SET_WAYPOINTS',
@@ -20,7 +21,7 @@ export function setStart(coordinates: LatLngLiteral) {
 
 export function setFinish(coordinates: LatLngLiteral) {
   return dispatch => {
-    dispatch(setMapClickAction(null));
+    dispatch(setMapClickAction(addComment));
     dispatch({
       type: types.SET_FINISH,
       payload: coordinates,
