@@ -8,7 +8,7 @@ interface IInputAddress {
 export class InputAddress extends React.Component<IInputAddress, {}> {
   icon() {
     return {
-      __html: require('../icons/location.svg'),
+      __html: require('../../icons/location.svg'),
     };
   }
 
@@ -21,8 +21,7 @@ export class InputAddress extends React.Component<IInputAddress, {}> {
           </div>
           <input className='cr-input-address__input'
                  type='text'
-                 value={this.props.value}
-                 placeholder='Select starting point on map'/>
+                 value={this.props.value} />
         </div>
       </div>
     );

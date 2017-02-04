@@ -1,6 +1,8 @@
 import { connect } from 'react-redux';
 import { MouseEvent } from 'leaflet';
+import * as _ from 'lodash';
 import { Map } from '../components/map/map';
+import { setWaypoints } from '../actions/route';
 
 export const CMap = connect(
   mapStateToProps,
@@ -19,6 +21,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     _dispatch: dispatch,
+    onReroute: ev => dispatch(setWaypoints(ev.waypoints)),
   };
 }
 
@@ -27,8 +30,12 @@ function mergeProps(stateProps, dispatchProps, ownProps) {
     {},
     ownProps,
     stateProps,
+    _.omit(dispatchProps, '_dispatch'),
     {
-      onMapClick: (ev: MouseEvent) => dispatchProps._dispatch(stateProps.onMapClick(ev.latlng)),
+      onMapClick: (ev: MouseEvent) =>
+        dispatchProps._dispatch(
+          stateProps.onMapClick(ev.latlng)
+        ),
     }
   );
 }

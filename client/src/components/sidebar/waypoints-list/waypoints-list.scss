@@ -1,0 +1,37 @@
+@import '../../../variables';
+
+.cr-waypoints-list {
+  &__checkpoints {
+    background: $brand-primary;
+    box-shadow: $bg-light-shadow;
+    border-radius: $radius-base;
+    margin: $spacing-base 0;
+    list-style: none;
+    color: $color-inverse;
+    padding: 0;
+  }
+
+  &__checkpoint {
+    display: flex;
+    align-items: center;
+  }
+
+  &__checkpoint-icon {
+    flex-basis: 32px;
+    text-align: center;
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    path {
+      fill: $color-inverse;
+    }
+  }
+
+  &__checkpoint-name {
+    flex-grow: 1;
+    padding: $spacing-base $spacing-small;
+  }
+}

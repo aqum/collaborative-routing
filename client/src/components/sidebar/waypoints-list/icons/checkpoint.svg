@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 41.2 (35397) - http://www.bohemiancoding.com/sketch -->
+    <title>Oval 2</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="main-window-1" transform="translate(-24.000000, -269.000000)" fill="#FFFFFF">
+            <g id="about" transform="translate(-7.000000, 0.000000)">
+                <path d="M39,284.5 C43.1421356,284.5 46.5,281.142136 46.5,277 C46.5,272.857864 43.1421356,269.5 39,269.5 C34.8578644,269.5 31.5,272.857864 31.5,277 C31.5,281.142136 34.8578644,284.5 39,284.5 Z M39,281.5 C36.5147186,281.5 34.5,279.485281 34.5,277 C34.5,274.514719 36.5147186,272.5 39,272.5 C41.4852814,272.5 43.5,274.514719 43.5,277 C43.5,279.485281 41.4852814,281.5 39,281.5 Z" id="Oval-2"></path>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,10 +1,5 @@
 import { types } from '../actions/route';
 import { initialRouteStore, IRouteStore } from './stores/route';
-import { config } from '../../config/config';
-
-const Leaflet = require<any>('leaflet');
-// routing-machine doesn't expose Routing object
-require('leaflet-routing-machine');
 
 export function routeReducer(
   state = initialRouteStore,
@@ -12,30 +7,25 @@ export function routeReducer(
 ): IRouteStore {
   switch (action.type) {
     case types.SET_START:
+      state.control.setWaypoints([
+        L.latLng(action.payload.lat, action.payload.lng),
+      ]);
+
       return Object.assign({}, state, {
-        start: action.payload,
+        waypoints: [ action.payload ],
       });
 
     case types.SET_FINISH:
-      return Object.assign({}, state, {
-        end: action.payload,
-      });
-
-    case types.CREATE_ROUTE:
-      const control = Leaflet.Routing.control({
-        waypoints: [
-          L.latLng(state.start.lat, state.start.lng),
-          L.latLng(state.end.lat, state.end.lng),
-        ],
-        routeWhileDragging: true,
-        router: Leaflet.Routing.mapbox(
-          config.mapboxToken,
-          { profile: 'mapbox/cycling' }
-        ),
-      });
+      const waypoints = [...state.waypoints, action.payload];
+      state.control.setWaypoints(waypoints);
 
       return Object.assign({}, state, {
-        control,
+        waypoints,
+      });
+
+    case types.SET_WAYPOINTS:
+      return Object.assign({}, state, {
+        waypoints: action.payload,
       });
 
     default:

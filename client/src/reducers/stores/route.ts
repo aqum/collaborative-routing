@@ -1,13 +1,23 @@
 import { LatLngLiteral } from 'leaflet';
+import { config } from '../../../config/config';
+
+const Leaflet = require<any>('leaflet');
+// routing-machine doesn't expose Routing object
+require('leaflet-routing-machine');
 
 export interface IRouteStore {
-  start?: LatLngLiteral;
-  end?: LatLngLiteral;
-  control?: any;
+  waypoints: LatLngLiteral[];
+  control: any;
 }
 
 export const initialRouteStore = Object.seal({
-  start: null,
-  end: null,
-  control: null,
+  waypoints: [],
+  control: Leaflet.Routing.control({
+    routeWhileDragging: true,
+    show: false,
+    router: Leaflet.Routing.mapbox(
+      config.mapboxToken,
+      { profile: 'mapbox/cycling' }
+    ),
+  }),
 });

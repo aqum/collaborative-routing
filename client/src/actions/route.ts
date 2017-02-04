@@ -2,9 +2,9 @@ import { LatLngLiteral } from 'leaflet';
 import { setMapClickAction } from './meta';
 
 export const types = {
+  SET_WAYPOINTS: 'route/SET_WAYPOINTS',
   SET_START: 'route/SET_START',
   SET_FINISH: 'route/SET_FINISH',
-  CREATE_ROUTE: 'route/CREATE_ROUTE',
 };
 
 export function setStart(coordinates: LatLngLiteral) {
@@ -25,12 +25,12 @@ export function setFinish(coordinates: LatLngLiteral) {
       type: types.SET_FINISH,
       payload: coordinates,
     });
-    dispatch(createRoute());
   };
 }
 
-export function createRoute() {
+export function setWaypoints(waypoints) {
   return {
-    type: types.CREATE_ROUTE,
+    type: types.SET_WAYPOINTS,
+    payload: waypoints.map(waypoint => waypoint.latLng),
   };
 }

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as L from 'leaflet';
+import { isFunction } from 'lodash';
 import './map.scss';
 import { config } from '../../../config/config';
 import { IComment } from '../../interfaces/comment';
@@ -7,8 +8,9 @@ import { IComment } from '../../interfaces/comment';
 export interface IMap {
   comments?: IComment[];
   className?: string;
-  onMapClick?: Function;
   control?: any;
+  onMapClick?: Function;
+  onReroute?: Function;
 }
 
 export class Map extends React.Component<IMap, {}> {
@@ -30,10 +32,7 @@ export class Map extends React.Component<IMap, {}> {
   }
 
   componentWillMount() {
-    if (this.props.onMapClick) {
-      this.mapInstance.on('click', (ev) => this.props.onMapClick(ev));
-    }
-
+    this.mapInstance.on('click', this.handleMapClick.bind(this));
     this.bindCommentMarkers(this.props.comments);
   }
 
@@ -44,6 +43,16 @@ export class Map extends React.Component<IMap, {}> {
 
     if (control) {
       control.addTo(this.mapInstance);
+
+      if (isFunction(this.props.onReroute)) {
+        control.on('routesfound', this.props.onReroute);
+      }
+    }
+  }
+
+  handleMapClick(ev) {
+    if (isFunction(this.props.onMapClick)) {
+      this.props.onMapClick(ev);
     }
   }
 
