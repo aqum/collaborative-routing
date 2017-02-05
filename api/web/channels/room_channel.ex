@@ -16,12 +16,11 @@ defmodule CollaborativeRouting.RoomChannel do
     changeset = Comment.changeset(%Comment{}, message)
     case Repo.insert(changeset) do
       {:ok, comment} ->
-        broadcast! socket, "event:comment_added", %{payload: comment}
+        broadcast_from! socket, "event:comment_added", %{payload: comment}
         {:reply, {:ok, comment}, socket}
 
       {:error, changeset} ->
-        broadcast! socket, "event:error", %{payload: changeset}
-        {:reply, :ok, socket}
+        {:reply, :error, socket}
     end
   end
 

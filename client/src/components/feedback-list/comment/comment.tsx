@@ -32,7 +32,11 @@ export class Comment extends React.Component<ICommentProps, {}> {
 
   render() {
     return (
-       <div className={classNames(this.props.className, 'cr-comment')}>
+       <div className={classNames(
+         this.props.className,
+         'cr-comment',
+         this.props.comment.isSaving ? 'cr-comment--saving' : null
+       )}>
          <FeedbackMeta date={this.props.comment.date} />
          <div className='cr-comment__content'>
            {

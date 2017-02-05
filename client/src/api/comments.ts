@@ -2,7 +2,8 @@ import {
   receiveComment,
   types as commentTypes,
   receiveAllComments,
-  receiveCommentError,
+  saveCommentError,
+  saveCommentSuccess,
 } from '../actions/comments';
 import { types as metaTypes, finishFetchAllComments } from '../actions/meta';
 
@@ -21,8 +22,9 @@ export function createMiddleware(channel) {
       case commentTypes.SAVE:
         channel
           .push('method:comment.add', result.payload)
-          .receive('error', () => store.dispatch(receiveCommentError(result.payload)))
-          .receive('timeout', () => store.dispatch(receiveCommentError(result.payload)));
+          .receive('ok', () => store.dispatch(saveCommentSuccess(result.payload)))
+          .receive('error', () => store.dispatch(saveCommentError(result.payload)))
+          .receive('timeout', () => store.dispatch(saveCommentError(result.payload)));
         break;
 
       case metaTypes.FETCH_ALL_COMMENTS:

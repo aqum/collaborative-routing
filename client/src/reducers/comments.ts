@@ -14,6 +14,25 @@ export function commentsReducer(
       }
       return [...state];
 
+    case types.SAVE_ERROR:
+      const compareFn = createCompareFn(action.payload);
+      const existingComment = state.find(compareFn);
+
+      return _.without(state, existingComment);
+
+    case types.SAVE_SUCCESS:
+      const clonedState = [...state];
+      const pendingIndex = findCommentIndex(state, action.payload);
+
+      if (pendingIndex === -1) {
+        alert(`Coulnd't find comment to set success state`);
+        return state;
+      }
+
+      clonedState.splice(pendingIndex, 1, action.payload);
+
+      return clonedState;
+
     case types.ADD:
       const withoutPending = state.filter(comment => !comment.isEdited);
       return [action.payload, ...withoutPending];
@@ -23,22 +42,10 @@ export function commentsReducer(
       return _.without(state, state[removedIndex]);
 
     case types.RECEIVE:
-      const existingIndex = findCommentIndex(state, action.payload);
-      if (existingIndex !== -1) {
-        state[existingIndex] = _.clone(action.payload);
-        return [...state];
-      }
-
       return [action.payload, ...state];
 
     case types.RECEIVE_ALL:
       return _.clone(action.payload);
-
-    case types.RECEIVE_ERROR:
-      const compareFn = createCompareFn(action.payload);
-      const existingComment = state.find(compareFn);
-
-      return _.without(state, existingComment);
 
     default:
       return state;
