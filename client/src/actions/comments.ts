@@ -1,5 +1,7 @@
 import * as moment from 'moment';
+import { pick } from 'lodash';
 import { IComment } from '../interfaces/comment';
+import { ICommentResponse } from '../interfaces/comment-response';
 
 export const types = {
   ADD: 'comment/ADD',
@@ -46,29 +48,15 @@ export function removeComment(comment: IComment) {
   };
 }
 
-export function receiveComment(comment: IComment) {
+export function receiveComment(comment: ICommentResponse) {
   return {
     type: types.RECEIVE,
-    payload: Object.assign(
-      {},
-      comment,
-      {
-        date: moment(comment.date),
-      }
-    ),
+    payload: standarizeComment(comment),
   };
 }
 
-export function receiveAllComments(comments: any[]) {
-  const normalizedComments = comments.map(comment =>
-    Object.assign(
-      {},
-      comment,
-      {
-        date: moment(comment.date),
-      }
-    )
-  );
+export function receiveAllComments(comments: ICommentResponse[]) {
+  const normalizedComments = comments.map(standarizeComment);
 
   return {
     type: types.RECEIVE_ALL,
@@ -83,4 +71,13 @@ export function receiveCommentError(comment: IComment) {
     type: types.RECEIVE_ERROR,
     payload: comment,
   };
+}
+
+function standarizeComment(comment: ICommentResponse) {
+  return Object.assign(
+    pick(comment, ['id', 'lat', 'lng', 'content']),
+    {
+      date: moment(comment.inserted_at),
+    }
+  );
 }
