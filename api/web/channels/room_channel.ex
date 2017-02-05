@@ -1,4 +1,5 @@
 defmodule CollaborativeRouting.RoomChannel do
+  import Ecto.Query
   use Phoenix.Channel
   alias CollaborativeRouting.Repo
   alias CollaborativeRouting.Comment
@@ -8,7 +9,10 @@ defmodule CollaborativeRouting.RoomChannel do
   end
 
   def handle_in("method:feedback.list", _message, socket) do
-    comments = Repo.all(Comment)
+    comments = Repo.all(
+      from comment in Comment,
+      order_by: [desc: comment.inserted_at]
+    )
     {:reply, {:ok, %{ :comments => comments }}, socket}
   end
 
@@ -19,7 +23,7 @@ defmodule CollaborativeRouting.RoomChannel do
         broadcast_from! socket, "event:comment_added", %{payload: comment}
         {:reply, {:ok, comment}, socket}
 
-      {:error, changeset} ->
+      {:error, _changeset} ->
         {:reply, :error, socket}
     end
   end
