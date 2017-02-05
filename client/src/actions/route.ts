@@ -6,6 +6,7 @@ export const types = {
   SET_WAYPOINTS: 'route/SET_WAYPOINTS',
   SET_START: 'route/SET_START',
   SET_FINISH: 'route/SET_FINISH',
+  APPLY_WAYPOINTS: 'route/APPLY_WAYPOINTS',
 };
 
 export function setStart(coordinates: LatLngLiteral) {
@@ -29,9 +30,16 @@ export function setFinish(coordinates: LatLngLiteral) {
   };
 }
 
+export function applyWaypoints(waypoints) {
+  return {
+    type: types.APPLY_WAYPOINTS,
+    payload: waypoints,
+  };
+}
+
 export function setWaypoints(waypoints) {
   return {
     type: types.SET_WAYPOINTS,
-    payload: waypoints.map(waypoint => waypoint.latLng),
+    payload: waypoints,
   };
 }

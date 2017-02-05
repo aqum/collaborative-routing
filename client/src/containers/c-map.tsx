@@ -21,7 +21,9 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     _dispatch: dispatch,
-    onReroute: ev => dispatch(setWaypoints(ev.waypoints)),
+    onReroute: ev => dispatch(
+      setWaypoints(ev.waypoints.map(waypoint => waypoint.latLng))
+    ),
   };
 }
 

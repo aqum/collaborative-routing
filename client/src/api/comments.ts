@@ -20,7 +20,7 @@ export function createMiddleware(channel) {
     switch (action.type) {
       case commentTypes.SAVE:
         channel
-          .push('method:comment.add', { payload: result.payload })
+          .push('method:comment.add', result.payload)
           .receive('error', () => store.dispatch(receiveCommentError(result.payload)))
           .receive('timeout', () => store.dispatch(receiveCommentError(result.payload)));
         break;

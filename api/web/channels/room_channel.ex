@@ -26,4 +26,9 @@ defmodule CollaborativeRouting.RoomChannel do
         {:error, socket}
     end
   end
+
+  def handle_in("method:route.edit", message, socket) do
+    broadcast_from! socket, "event:route_changed", %{payload: message}
+    {:ok, socket}
+  end
 end
