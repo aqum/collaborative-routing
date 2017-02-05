@@ -28,6 +28,13 @@ export function routeReducer(
         waypoints: action.payload,
       });
 
+    case types.APPLY_WAYPOINTS:
+      state.control.setWaypoints(action.payload);
+
+      return Object.assign({}, state, {
+        waypoints: action.payload,
+      });
+
     default:
       return state;
   }

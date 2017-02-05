@@ -1,11 +1,22 @@
-import { registerEvents, createMiddleware } from './comments';
+import {
+  registerEvents as registerCommentsEvents,
+  createMiddleware as createCommentsMiddleware,
+} from './comments';
+import {
+  registerEvents as registerRouteEvents,
+  createMiddleware as createRouteMiddleware,
+} from './route';
 const { Socket } = require<any>('phoenix');
 
 export function init(createStore: Function) {
   return new Promise(createConnection)
     .then(channel => {
-      const store = createStore([ createMiddleware(channel) ]);
-      registerEvents(channel, store);
+      const store = createStore([
+        createCommentsMiddleware(channel),
+        createRouteMiddleware(channel),
+      ]);
+      registerCommentsEvents(channel, store);
+      registerRouteEvents(channel, store);
       return store;
     });
 }

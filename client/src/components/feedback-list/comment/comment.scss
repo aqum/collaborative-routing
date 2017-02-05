@@ -5,8 +5,14 @@
   box-shadow: $bg-light-shadow;
   padding: $spacing-base;
   border-radius: $radius-base;
+  transition: 0.3s opacity ease-in-out;
 
   &__content {
     margin-top: $spacing-base;
+  }
+
+  &--saving {
+    opacity: 0.7;
+    transition: none;
   }
 }
