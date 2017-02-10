@@ -1,21 +1,38 @@
-import * as React from 'react';
+import { connect } from 'react-redux';
 import { IButtonGroupItem } from '../components/button-group/button-group';
 import { ButtonGroup } from '../components/button-group/button-group';
+import { setMapMode } from '../actions/meta';
+import { MapMode } from '../interfaces/map-mode.enum';
 
-export function CModeSwitch() {
-  const modes: IButtonGroupItem[] = [
+export const CModeSwitch = connect(
+  undefined,
+  mapDispatchToProps,
+  mergeProps
+)(ButtonGroup);
+
+function mapDispatchToProps(dispatch) {
+  return {
+    _dispatch: dispatch,
+  };
+}
+
+function mergeProps(stateProps, dispatchProps, ownProps) {
+  const dispatch = dispatchProps._dispatch;
+  const buttons: IButtonGroupItem[] = [
     {
       label: 'Edit',
-      onClick: () => console.log('edit'),
+      onClick: () => dispatch(setMapMode(MapMode.Edit)),
       isActive: true,
     },
     {
       label: 'Suggest',
-      onClick: () => console.log('suggest'),
+      onClick: () => dispatch(setMapMode(MapMode.Suggest)),
     },
   ];
 
-  return (
-    <ButtonGroup buttons={modes} />
+  return Object.assign(
+    {},
+    ownProps,
+    { buttons }
   );
 }

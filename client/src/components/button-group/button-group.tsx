@@ -42,7 +42,6 @@ export class ButtonGroup extends React.Component<IButtonGroup, IButtonGroupState
   }
 
   render() {
-    console.log('render');
     return (
       <div className='cr-button-group'>
         { this.props.buttons.map((button, index) =>

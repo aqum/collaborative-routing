@@ -1,23 +1,44 @@
 import * as React from 'react';
-import * as L from 'leaflet';
 import { isFunction } from 'lodash';
 import './map.scss';
 import { config } from '../../../config/config';
 import { IComment } from '../../interfaces/comment';
+import { MapMode } from '../../interfaces/map-mode.enum';
+import { LatLngLiteral } from 'leaflet';
+
+const L = require<any>('leaflet');
+// routing-machine doesn't expose Routing object
+require('leaflet-routing-machine');
 
 export interface IMap {
-  comments?: IComment[];
+  comments: IComment[];
   className?: string;
-  control?: any;
+  mode: MapMode;
   onMapClick?: Function;
   onReroute?: Function;
+  waypoints: LatLngLiteral[];
 }
 
 export class Map extends React.Component<IMap, {}> {
-  private mapContainer = document.createElement('div');
+  static createControl() {
+    return L.Routing.control({
+      routeWhileDragging: true,
+      show: false,
+      router: L.Routing.mapbox(
+        config.mapboxToken,
+        { profile: 'mapbox/cycling' }
+      ),
+    });
+  }
+
+  private mapContainer: any = document.createElement('div');
   private mapInstance = L.map(this.mapContainer);
   private markers: L.Marker[] = [];
-  private appliedControl;
+  private control = Map.createControl();
+  private suggestControl = Map.createControl();
+  private currentMode: MapMode;
+  private baseLine;
+  private lastRerouteWaypoints = [];
 
   constructor() {
     super();
@@ -32,25 +53,83 @@ export class Map extends React.Component<IMap, {}> {
     ).addTo(this.mapInstance);
   }
 
+  compareWaypoints(control, toCompare) {
+    if (!control._selectedRoute) {
+      return false;
+    }
+
+    const isRerouted = compareList(this.lastRerouteWaypoints, toCompare);
+    if (isRerouted) {
+      return true;
+    }
+
+    return compareList(control._selectedRoute.inputWaypoints, toCompare);
+
+    function compareList(waypoints, compareWith) {
+      return waypoints.every(
+        (waypoint, index) => compare(waypoint.latLng, compareWith[index])
+      );
+    }
+
+    function compare(w1, w2) {
+      if (!w1 || !w2) {
+        return false;
+      }
+
+      return w1.lat === w2.lat && w2.lng === w2.lng;
+    }
+  }
+
   componentWillMount() {
     this.mapInstance.on('click', this.handleMapClick.bind(this));
     this.bindCommentMarkers(this.props.comments);
+
+    if (isFunction(this.props.onReroute)) {
+      this.control.on('routesfound', data => {
+        this.lastRerouteWaypoints = data.waypoints;
+        this.props.onReroute(data);
+      });
+    }
   }
 
-  componentWillUpdate({ comments, control }) {
+  componentWillUpdate({ comments, waypoints, mode }) {
     if (comments) {
       this.bindCommentMarkers(comments);
     }
 
-    if (control && this.appliedControl !== control) {
-      // when reapplying same control route line is removed
-      this.appliedControl = control;
-      control.addTo(this.mapInstance);
-
-      if (isFunction(this.props.onReroute)) {
-        control.on('routesfound', this.props.onReroute);
-      }
+    if (waypoints && !this.compareWaypoints(this.control, waypoints)) {
+      this.control.setWaypoints(waypoints);
     }
+
+    this.changeMode(mode);
+  }
+
+  changeMode(mode: MapMode) {
+    if (this.currentMode === mode) {
+      return;
+    }
+
+    switch (mode) {
+      case MapMode.Edit:
+        this.control.addTo(this.mapInstance);
+        // side effect - base line from main control is reused for navigation
+        this.mapInstance.removeControl(this.suggestControl);
+        break;
+      case MapMode.Suggest:
+        if (this.control._line) {
+          this.mapInstance.removeControl(this.control);
+          this.control._line.addTo(this.mapInstance);
+          this.suggestControl.setWaypoints(
+            this.control._plan._waypoints.map(waypoints => waypoints.latLng)
+          );
+          this.suggestControl.addTo(this.mapInstance);
+        }
+        break;
+      default:
+        break;
+    }
+
+    this.currentMode = mode;
   }
 
   handleMapClick(ev) {

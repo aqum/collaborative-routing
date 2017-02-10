@@ -7,6 +7,7 @@ export const types = {
   SET_START: 'route/SET_START',
   SET_FINISH: 'route/SET_FINISH',
   APPLY_WAYPOINTS: 'route/APPLY_WAYPOINTS',
+  MAKE_READ_ONLY: 'route/MAKE_READ_ONLY',
 };
 
 export function setStart(coordinates: LatLngLiteral) {
@@ -41,5 +42,11 @@ export function setWaypoints(waypoints) {
   return {
     type: types.SET_WAYPOINTS,
     payload: waypoints,
+  };
+}
+
+export function makeReadOnly() {
+  return {
+    type: types.MAKE_READ_ONLY,
   };
 }

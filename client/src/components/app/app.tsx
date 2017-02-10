@@ -15,8 +15,10 @@ export class App extends React.Component<{}, {}> {
         <div className='cr-app__main'>
           <CLoader className='cr-app__loader' />
           <div className='cr-app__floating-right'>
-            <CModeSwitch />
-            <CFeedbackList className='cr-app__feedback-list' />
+            <div className='cr-app__floating-item'>
+              <CModeSwitch />
+            </div>
+            <CFeedbackList />
           </div>
           <CMap className='cr-app__map' />
         </div>

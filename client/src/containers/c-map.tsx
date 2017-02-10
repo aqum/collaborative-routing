@@ -14,7 +14,8 @@ function mapStateToProps(state) {
   return {
     comments: state.comments,
     onMapClick: state.meta.mapClickAction,
-    control: state.route.control,
+    waypoints: state.route.waypoints,
+    mode: state.meta.mapMode,
   };
 }
 

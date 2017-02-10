@@ -15,6 +15,9 @@ export function metaReducer(
     case types.SET_MAP_CLICK_ACTION:
       return Object.assign({}, state, { mapClickAction: action.payload });
 
+    case types.SET_MAP_MODE:
+      return Object.assign({}, state, { mapMode: action.payload });
+
     default:
       return state;
   }
