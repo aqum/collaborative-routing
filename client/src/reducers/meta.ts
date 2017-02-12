@@ -6,10 +6,10 @@ export function metaReducer(
   action
 ): IMetaStore {
   switch (action.type) {
-    case types.FETCH_ALL_COMMENTS:
+    case types.FETCH_START:
       return Object.assign({}, state, { isFetching: true });
 
-    case types.FINISH_FETCH_ALL_COMMENTS:
+    case types.FETCH_FINISH:
       return Object.assign({}, state, { isFetching: false });
 
     case types.SET_MAP_CLICK_ACTION:

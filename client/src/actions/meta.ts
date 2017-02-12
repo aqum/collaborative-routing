@@ -2,25 +2,25 @@ import { makeReadOnly } from './route';
 import { MapMode } from '../interfaces/map-mode.enum';
 
 export const types = {
-  FETCH_ALL_COMMENTS: 'meta/FETCH_ALL_COMMENTS',
-  FINISH_FETCH_ALL_COMMENTS: 'meta/FINISH_FETCH_ALL_COMMENTS',
+  FETCH_START: 'meta/FETCH_START',
+  FETCH_FINISH: 'meta/FETCH_FINISH',
   SET_MAP_CLICK_ACTION: 'meta/SET_MAP_CLICK_ACTION',
   SET_MAP_MODE: 'meta/SET_MAP_MODE',
 };
 
-export function fetchAllComments() {
+export function fetchStart() {
   return {
-    type: types.FETCH_ALL_COMMENTS,
+    type: types.FETCH_START,
   };
 }
 
-export function finishFetchAllComments(hasError = false) {
-  if (hasError) {
-    alert(`Couldn't fetch existing comments. Check your connection.`);
+export function fetchFinish(message = '') {
+  if (message) {
+    alert(message);
   }
 
   return {
-    type: types.FINISH_FETCH_ALL_COMMENTS,
+    type: types.FETCH_FINISH,
   };
 }
 

@@ -26,6 +26,11 @@ export function routeReducer(
         waypoints: action.payload,
       });
 
+    case types.FINISH_FETCH_ROUTE:
+      return Object.assign({}, state, {
+        waypoints: action.payload.waypoints,
+      });
+
     default:
       return state;
   }

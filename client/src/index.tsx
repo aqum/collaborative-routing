@@ -10,7 +10,8 @@ import './index.scss';
 import { App } from './components/app/app';
 import { appReducer } from './reducers';
 import { init } from './api/index';
-import { fetchAllComments } from './actions/meta';
+import { fetchAllComments } from './actions/comments';
+import { fetchRoute } from './actions/route';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -20,6 +21,7 @@ init(middlewares => createStore(
 ))
   .then(store => {
       store.dispatch(fetchAllComments());
+      store.dispatch(fetchRoute());
 
       render(
         <Provider store={store}>

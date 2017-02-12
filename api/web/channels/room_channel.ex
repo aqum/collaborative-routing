@@ -31,6 +31,11 @@ defmodule CollaborativeRouting.RoomChannel do
     end
   end
 
+  def handle_in("method:route.details", _message, socket) do
+    route = Repo.get(Route, 1)
+    {:reply, {:ok, route}, socket}
+  end
+
   def handle_in("method:route.edit", message, socket) do
     waypoints = Enum.map(message, fn waypoint -> %Point{
       :lat => waypoint["lat"],
