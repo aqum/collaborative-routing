@@ -8,5 +8,6 @@ export const CFeedbackList = connect(
 function mapStateToProps(state): IFeedbackList {
   return {
     comments: state.comments,
+    suggestions: state.suggestions,
   };
 }

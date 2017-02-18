@@ -1,8 +1,9 @@
-defmodule CollaborativeRouting.Route do
+defmodule CollaborativeRouting.Suggestion do
   use CollaborativeRouting.Web, :model
 
   @derive {Poison.Encoder, except: [:__meta__, :user]}
-  schema "routes" do
+  schema "suggestions" do
+    belongs_to :user, CollaborativeRouting.User
     embeds_many :waypoints, CollaborativeRouting.Point, on_replace: :delete
 
     timestamps()

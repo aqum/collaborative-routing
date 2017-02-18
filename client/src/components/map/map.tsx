@@ -16,6 +16,7 @@ export interface IMap {
   mode: MapMode;
   onMapClick?: Function;
   onReroute?: Function;
+  onSuggestion?: Function;
   waypoints: LatLngLiteral[];
 }
 
@@ -37,7 +38,6 @@ export class Map extends React.Component<IMap, {}> {
   private control = Map.createControl();
   private suggestControl = Map.createControl();
   private currentMode: MapMode;
-  private baseLine;
   private lastRerouteWaypoints = [];
 
   constructor() {
@@ -89,6 +89,10 @@ export class Map extends React.Component<IMap, {}> {
         this.lastRerouteWaypoints = data.waypoints;
         this.props.onReroute(data);
       });
+    }
+
+    if (isFunction(this.props.onSuggestion)) {
+      this.suggestControl.on('routesfound', this.props.onSuggestion.bind(this));
     }
   }
 
