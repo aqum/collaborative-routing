@@ -4,12 +4,21 @@
   position: relative;
   display: flex;
 
-  &__feedback-list {
+  &__floating-right {
     position: absolute;
     top: 0px;
     right: 0px;
     width: 300px;
     z-index: 1;
+  }
+
+  &__floating-item {
+    background: $bg-light;
+    box-shadow: $bg-light-shadow;
+    padding: $spacing-base;
+    border-radius: $radius-base;
+    transition: 0.3s opacity ease-in-out;
+    margin: $spacing-base;
   }
 
   &__map {

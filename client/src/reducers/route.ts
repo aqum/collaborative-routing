@@ -7,20 +7,13 @@ export function routeReducer(
 ): IRouteStore {
   switch (action.type) {
     case types.SET_START:
-      state.control.setWaypoints([
-        L.latLng(action.payload.lat, action.payload.lng),
-      ]);
-
       return Object.assign({}, state, {
         waypoints: [ action.payload ],
       });
 
     case types.SET_FINISH:
-      const waypoints = [...state.waypoints, action.payload];
-      state.control.setWaypoints(waypoints);
-
       return Object.assign({}, state, {
-        waypoints,
+        waypoints: [...state.waypoints, action.payload],
       });
 
     case types.SET_WAYPOINTS:
@@ -29,10 +22,13 @@ export function routeReducer(
       });
 
     case types.APPLY_WAYPOINTS:
-      state.control.setWaypoints(action.payload);
-
       return Object.assign({}, state, {
         waypoints: action.payload,
+      });
+
+    case types.FINISH_FETCH_ROUTE:
+      return Object.assign({}, state, {
+        waypoints: action.payload.waypoints,
       });
 
     default:

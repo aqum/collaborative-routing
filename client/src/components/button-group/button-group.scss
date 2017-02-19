@@ -1,0 +1,25 @@
+@import '../../variables';
+
+.cr-button-group {
+  background: $brand-primary;
+  padding: 2px;
+  border-radius: $radius-base;
+  display: flex;
+
+  &__button {
+    cursor: pointer;
+    flex-grow: 1;
+    color: $color-inverse;
+    background: none;
+    border: 0;
+    text-align: center;
+    padding: 5px 10px;
+    font-size: $font-size-base;
+    border-radius: $radius-base;
+
+    &--active {
+      background: $color-inverse;
+      color: $brand-primary;
+    }
+  }
+}

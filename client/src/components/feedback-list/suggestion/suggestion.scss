@@ -1,0 +1,13 @@
+@import '../../../variables';
+
+.cr-suggestion {
+  background: $brand-primary;
+  box-shadow: $bg-light-shadow;
+  padding: $spacing-base;
+  border-radius: $radius-base;
+  color: $color-inverse;
+
+  &__content {
+    margin-top: $spacing-base;
+  }
+}

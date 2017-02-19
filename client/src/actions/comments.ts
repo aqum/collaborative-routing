@@ -2,6 +2,7 @@ import * as moment from 'moment';
 import { pick } from 'lodash';
 import { IComment } from '../interfaces/comment';
 import { ICommentResponse } from '../interfaces/comment-response';
+import { fetchStart, fetchFinish } from './meta';
 
 export const types = {
   ADD: 'comment/ADD',
@@ -11,6 +12,8 @@ export const types = {
   REMOVE: 'comment/REMOVE',
   RECEIVE: 'comment/RECEIVE',
   RECEIVE_ALL: 'comment/RECEIVE_ALL',
+  FETCH_ALL_COMMENTS: 'comment/FETCH_ALL_COMMENTS',
+  FINISH_FETCH_ALL_COMMENTS: 'comment/FINISH_FETCH_ALL_COMMENTS',
 };
 
 export function addComment(
@@ -75,9 +78,12 @@ export function receiveComment(comment: ICommentResponse) {
 export function receiveAllComments(comments: ICommentResponse[]) {
   const normalizedComments = comments.map(standarizeComment);
 
-  return {
-    type: types.RECEIVE_ALL,
-    payload: normalizedComments,
+  return dispatch => {
+    dispatch(fetchFinish());
+    dispatch({
+      type: types.RECEIVE_ALL,
+      payload: normalizedComments,
+    });
   };
 }
 
@@ -88,4 +94,13 @@ function standarizeComment(comment: ICommentResponse) {
       date: moment(comment.inserted_at),
     }
   );
+}
+
+export function fetchAllComments() {
+  return dispatch => {
+    dispatch(fetchStart());
+    dispatch({
+      type: types.FETCH_ALL_COMMENTS,
+    });
+  };
 }
