@@ -11,12 +11,22 @@ defmodule CollaborativeRouting.RoomChannel do
     {:ok, socket}
   end
 
-  def handle_in("method:feedback.list", _message, socket) do
+  def handle_in("method:comment.list", _message, socket) do
     comments = Repo.all(
       from comment in Comment,
       order_by: [desc: comment.inserted_at]
     )
+
     {:reply, {:ok, %{ :comments => comments }}, socket}
+  end
+
+  def handle_in("method:suggestion.list", _message, socket) do
+    suggestion = Repo.all(
+      from suggestion in Suggestion,
+      order_by: [desc: suggestion.inserted_at]
+    )
+
+    {:reply, {:ok, %{ :suggestions => suggestion }}, socket}
   end
 
   def handle_in("method:comment.add", message, socket) do
