@@ -12,14 +12,67 @@ import { appReducer } from './reducers';
 import { init } from './api/index';
 import { fetchAllComments } from './actions/comments';
 import { fetchRoute } from './actions/route';
+import { AuthService } from './utils/auth0.service';
+import { ICurrentUserStore } from './reducers/stores/current-user';
+import { config } from '../config/config';
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const auth = new AuthService(
+  config.auth0.appId,
+  config.auth0.appBaseUrl,
+  handleHashParse
+);
 
-init(middlewares => createStore(
-  appReducer,
-  composeEnhancers(applyMiddleware(...middlewares, thunk))
-))
-  .then(store => {
+function handleHashParse(result) {
+  console.log(result);
+  const isError = result instanceof Error;
+
+  // initial login when token is not yet set
+  if (result && !isError) {
+    checkProfile(result.idToken);
+    return;
+  }
+
+  if (this.loggedIn()) {
+    checkProfile(result.getToken());
+    return;
+  }
+
+  if (isError) {
+    alert(`Couldn't parse auth0 response. Please log in again.`);
+  }
+
+  this.logout();
+  this.login();
+}
+
+function checkProfile(token) {
+  auth.lock.getProfile(
+    token,
+    (error, profile) => {
+      if (error) {
+        alert(`Coulnd't load your profile. Please log in again.`);
+        auth.logout();
+        auth.login();
+        return;
+      }
+
+      bootstrapApp({
+        email: profile.email,
+        name: profile.name,
+      });
+    }
+  );
+}
+
+function bootstrapApp(currentUser: ICurrentUserStore) {
+  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+  return init(middlewares => createReduxStore(
+    appReducer,
+    { currentUser },
+    composeEnhancers(applyMiddleware(...middlewares, thunk))
+  ))
+    .then(store => {
       store.dispatch(fetchAllComments());
       store.dispatch(fetchRoute());
 
@@ -29,9 +82,14 @@ init(middlewares => createStore(
         </Provider>,
         document.getElementById('app')
       );
-    }
-  )
-  .catch(err => {
-    console.error(err);
-    alert(`Couldn't connect to server.`);
-  });
+    })
+    .catch(err => {
+      console.error(err);
+      alert(`Couldn't connect to server.`);
+    });
+
+  // wrapper just to get rid of typescript errors when overriding state
+  function createReduxStore(reducer: any, state: any, middleware: any) {
+    return createStore(reducer, state, middleware);
+  }
+}
