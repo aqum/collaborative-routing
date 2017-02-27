@@ -15,7 +15,10 @@ config :collaborative_routing, CollaborativeRouting.Endpoint,
   secret_key_base: "pFoNkSR0uN+KChoC7xtu8tZ6Q9zTX799tEXFi5lpbtF51ACGR7i6qz6b8slk5f+L",
   render_errors: [view: CollaborativeRouting.ErrorView, accepts: ~w(html json)],
   pubsub: [name: CollaborativeRouting.PubSub,
-           adapter: Phoenix.PubSub.PG2]
+           adapter: Phoenix.PubSub.PG2],
+  app_baseurl: System.get_env("AUTH0_BASEURL"),
+  app_id: System.get_env("AUTH0_APP_ID"),
+  app_secret: System.get_env("AUTH0_APP_SECRET")
 
 # Configures Elixir's Logger
 config :logger, :console,

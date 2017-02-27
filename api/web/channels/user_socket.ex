@@ -2,7 +2,7 @@ defmodule CollaborativeRouting.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  channel "rooms:*", CollaborativeRouting.RoomChannel
+  # channel "room:*", CollaborativeRouting.RoomChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket

@@ -21,4 +21,6 @@ defmodule CollaborativeRouting.Endpoint do
     store: :cookie,
     key: "_collaborative_routing_key",
     signing_salt: "U9yCbmnl"
+
+  plug CollaborativeRouting.Router
 end
