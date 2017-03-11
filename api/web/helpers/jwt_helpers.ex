@@ -49,5 +49,5 @@ defmodule CollaborativeRouting.JWTHelpers do
     {conn, %{:errors => %{:detail => "unauthorized"}}}
   end
 
-  defp config, do: Application.get_env(:jwt_phoenix, :auth0)
+  defp config, do: Application.get_env(:collaborative_routing, :auth0)
 end

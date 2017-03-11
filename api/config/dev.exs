@@ -37,6 +37,6 @@ config :collaborative_routing, CollaborativeRouting.Repo,
   adapter: Ecto.Adapters.Postgres,
   username: "postgres",
   password: "secret",
-  database: "collaborative_routing",
+  database: "postgres",
   hostname: "db.link",
   pool_size: 10

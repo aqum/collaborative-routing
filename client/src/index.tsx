@@ -23,7 +23,6 @@ const auth = new AuthService(
 );
 
 function handleHashParse(result) {
-  console.log(result);
   const isError = result instanceof Error;
 
   // initial login when token is not yet set
@@ -33,7 +32,7 @@ function handleHashParse(result) {
   }
 
   if (this.loggedIn()) {
-    checkProfile(result.getToken());
+    checkProfile(this.getToken());
     return;
   }
 
@@ -59,6 +58,7 @@ function checkProfile(token) {
       bootstrapApp({
         email: profile.email,
         name: profile.name,
+        token,
       });
     }
   );
@@ -71,7 +71,7 @@ function bootstrapApp(currentUser: ICurrentUserStore) {
     appReducer,
     { currentUser },
     composeEnhancers(applyMiddleware(...middlewares, thunk))
-  ))
+  ), currentUser.token)
     .then(store => {
       store.dispatch(fetchAllComments());
       store.dispatch(fetchRoute());
@@ -84,7 +84,6 @@ function bootstrapApp(currentUser: ICurrentUserStore) {
       );
     })
     .catch(err => {
-      console.error(err);
       alert(`Couldn't connect to server.`);
     });
 

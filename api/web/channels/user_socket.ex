@@ -1,5 +1,6 @@
 defmodule CollaborativeRouting.UserSocket do
   use Phoenix.Socket
+  alias CollaborativeRouting.JWTHelpers
 
   ## Channels
   channel "rooms:*", CollaborativeRouting.RoomChannel
@@ -19,8 +20,16 @@ defmodule CollaborativeRouting.UserSocket do
   #
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
-  def connect(_params, socket) do
-    {:ok, socket}
+  def connect(params, socket) do
+    payload = JWTHelpers.verify(params["token"])
+
+    case payload.error do
+      nil ->
+        {:ok, assign(socket, :user_id, payload.claims["sub"])}
+
+      _error ->
+        :error
+    end
   end
 
   # Socket id's are topics that allow you to identify all sockets for a given user:
