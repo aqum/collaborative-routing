@@ -123,6 +123,7 @@ export class Map extends React.Component<IMap, {}> {
         if (this.control._line) {
           this.mapInstance.removeControl(this.control);
           this.control._line.addTo(this.mapInstance);
+          console.log(this.control._line);
           this.suggestControl.setWaypoints(
             this.control._plan._waypoints.map(waypoints => waypoints.latLng)
           );

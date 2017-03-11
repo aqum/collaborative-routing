@@ -17,6 +17,11 @@ config :collaborative_routing, CollaborativeRouting.Endpoint,
   pubsub: [name: CollaborativeRouting.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
+config :collaborative_routing, :auth0,
+  app_baseurl: System.get_env("AUTH0_BASEURL"),
+  app_id: System.get_env("AUTH0_APP_ID"),
+  app_secret: System.get_env("AUTH0_APP_SECRET")
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",

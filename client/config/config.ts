@@ -4,6 +4,10 @@ interface IAppConfig {
   mapboxToken?: string;
   mapTileUrl?: string;
   mapAttribution?: string;
+  auth0?: {
+    appId: string;
+    appBaseUrl: string;
+  };
 }
 
 const defaultConfig = {

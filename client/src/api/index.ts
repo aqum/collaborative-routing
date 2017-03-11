@@ -12,8 +12,8 @@ import {
 } from './suggestions';
 const { Socket } = require<any>('phoenix');
 
-export function init(createStore: Function) {
-  return new Promise(createConnection)
+export function init(createStore: Function, token: string) {
+  return new Promise((resolve, reject) => createConnection(resolve, reject, token))
     .then(channel => {
       const store = createStore([
         createCommentsMiddleware(channel),
@@ -27,8 +27,16 @@ export function init(createStore: Function) {
     });
 }
 
-function createConnection(resolve, reject) {
-  const socket = new Socket('ws://localhost:4000/socket');
+function createConnection(resolve, reject, token) {
+  const socket = new Socket(
+    'ws://localhost:4000/socket',
+    {
+      params: {
+        token,
+      },
+    }
+  );
+  socket.onError(reject);
   socket.connect();
 
   const channel = socket.channel('rooms:lobby');

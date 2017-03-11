@@ -5,16 +5,35 @@ defmodule CollaborativeRouting.Web do
 
   This can be used in your application as:
 
-      use Chat.Web, :controller
-      use Chat.Web, :view
+      use CollaborativeRouting.Web, :controller
+      use CollaborativeRouting.Web, :view
 
-  Keep the definitions in this module short and clean,
-  mostly focused on imports, uses and aliases.
+  The definitions below will be executed for every view,
+  controller, etc, so keep them short and clean, focused
+  on imports, uses and aliases.
+
+  Do NOT define functions inside the quoted expressions
+  below.
   """
 
   def model do
     quote do
-      use Ecto.Model
+      use Ecto.Schema
+
+      import Ecto
+      import Ecto.Changeset
+      import Ecto.Query
+    end
+  end
+
+  def channel do
+    quote do
+      use Phoenix.Channel
+
+      alias CollaborativeRouting.Repo
+      import Ecto
+      import Ecto.Query
+      import CollaborativeRouting.Gettext
     end
   end
 
