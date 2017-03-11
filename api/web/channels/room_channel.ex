@@ -11,6 +11,19 @@ defmodule CollaborativeRouting.RoomChannel do
     {:ok, socket}
   end
 
+  def handle_in("method:route.list", _message, socket) do
+    routes = Repo.all(
+      from route in Route,
+      where: route.user_id == ^socket.assigns.user_id,
+      select: %{
+        id: route.id,
+        title: route.title,
+      }
+    )
+
+    {:reply, {:ok, %{ :routes => routes }}, socket}
+  end
+
   def handle_in("method:comment.list", _message, socket) do
     comments = Repo.all(
       from comment in Comment,

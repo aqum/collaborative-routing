@@ -10,6 +10,7 @@ import {
   registerEvents as registerSuggestionsEvents,
   createMiddleware as createSuggestionsMiddleware,
 } from './suggestions';
+import { createMiddleware as createCurrentUserMiddleware } from './current-user';
 const { Socket } = require<any>('phoenix');
 
 export function init(createStore: Function, token: string) {
@@ -19,6 +20,7 @@ export function init(createStore: Function, token: string) {
         createCommentsMiddleware(channel),
         createRouteMiddleware(channel),
         createSuggestionsMiddleware(channel),
+        createCurrentUserMiddleware(channel),
       ]);
       registerCommentsEvents(channel, store);
       registerRouteEvents(channel, store);

@@ -15,6 +15,8 @@ import { fetchRoute } from './actions/route';
 import { AuthService } from './utils/auth0.service';
 import { ICurrentUserStore } from './reducers/stores/current-user';
 import { config } from '../config/config';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { CRoutesList } from './containers/c-routes-list';
 
 const auth = new AuthService(
   config.auth0.appId,
@@ -58,6 +60,7 @@ function checkProfile(token) {
       bootstrapApp({
         email: profile.email,
         name: profile.name,
+        routes: [],
         token,
       });
     }
@@ -72,19 +75,25 @@ function bootstrapApp(currentUser: ICurrentUserStore) {
     { currentUser },
     composeEnhancers(applyMiddleware(...middlewares, thunk))
   ), currentUser.token)
+    .catch(err => {
+      console.log(err);
+      alert(`Couldn't connect to server.`);
+    })
     .then(store => {
-      store.dispatch(fetchAllComments());
-      store.dispatch(fetchRoute());
+      // store.dispatch(fetchAllComments());
+      // store.dispatch(fetchRoute());
 
       render(
         <Provider store={store}>
-        <App />
+          <Router>
+            <div>
+              <Route exact path='/' component={CRoutesList} />
+              <Route exact path='/route/:routeId' component={App} />
+            </div>
+          </Router>
         </Provider>,
         document.getElementById('app')
       );
-    })
-    .catch(err => {
-      alert(`Couldn't connect to server.`);
     });
 
   // wrapper just to get rid of typescript errors when overriding state
