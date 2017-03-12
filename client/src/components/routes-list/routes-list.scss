@@ -1,0 +1,31 @@
+@import '../../variables';
+
+.cr-routes-list {
+  max-width: 720px;
+  margin: 100px auto;
+
+  &__title {
+    font-weight: normal;
+    font-size: 36px;
+    color: $color-light;
+  }
+
+  &__items {
+    list-style: none;
+    padding: 0;
+  }
+
+  &__item {
+    font-size: 24px;
+    padding: 10px 0;
+
+    a {
+      color: $color-base;
+      text-decoration: none;
+
+      &:hover {
+        color: $brand-primary;
+      }
+    }
+  }
+}
