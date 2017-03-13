@@ -1,4 +1,4 @@
-defmodule CollaborativeRouting.RoomChannel do
+defmodule CollaborativeRouting.MapChannel do
   import Ecto.Query
   use Phoenix.Channel
   alias CollaborativeRouting.Repo
@@ -7,21 +7,17 @@ defmodule CollaborativeRouting.RoomChannel do
   alias CollaborativeRouting.Route
   alias CollaborativeRouting.Suggestion
 
-  def join("rooms:lobby", _message, socket) do
-    {:ok, socket}
-  end
+  def join("map:" <> route_id, _message, socket) do
+    query = from route in Route, where: route.user_id == ^socket.assigns.user_id
+    route = Repo.get(query, route_id)
 
-  def handle_in("method:route.list", _message, socket) do
-    routes = Repo.all(
-      from route in Route,
-      where: route.user_id == ^socket.assigns.user_id,
-      select: %{
-        id: route.id,
-        title: route.title,
-      }
-    )
+    case route do
+      nil ->
+        {:error, %{reason: "404"}}
 
-    {:reply, {:ok, %{ :routes => routes }}, socket}
+      _route ->
+        {:ok, socket}
+    end
   end
 
   def handle_in("method:comment.list", _message, socket) do

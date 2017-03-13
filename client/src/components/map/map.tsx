@@ -17,6 +17,7 @@ export interface IMap {
   onMapClick?: Function;
   onReroute?: Function;
   onSuggestion?: Function;
+  onInit: Function;
   waypoints: LatLngLiteral[];
 }
 
@@ -51,6 +52,10 @@ export class Map extends React.Component<IMap, {}> {
         attribution: config.mapAttribution,
       }
     ).addTo(this.mapInstance);
+  }
+
+  componentDidMount() {
+    this.props.onInit();
   }
 
   compareWaypoints(control, toCompare) {

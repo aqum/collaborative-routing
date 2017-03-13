@@ -6,6 +6,7 @@ export const types = {
   FETCH_FINISH: 'meta/FETCH_FINISH',
   SET_MAP_CLICK_ACTION: 'meta/SET_MAP_CLICK_ACTION',
   SET_MAP_MODE: 'meta/SET_MAP_MODE',
+  SET_ROUTE_CHANNEL: 'meta/SET_ROUTE_CHANNEL',
 };
 
 export function fetchStart() {
@@ -41,5 +42,12 @@ export function setMapMode(mode: MapMode) {
       type: types.SET_MAP_MODE,
       payload: mode,
     });
+  };
+}
+
+export function setRouteChannel(channel) {
+  return {
+    type: types.SET_ROUTE_CHANNEL,
+    payload: channel,
   };
 }

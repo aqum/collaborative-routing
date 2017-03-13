@@ -5,9 +5,12 @@ export interface IMetaStore {
   isFetching: boolean;
   mapClickAction: Function;
   mapMode: MapMode;
+  socket?: any;
+  routeChannel?: any;
+  mainChannel?: any;
 }
 
-export const initialMetaStore = Object.seal({
+export const initialMetaStore: IMetaStore = Object.seal({
   isFetching: false,
   mapClickAction: setStart,
   mapMode: MapMode.Edit,

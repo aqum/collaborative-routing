@@ -1,13 +1,13 @@
 import { types, finishFetchRoutesList } from '../actions/current-user';
 import { fetchFinish } from '../actions/meta';
 
-export function createMiddleware(channel) {
-  return store => next => action => {
+export function currentUserMiddleware(store) {
+  return next => action => {
     const result = next(action);
 
     switch (action.type) {
       case types.FETCH_ROUTES_LIST:
-        channel
+        store.getState().meta.mainChannel
           .push('method:route.list')
           .receive('ok', ({ routes }) => store.dispatch(finishFetchRoutesList(routes)))
           .receive('error', () => store.dispatch(fetchFinish(`Couldn't fetch routes`)))

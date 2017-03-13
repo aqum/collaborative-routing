@@ -2,8 +2,9 @@ import { connect } from 'react-redux';
 import { MouseEvent } from 'leaflet';
 import * as _ from 'lodash';
 import { Map } from '../components/map/map';
-import { setWaypoints } from '../actions/route';
+import { setWaypoints, fetchRoute } from '../actions/route';
 import { setSuggestion } from '../actions/suggestions';
+import { fetchAllComments } from '../actions/comments';
 
 export const CMap = connect(
   mapStateToProps,
@@ -29,6 +30,10 @@ function mapDispatchToProps(dispatch) {
     onSuggestion: ev => dispatch(
       setSuggestion(ev.waypoints.map(waypoint => waypoint.latLng))
     ),
+    onInit: () => {
+      dispatch(fetchAllComments());
+      dispatch(fetchRoute());
+    },
   };
 }
 
