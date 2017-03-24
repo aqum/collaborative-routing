@@ -1,1 +1,6 @@
-export default {}
+export default {
+  auth0: {
+    appId: '',
+    appBaseUrl: '',
+  },
+};
