@@ -7,7 +7,7 @@
     "build": "webpack",
     "start": "node ./server.js",
     "typings": "typings",
-    "postinstall": "typings install"
+    "postinstall": "npm run typings install"
   },
   "author": "",
   "license": "ISC",
