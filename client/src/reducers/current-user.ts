@@ -3,15 +3,23 @@ import { initialCurrentUserStore, ICurrentUserStore } from './stores/current-use
 
 export function currentUserReducer(
   state = initialCurrentUserStore,
-  action
+  action,
 ): ICurrentUserStore {
   switch (action.type) {
     case types.FINISH_FETCH_ROUTES_LIST:
       return Object.assign(
         {},
         state,
-        { routes: action.payload }
+        { routes: action.payload },
       );
+
+    case types.FINISH_CREATE_ROUTE:
+      return Object.assign(
+        {},
+        state,
+        { routes: [action.payload, ...state.routes] },
+      );
+
     default:
       return state;
   }

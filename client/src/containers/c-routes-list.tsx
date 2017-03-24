@@ -1,10 +1,10 @@
 import { connect } from 'react-redux';
-import { fetchRoutesList } from '../actions/current-user';
+import { fetchRoutesList, createRoute } from '../actions/current-user';
 import { RoutesList } from '../components/routes-list/routes-list';
 
 export const CRoutesList = connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(RoutesList);
 
 function mapStateToProps(state) {
@@ -16,5 +16,6 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     onInit: () => dispatch(fetchRoutesList()),
+    onRouteCreate: () => dispatch(createRoute()),
   };
 }
