@@ -20,4 +20,19 @@ defmodule CollaborativeRouting.MainChannel do
 
     {:reply, {:ok, %{ :routes => routes }}, socket}
   end
+
+  def handle_in("method:route.create", message, socket) do
+    changeset = Route.changeset(%Route{
+      title: message["title"],
+      user_id: socket.assigns.user_id,
+    })
+
+    case Repo.insert(changeset) do
+      {:ok, route} ->
+        {:reply, {:ok, route}, socket}
+
+      {:error, _changeset} ->
+        {:reply, :error, socket}
+    end
+  end
 end

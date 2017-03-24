@@ -3,7 +3,7 @@ import { initialRouteStore, IRouteStore } from './stores/route';
 
 export function routeReducer(
   state = initialRouteStore,
-  action
+  action,
 ): IRouteStore {
   switch (action.type) {
     case types.SET_START:
@@ -29,6 +29,11 @@ export function routeReducer(
     case types.FINISH_FETCH_ROUTE:
       return Object.assign({}, state, {
         waypoints: action.payload.waypoints,
+      });
+
+    case types.INIT_ROUTE:
+      return Object.assign({}, state, {
+        routeId: action.payload.routeId,
       });
 
     default:

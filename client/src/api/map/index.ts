@@ -12,13 +12,18 @@ const mapMethods = [...commentsMethods, ...routeMethods, ...suggestionsMethods];
 // when channel is opened more than one time server disconnects previous connections
 const throttledCreateMapChannel = throttle(createMapChannel, 10);
 
-export function createMapChannel(store, routeId, events): Promise<any> {
+export function createMapChannel(store, events): Promise<any> {
   const state = store.getState();
   const channel = state.meta.routeChannel;
+  const routeId = state.route.routeId;
   const topic = `map:${routeId}`;
 
   if (channel && channel.topic === topic) {
     return Promise.resolve(channel);
+  }
+
+  if (channel && channel.topic !== topic) {
+    channel.leave();
   }
 
   return connectChannel(state.meta.socket, topic, events, store.dispatch.bind(store))
@@ -34,17 +39,16 @@ export function createMapChannel(store, routeId, events): Promise<any> {
 
 export function mapMiddleware(store) {
   return next => action => {
-    const result = next(action);
-
     const method = mapMethods.find(m => m.type === action.type);
+
     if (method) {
-      throttledCreateMapChannel(store, 1, mapEvents)
+      throttledCreateMapChannel(store, mapEvents)
         .then(channel => {
           method.callback(channel, store.dispatch.bind(store), action);
         })
         .catch(console.log.bind(console));
     }
 
-    return result;
+    return next(action);
   };
 }

@@ -15,7 +15,7 @@ export function currentUserMiddleware(store) {
         break;
 
       case types.CREATE_ROUTE:
-        channel
+        store.getState().meta.mainChannel
           .push('method:route.create', { title: '' })
           .receive('ok', (route) => store.dispatch(finishCreateRoute(route)))
           .receive('error', () => store.dispatch(fetchFinish(`Couldn't create route`)))

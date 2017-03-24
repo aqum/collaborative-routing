@@ -1,8 +1,9 @@
 import { LatLngLiteral } from 'leaflet';
 import { setMapClickAction, fetchFinish, fetchStart } from './meta';
-import { addComment } from './comments';
+import { addComment, fetchAllComments } from './comments';
 
 export const types = {
+  INIT_ROUTE: 'route/INIT_ROUTE',
   FETCH_ROUTE: 'route/FETCH_ROUTE',
   FINISH_FETCH_ROUTE: 'route/FINISH_FETCH_ROUTE',
   SET_WAYPOINTS: 'route/SET_WAYPOINTS',
@@ -53,12 +54,17 @@ export function makeReadOnly() {
   };
 }
 
-export function fetchRoute() {
+export function fetchRoute(routeId: number) {
   return dispatch => {
+    dispatch({
+      type: types.INIT_ROUTE,
+      payload: { routeId },
+    });
     dispatch(fetchStart());
     dispatch({
       type: types.FETCH_ROUTE,
     });
+    dispatch(fetchAllComments());
   };
 }
 

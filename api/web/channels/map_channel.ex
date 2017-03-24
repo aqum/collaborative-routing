@@ -16,22 +16,8 @@ defmodule CollaborativeRouting.MapChannel do
         {:error, %{reason: "404"}}
 
       _route ->
+        assign(socket, :route_id, route_id)
         {:ok, socket}
-    end
-  end
-
-  def handle_in("method:route.create", message, socket) do
-    changeset = Route.changeset(%Route{
-      title: message["title"],
-      user_id: socket.assigns.user_id,
-    })
-
-    case Repo.insert(changeset) do
-      {:ok, route} ->
-        {:reply, {:ok, route}, socket}
-
-      {:error, _changeset} ->
-        {:reply, :error, socket}
     end
   end
 
@@ -67,17 +53,20 @@ defmodule CollaborativeRouting.MapChannel do
   end
 
   def handle_in("method:route.details", _message, socket) do
-    route = Repo.get(Route, 1)
+    "map:" <> route_id = socket.topic
+    route = Repo.get(Route, route_id)
     {:reply, {:ok, route}, socket}
   end
 
   def handle_in("method:route.edit", message, socket) do
+    "map:" <> route_id = socket.topic
+
     waypoints = Enum.map(message, fn waypoint -> %Point{
       :lat => waypoint["lat"],
       :lng => waypoint["lng"]
     } end)
 
-    case Repo.get(Route, 1) do
+    case Repo.get(Route, route_id) do
       nil ->
         newRoute = %Route{
           :waypoints => waypoints

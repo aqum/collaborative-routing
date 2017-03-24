@@ -11,6 +11,7 @@ const L = require<any>('leaflet');
 require('leaflet-routing-machine');
 
 export interface IMap {
+  routeId: number;
   comments: IComment[];
   className?: string;
   mode: MapMode;
@@ -55,7 +56,7 @@ export class Map extends React.Component<IMap, {}> {
   }
 
   componentDidMount() {
-    this.props.onInit();
+    this.props.onInit(this.props.routeId);
   }
 
   compareWaypoints(control, toCompare) {

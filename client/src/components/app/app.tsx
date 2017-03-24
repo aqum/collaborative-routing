@@ -7,6 +7,14 @@ import { Sidebar } from '../sidebar/sidebar';
 import { CModeSwitch } from '../../containers/c-mode-switch';
 
 export class App extends React.Component<{}, {}> {
+  routeId: number;
+
+  constructor({ match }) {
+    super();
+
+    this.routeId = parseInt(match.params.routeId, 10);
+  }
+
   render() {
     return (
       <div className='cr-app'>
@@ -18,7 +26,8 @@ export class App extends React.Component<{}, {}> {
             </div>
             <CFeedbackList />
           </div>
-          <CMap className='cr-app__map' />
+          <CMap className='cr-app__map'
+                routeId={this.routeId} />
         </div>
       </div>
     );
