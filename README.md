@@ -5,6 +5,7 @@
 ## Development setup
 - get to know Docker and docker-compose tool
 - create `api.env` file and fill environment variables as in `docker.compose.yml`
+- create `client/config/local.config.ts` file and fill necessary properties
 - build containers `docker-compose build`
 - install backend deps `docker-compose run --rm api mix deps.get`
 - create database `docker-compose run --rm api mix ecto.create`

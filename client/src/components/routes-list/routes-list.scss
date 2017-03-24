@@ -8,6 +8,28 @@
     font-weight: normal;
     font-size: 36px;
     color: $color-light;
+    display: flex;
+    width: 100%;
+    align-items: center;
+  }
+
+  &__title-text {
+    flex-grow: 1;
+  }
+
+  &__title-button {
+    background: $brand-primary;
+    color: $color-inverse;
+    border: 0;
+    padding: 10px 15px;
+    font-size: $font-size-larger;
+    border-radius: $radius-base;
+    flex-shrink: 2;
+    cursor: pointer;
+
+    &:hover {
+      background: $brand-primary-dark;
+    }
   }
 
   &__items {

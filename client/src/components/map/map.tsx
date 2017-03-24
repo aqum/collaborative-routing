@@ -46,7 +46,7 @@ export class Map extends React.Component<IMap, {}> {
 
     this.mapInstance.setView([51.505, -0.09], 13);
     L.tileLayer(
-      config.mapTileUrl,
+      `${config.mapTileUrl}?access_token=${config.mapboxToken}`,
       {
         maxZoom: 18,
         attribution: config.mapAttribution,
