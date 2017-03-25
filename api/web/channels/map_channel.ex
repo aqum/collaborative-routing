@@ -22,12 +22,17 @@ defmodule CollaborativeRouting.MapChannel do
   end
 
   def handle_in("method:comment.list", _message, socket) do
+    "map:" <> route_id = socket.topic
+
     comments = Repo.all(
       from comment in Comment,
+      where: comment.route_id == ^route_id,
       order_by: [desc: comment.inserted_at]
     )
 
-    {:reply, {:ok, %{ :comments => comments }}, socket}
+    parsed_comments = Enum.map(comments, fn comment -> Map.delete(comment, :route) end)
+
+    {:reply, {:ok, %{ :comments => parsed_comments }}, socket}
   end
 
   def handle_in("method:suggestion.list", _message, socket) do
@@ -40,14 +45,25 @@ defmodule CollaborativeRouting.MapChannel do
   end
 
   def handle_in("method:comment.add", message, socket) do
-    changeset = Comment.changeset(%Comment{}, message)
+    "map:" <> route_id = socket.topic
+    {route_id_int, _} = Integer.parse(route_id)
+
+    changeset = Comment.changeset(%Comment{
+      content: message["content"],
+      lat: message["lat"],
+      lng: message["lng"],
+      route_id: route_id_int,
+      user_id: socket.assigns.user_id,
+    })
 
     case Repo.insert(changeset) do
       {:ok, comment} ->
-        broadcast_from! socket, "event:comment_added", %{payload: comment}
-        {:reply, {:ok, comment}, socket}
+        parsed_comment = Map.delete(comment, :route)
+        broadcast_from! socket, "event:comment_added", %{payload: parsed_comment}
+        {:reply, {:ok, parsed_comment}, socket}
 
-      {:error, _changeset} ->
+      {:error, changeset} ->
+        IO.puts changeset
         {:reply, :error, socket}
     end
   end
