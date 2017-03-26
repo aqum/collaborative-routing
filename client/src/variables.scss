@@ -1,10 +1,14 @@
+$font-size-larger: 16px;
 $font-size-base: 14px;
 $font-size-smallest: 11px;
 $font-family-base: Helvetica, Arial, sans-serif;
 $color-secondary: #333;
 $color-inverse: #fff;
+$color-base: #111;
+$color-light: #ccc;
 
 $brand-primary: #1B9AF7;
+$brand-primary-dark: darken($brand-primary, 10);
 
 $spacing-base: 10px;
 $spacing-small: 5px;

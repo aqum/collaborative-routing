@@ -18,6 +18,12 @@ export function metaReducer(
     case types.SET_MAP_MODE:
       return Object.assign({}, state, { mapMode: action.payload });
 
+    case types.SET_ROUTE_CHANNEL:
+      if (state.routeChannel) {
+        state.routeChannel.leave();
+      }
+      return Object.assign({}, state, { routeChannel: action.payload });
+
     default:
       return state;
   }

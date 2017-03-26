@@ -9,12 +9,16 @@ import thunk from 'redux-thunk';
 import './index.scss';
 import { App } from './components/app/app';
 import { appReducer } from './reducers';
-import { init } from './api/index';
-import { fetchAllComments } from './actions/comments';
-import { fetchRoute } from './actions/route';
 import { AuthService } from './utils/auth0.service';
 import { ICurrentUserStore } from './reducers/stores/current-user';
 import { config } from '../config/config';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { CRoutesList } from './containers/c-routes-list';
+import { initialMetaStore } from './reducers/stores/meta';
+import { CLoader } from './containers/c-loader';
+import { currentUserMiddleware } from './api/current-user';
+import { createSocket, connectChannel } from './api/utils';
+import { mapMiddleware } from './api/map';
 
 const auth = new AuthService(
   config.auth0.appId,
@@ -58,6 +62,7 @@ function checkProfile(token) {
       bootstrapApp({
         email: profile.email,
         name: profile.name,
+        routes: [],
         token,
       });
     }
@@ -65,30 +70,46 @@ function checkProfile(token) {
 }
 
 function bootstrapApp(currentUser: ICurrentUserStore) {
-  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+  const composeEnhancers = window['__REDUX_DEVTOOLS_EXTENSION_COMPOSE__'] || compose;
 
-  return init(middlewares => createReduxStore(
-    appReducer,
-    { currentUser },
-    composeEnhancers(applyMiddleware(...middlewares, thunk))
-  ), currentUser.token)
-    .then(store => {
-      store.dispatch(fetchAllComments());
-      store.dispatch(fetchRoute());
-
-      render(
-        <Provider store={store}>
-        <App />
-        </Provider>,
-        document.getElementById('app')
-      );
-    })
+  return createSocket(currentUser.token)
     .catch(err => {
+      console.log(err);
       alert(`Couldn't connect to server.`);
-    });
+    })
+    .then(socket => {
+      connectChannel(socket, 'main')
+        .catch(err => {
+          console.log(err);
+          alert(`Couldn't connect to main channel.`);
+        })
+        .then(mainChannel => {
+          const initialState = {
+            currentUser,
+            meta: Object.assign({}, initialMetaStore, { socket, mainChannel }),
+          };
+          const store = createStore(
+            appReducer,
+            initialState,
+            composeEnhancers(applyMiddleware(
+              currentUserMiddleware,
+              mapMiddleware,
+              thunk
+            ))
+          );
 
-  // wrapper just to get rid of typescript errors when overriding state
-  function createReduxStore(reducer: any, state: any, middleware: any) {
-    return createStore(reducer, state, middleware);
-  }
+          render(
+            <Provider store={store}>
+              <Router>
+                <div>
+                  <CLoader className='cr-app__loader' />
+                  <Route exact path='/' component={CRoutesList} />
+                  <Route exact path='/route/:routeId' component={App} />
+                </div>
+              </Router>
+            </Provider>,
+            document.getElementById('app')
+          );
+        });
+    });
 }

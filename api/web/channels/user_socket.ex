@@ -3,7 +3,8 @@ defmodule CollaborativeRouting.UserSocket do
   alias CollaborativeRouting.JWTHelpers
 
   ## Channels
-  channel "rooms:*", CollaborativeRouting.RoomChannel
+  channel "map:*", CollaborativeRouting.MapChannel
+  channel "main", CollaborativeRouting.MainChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket

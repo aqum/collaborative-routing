@@ -6,7 +6,8 @@ defmodule CollaborativeRouting.Comment do
     field :content, :string
     field :lat, :float
     field :lng, :float
-    belongs_to :user, CollaborativeRouting.User
+    field :user_id, :string
+    belongs_to :route, CollaborativeRouting.Route
 
     timestamps()
   end

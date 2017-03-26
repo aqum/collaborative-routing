@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { MouseEvent } from 'leaflet';
 import * as _ from 'lodash';
 import { Map } from '../components/map/map';
-import { setWaypoints } from '../actions/route';
+import { setWaypoints, fetchRoute } from '../actions/route';
 import { setSuggestion } from '../actions/suggestions';
 
 export const CMap = connect(
@@ -24,11 +24,12 @@ function mapDispatchToProps(dispatch) {
   return {
     _dispatch: dispatch,
     onReroute: ev => dispatch(
-      setWaypoints(ev.waypoints.map(waypoint => waypoint.latLng))
+      setWaypoints(ev.waypoints.map(waypoint => waypoint.latLng)),
     ),
     onSuggestion: ev => dispatch(
-      setSuggestion(ev.waypoints.map(waypoint => waypoint.latLng))
+      setSuggestion(ev.waypoints.map(waypoint => waypoint.latLng)),
     ),
+    onInit: (routeId) => dispatch(fetchRoute(routeId)),
   };
 }
 
@@ -41,8 +42,8 @@ function mergeProps(stateProps, dispatchProps, ownProps) {
     {
       onMapClick: (ev: MouseEvent) =>
         dispatchProps._dispatch(
-          stateProps.onMapClick(ev.latlng)
+          stateProps.onMapClick(ev.latlng),
         ),
-    }
+    },
   );
 }

@@ -1,0 +1,53 @@
+@import '../../variables';
+
+.cr-routes-list {
+  max-width: 720px;
+  margin: 100px auto;
+
+  &__title {
+    font-weight: normal;
+    font-size: 36px;
+    color: $color-light;
+    display: flex;
+    width: 100%;
+    align-items: center;
+  }
+
+  &__title-text {
+    flex-grow: 1;
+  }
+
+  &__title-button {
+    background: $brand-primary;
+    color: $color-inverse;
+    border: 0;
+    padding: 10px 15px;
+    font-size: $font-size-larger;
+    border-radius: $radius-base;
+    flex-shrink: 2;
+    cursor: pointer;
+
+    &:hover {
+      background: $brand-primary-dark;
+    }
+  }
+
+  &__items {
+    list-style: none;
+    padding: 0;
+  }
+
+  &__item {
+    font-size: 24px;
+    padding: 10px 0;
+
+    a {
+      color: $color-base;
+      text-decoration: none;
+
+      &:hover {
+        color: $brand-primary;
+      }
+    }
+  }
+}

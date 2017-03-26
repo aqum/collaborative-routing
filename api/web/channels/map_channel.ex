@@ -1,4 +1,4 @@
-defmodule CollaborativeRouting.RoomChannel do
+defmodule CollaborativeRouting.MapChannel do
   import Ecto.Query
   use Phoenix.Channel
   alias CollaborativeRouting.Repo
@@ -7,17 +7,32 @@ defmodule CollaborativeRouting.RoomChannel do
   alias CollaborativeRouting.Route
   alias CollaborativeRouting.Suggestion
 
-  def join("rooms:lobby", _message, socket) do
-    {:ok, socket}
+  def join("map:" <> route_id, _message, socket) do
+    query = from route in Route, where: route.user_id == ^socket.assigns.user_id
+    route = Repo.get(query, route_id)
+
+    case route do
+      nil ->
+        {:error, %{reason: "404"}}
+
+      _route ->
+        assign(socket, :route_id, route_id)
+        {:ok, socket}
+    end
   end
 
   def handle_in("method:comment.list", _message, socket) do
+    "map:" <> route_id = socket.topic
+
     comments = Repo.all(
       from comment in Comment,
+      where: comment.route_id == ^route_id,
       order_by: [desc: comment.inserted_at]
     )
 
-    {:reply, {:ok, %{ :comments => comments }}, socket}
+    parsed_comments = Enum.map(comments, fn comment -> Map.delete(comment, :route) end)
+
+    {:reply, {:ok, %{ :comments => parsed_comments }}, socket}
   end
 
   def handle_in("method:suggestion.list", _message, socket) do
@@ -30,30 +45,44 @@ defmodule CollaborativeRouting.RoomChannel do
   end
 
   def handle_in("method:comment.add", message, socket) do
-    changeset = Comment.changeset(%Comment{}, message)
+    "map:" <> route_id = socket.topic
+    {route_id_int, _} = Integer.parse(route_id)
+
+    changeset = Comment.changeset(%Comment{
+      content: message["content"],
+      lat: message["lat"],
+      lng: message["lng"],
+      route_id: route_id_int,
+      user_id: socket.assigns.user_id,
+    })
 
     case Repo.insert(changeset) do
       {:ok, comment} ->
-        broadcast_from! socket, "event:comment_added", %{payload: comment}
-        {:reply, {:ok, comment}, socket}
+        parsed_comment = Map.delete(comment, :route)
+        broadcast_from! socket, "event:comment_added", %{payload: parsed_comment}
+        {:reply, {:ok, parsed_comment}, socket}
 
-      {:error, _changeset} ->
+      {:error, changeset} ->
+        IO.puts changeset
         {:reply, :error, socket}
     end
   end
 
   def handle_in("method:route.details", _message, socket) do
-    route = Repo.get(Route, 1)
+    "map:" <> route_id = socket.topic
+    route = Repo.get(Route, route_id)
     {:reply, {:ok, route}, socket}
   end
 
   def handle_in("method:route.edit", message, socket) do
+    "map:" <> route_id = socket.topic
+
     waypoints = Enum.map(message, fn waypoint -> %Point{
       :lat => waypoint["lat"],
       :lng => waypoint["lng"]
     } end)
 
-    case Repo.get(Route, 1) do
+    case Repo.get(Route, route_id) do
       nil ->
         newRoute = %Route{
           :waypoints => waypoints

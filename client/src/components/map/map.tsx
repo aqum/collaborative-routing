@@ -11,12 +11,14 @@ const L = require<any>('leaflet');
 require('leaflet-routing-machine');
 
 export interface IMap {
+  routeId: number;
   comments: IComment[];
   className?: string;
   mode: MapMode;
   onMapClick?: Function;
   onReroute?: Function;
   onSuggestion?: Function;
+  onInit: Function;
   waypoints: LatLngLiteral[];
 }
 
@@ -45,12 +47,16 @@ export class Map extends React.Component<IMap, {}> {
 
     this.mapInstance.setView([51.505, -0.09], 13);
     L.tileLayer(
-      config.mapTileUrl,
+      `${config.mapTileUrl}?access_token=${config.mapboxToken}`,
       {
         maxZoom: 18,
         attribution: config.mapAttribution,
       }
     ).addTo(this.mapInstance);
+  }
+
+  componentDidMount() {
+    this.props.onInit(this.props.routeId);
   }
 
   compareWaypoints(control, toCompare) {

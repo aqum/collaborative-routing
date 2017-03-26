@@ -11,6 +11,7 @@ interface IAppConfig {
 }
 
 const defaultConfig = {
+  mapTileUrl: 'https://api.tiles.mapbox.com/v4/mapbox.streets/{z}/{x}/{y}.png',
   mapAttribution: `
     © <a href="https://www.mapbox.com/map-feedback/">Mapbox</a>
     © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>
