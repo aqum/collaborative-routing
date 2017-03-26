@@ -1,8 +1,10 @@
 @import '../../variables';
 
 .cr-app {
-  position: relative;
-  display: flex;
+  &__inner {
+    position: relative;
+    display: flex;
+  }
 
   &__floating-right {
     position: absolute;
