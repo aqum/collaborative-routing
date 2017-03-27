@@ -1,0 +1,35 @@
+@import '../../variables';
+
+.cr-modal {
+  position : absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 500px;
+  width: 100%;
+  background: $bg-light;
+  border-radius: $radius-base;
+  padding: $spacing-base*5 $spacing-base*6;
+  outline: none;
+
+  &__overlay {
+    position: fixed;
+    top: 0;
+    left:0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.75);
+    z-index: 10;
+  }
+
+  &__header {
+    font-size: $font-size-huge;
+    text-align: center;
+    margin: 0 0 40px 0;
+  }
+
+  &__description {
+    margin: 0;
+  }
+}
+
