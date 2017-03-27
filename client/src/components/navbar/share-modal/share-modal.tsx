@@ -1,7 +1,17 @@
 import * as React from 'react';
 import './share-modal.scss';
 
-export class ShareModal extends React.Component<{}, {}> {
+export interface IShareModalProps {
+  onTokenCreate: (routeId: number) => void;
+  token: string;
+  routeId: number;
+}
+
+export class ShareModal extends React.Component<IShareModalProps, {}> {
+  handleTokenCreate() {
+    this.props.onTokenCreate(this.props.routeId);
+  }
+
   render() {
     return (
       <div>
@@ -10,9 +20,14 @@ export class ShareModal extends React.Component<{}, {}> {
           Share link with friends and collaborate in real-time.<br />
           They will be able to comment and leave suggestions.
         </p>
-        <input className='cr-share-modal__link-input'
-               disabled
-               value='http://test.co/asd' />
+        { !this.props.token ?
+            (<button type='button'
+                    onClick={this.handleTokenCreate.bind(this)}>
+              Create token
+            </button>) :
+            (<input className='cr-share-modal__link-input'
+                   disabled
+                   value='http://test.co/asd' />) }
       </div>
     );
   }

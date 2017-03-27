@@ -37,6 +37,11 @@ export function routeReducer(
         routeId: action.payload.routeId,
       });
 
+    case types.FINISH_CREATE_TOKEN:
+      return Object.assign({}, state, {
+        accessToken: action.payload.accessToken,
+      });
+
     default:
       return state;
   }

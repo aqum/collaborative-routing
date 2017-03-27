@@ -6,6 +6,7 @@ defmodule CollaborativeRouting.MapChannel do
   alias CollaborativeRouting.Point
   alias CollaborativeRouting.Route
   alias CollaborativeRouting.Suggestion
+  alias CollaborativeRouting.Token
 
   def join("map:" <> route_id, _message, socket) do
     query = from route in Route, where: route.user_id == ^socket.assigns.user_id
@@ -121,5 +122,29 @@ defmodule CollaborativeRouting.MapChannel do
     end
 
     {:reply, :ok, socket}
+  end
+
+  def handle_in("method:token.create", _message, socket) do
+    "map:" <> route_id = socket.topic
+    routeQuery = from route in Route, where: route.user_id == ^socket.assigns.user_id
+
+    case Repo.get(routeQuery, route_id) do
+      nil ->
+        {:reply, :error, socket}
+
+      route ->
+        case Repo.get_by(Token, route_id: route.id) do
+          nil ->
+            IO.puts("No token to delete")
+          token ->
+            Repo.delete!(token)
+        end
+
+        newToken = %Token{route: route}
+        token = Repo.insert!(newToken);
+        bareToken = Map.delete(token, :route)
+
+        {:reply, {:ok, bareToken}, socket}
+    end
   end
 end

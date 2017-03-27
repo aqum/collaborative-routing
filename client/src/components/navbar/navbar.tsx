@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
 import { CrModal } from '../cr-modal/cr-modal';
-import { ShareModal } from './share-modal/share-modal';
+import { CShareModal } from '../../containers/c-share-modal';
 import './navbar.scss';
 
 export interface INavbar {
@@ -39,7 +39,7 @@ export class Navbar extends React.Component<INavbar, INavbarState> {
         <CrModal isOpen={this.state.shareModalVisible}
                  contentLabel={'Share'}
                  onRequestClose={() => this.toggleShareModal(false)}>
-          <ShareModal />
+          <CShareModal />
         </CrModal>
       </div>
     );
