@@ -1,10 +1,34 @@
 @import '../../../variables';
 
-.cr-share-modal__link-input {
-  display: block;
-  width: 100%;
-  margin-top: 2*$spacing-base;
-  padding: $spacing-base;
-  border-radius: $radius-base;
-  border: 1px solid $border-color-base;
+.cr-share-modal {
+  text-align: center;
+
+  &__manage {
+    margin-top: $spacing-base*2;
+  }
+
+  &__link-input {
+    display: block;
+    width: 100%;
+    margin-top: 2*$spacing-base;
+    padding: $spacing-base;
+    border-radius: $radius-base;
+    border: 1px solid $border-color-base;
+    margin-bottom: $spacing-base;
+  }
+
+  &__create-btn {
+    background: $brand-primary;
+    color: $color-inverse;
+    border: 0;
+    padding: 7px 12px;
+    font-size: $font-size-base;
+    border-radius: $radius-base;
+    flex-shrink: 2;
+    cursor: pointer;
+
+    &:hover {
+      background: $brand-primary-dark;
+    }
+  }
 }

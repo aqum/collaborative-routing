@@ -1,6 +1,7 @@
 import { defaults } from 'lodash';
 
 interface IAppConfig {
+  appUrl?: string;
   mapboxToken?: string;
   mapTileUrl?: string;
   mapAttribution?: string;

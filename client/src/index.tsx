@@ -104,7 +104,7 @@ function bootstrapApp(currentUser: ICurrentUserStore) {
                 <div>
                   <CLoader className='cr-app__loader' />
                   <Route exact path='/' component={CRoutesList} />
-                  <Route exact path='/route/:routeId' component={App} />
+                  <Route exact path='/map/:routeId' component={App} />
                 </div>
               </Router>
             </Provider>,

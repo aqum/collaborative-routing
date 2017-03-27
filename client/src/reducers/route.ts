@@ -29,6 +29,7 @@ export function routeReducer(
     case types.FINISH_FETCH_ROUTE:
       return Object.assign({}, state, {
         title: action.payload.title,
+        accessToken: action.payload.accessToken,
         waypoints: action.payload.waypoints,
       });
 

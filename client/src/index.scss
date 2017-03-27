@@ -20,6 +20,7 @@ select {
 a {
   color: $brand-primary;
   text-decoration: none;
+  cursor: pointer;
 
   &:hover {
     color: $brand-primary-dark;

@@ -72,6 +72,12 @@ defmodule CollaborativeRouting.MapChannel do
   def handle_in("method:route.details", _message, socket) do
     "map:" <> route_id = socket.topic
     route = Repo.get(Route, route_id)
+
+    token = Repo.get_by(Token, route_id: route.id)
+    if token do
+      route = Map.put(route, :accessToken, token.id)
+    end
+
     {:reply, {:ok, route}, socket}
   end
 
