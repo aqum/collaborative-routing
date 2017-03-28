@@ -24,9 +24,15 @@ export function createSocket(token) {
   });
 }
 
-export function connectChannel(socket, name, events: IChannelEvent[] = [], dispatch?: Function) {
+export function connectChannel(
+  socket,
+  name,
+  events: IChannelEvent[] = [],
+  dispatch?: Function,
+  message?,
+) {
   return new Promise((resolve, reject) => {
-    const channel = socket.channel(name);
+    const channel = socket.channel(name, message);
 
     if (dispatch) {
       events.forEach(event =>

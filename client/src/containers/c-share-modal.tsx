@@ -9,7 +9,7 @@ export const CShareModal = connect(
 
 function mapStateToProps(state) {
   return {
-    token: state.route.accessToken,
+    token: state.route.shareToken,
     routeId: state.route.routeId,
   };
 }

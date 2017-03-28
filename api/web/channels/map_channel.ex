@@ -8,17 +8,30 @@ defmodule CollaborativeRouting.MapChannel do
   alias CollaborativeRouting.Suggestion
   alias CollaborativeRouting.Token
 
-  def join("map:" <> route_id, _message, socket) do
-    query = from route in Route, where: route.user_id == ^socket.assigns.user_id
-    route = Repo.get(query, route_id)
+  def join("map:" <> route_id, message, socket) do
+    case is_nil(socket.assigns.user_id) do
+      true ->
+        case message["accessToken"] do
+          nil ->
+            {:error, %{ reason: "unauthorized" }}
 
-    case route do
-      nil ->
-        {:error, %{reason: "404"}}
+          accessToken ->
+            token = Repo.get(Token, accessToken)
 
-      _route ->
-        assign(socket, :route_id, route_id)
-        {:ok, socket}
+            case token do
+              nil -> {:error, %{ reason: "unauthorized" }}
+              _token -> {:ok, socket}
+            end
+        end
+
+      false ->
+        query = from route in Route, where: route.user_id == ^socket.assigns.user_id
+        route = Repo.get(query, route_id)
+
+        case route == nil do
+          true -> {:error, %{reason: "404"}}
+          false -> {:ok, socket}
+        end
     end
   end
 

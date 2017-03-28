@@ -13,6 +13,7 @@ export const types = {
   MAKE_READ_ONLY: 'route/MAKE_READ_ONLY',
   CREATE_TOKEN: 'route/CREATE_TOKEN',
   FINISH_CREATE_TOKEN: 'route/FINISH_CREATE_TOKEN',
+  SET_TOKEN: 'route/SET_TOKEN',
 };
 
 export function setStart(coordinates: LatLngLiteral) {
@@ -99,6 +100,15 @@ export function finishCreateToken(accessToken: string) {
     dispatch(fetchFinish());
     dispatch({
       type: types.FINISH_CREATE_TOKEN,
+      payload: { accessToken },
+    });
+  };
+}
+
+export function setToken(accessToken: string) {
+  return dispatch => {
+    dispatch({
+      type: types.SET_TOKEN,
       payload: { accessToken },
     });
   };

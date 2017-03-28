@@ -7,13 +7,26 @@ import { Sidebar } from '../sidebar/sidebar';
 import { CModeSwitch } from '../../containers/c-mode-switch';
 import { CNavbar } from '../../containers/c-navbar';
 
-export class App extends React.Component<{}, {}> {
+export interface IAppProps {
+  location: any;
+  onTokenMatch: (token: string) => void;
+}
+
+export class App extends React.Component<IAppProps, {}> {
   routeId: number;
 
   constructor({ match }) {
     super();
 
     this.routeId = parseInt(match.params.routeId, 10);
+  }
+
+  componentWillMount() {
+    const queryStr = this.props.location.search;
+    const tokenMatch = queryStr.match(/accessToken=([^&]*)/);
+    if (tokenMatch) {
+      this.props.onTokenMatch(tokenMatch[1]);
+    }
   }
 
   render() {

@@ -2,6 +2,7 @@ import { LatLngLiteral } from 'leaflet';
 
 export interface IRouteStore {
   accessToken?: string;
+  shareToken?: string;
   routeId?: number;
   title?: string;
   waypoints: LatLngLiteral[];

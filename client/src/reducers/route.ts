@@ -40,6 +40,11 @@ export function routeReducer(
 
     case types.FINISH_CREATE_TOKEN:
       return Object.assign({}, state, {
+        shareToken: action.payload.accessToken,
+      });
+
+    case types.SET_TOKEN:
+      return Object.assign({}, state, {
         accessToken: action.payload.accessToken,
       });
 

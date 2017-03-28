@@ -5,6 +5,10 @@ defmodule CollaborativeRouting.MainChannel do
   alias CollaborativeRouting.Repo
 
   def join("main", _message, socket) do
+    if !is_nil(socket.assigns.user_id) do
+      {:error, %{ reason: "unauthorized" }}
+    end
+
     {:ok, socket}
   end
 

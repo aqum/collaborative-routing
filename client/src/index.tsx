@@ -7,10 +7,9 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 
 import './index.scss';
-import { App } from './components/app/app';
 import { appReducer } from './reducers';
 import { AuthService } from './utils/auth0.service';
-import { ICurrentUserStore } from './reducers/stores/current-user';
+import { ICurrentUserStore, initialCurrentUserStore } from './reducers/stores/current-user';
 import { config } from '../config/config';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { CRoutesList } from './containers/c-routes-list';
@@ -19,57 +18,60 @@ import { CLoader } from './containers/c-loader';
 import { currentUserMiddleware } from './api/current-user';
 import { createSocket, connectChannel } from './api/utils';
 import { mapMiddleware } from './api/map';
+import { CApp } from './containers/c-app';
 
 const auth = new AuthService(
   config.auth0.appId,
   config.auth0.appBaseUrl,
-  handleHashParse
 );
 
-function handleHashParse(result) {
-  const isError = result instanceof Error;
+bootstrapApp();
 
-  // initial login when token is not yet set
-  if (result && !isError) {
-    checkProfile(result.idToken);
-    return;
-  }
+// function handleHashParse(result) {
+  // const isError = result instanceof Error;
 
-  if (this.loggedIn()) {
-    checkProfile(this.getToken());
-    return;
-  }
+  // // initial login when token is not yet set
+  // if (result && !isError) {
+    // checkProfile(result.idToken);
+    // return;
+  // }
 
-  if (isError) {
-    alert(`Couldn't parse auth0 response. Please log in again.`);
-  }
+  // if (this.loggedIn()) {
+    // checkProfile(this.getToken());
+    // return;
+  // }
 
-  this.logout();
-  this.login();
-}
+  // if (isError) {
+    // alert(`Couldn't parse auth0 response. Please log in again.`);
+  // }
 
-function checkProfile(token) {
-  auth.lock.getProfile(
-    token,
-    (error, profile) => {
-      if (error) {
-        alert(`Coulnd't load your profile. Please log in again.`);
-        auth.logout();
-        auth.login();
-        return;
-      }
+  // this.logout();
+  // this.login();
+// }
 
-      bootstrapApp({
-        email: profile.email,
-        name: profile.name,
-        routes: [],
-        token,
-      });
-    }
-  );
-}
+// function checkProfile(token) {
+  // auth.lock.getProfile(
+    // token,
+    // (error, profile) => {
+      // if (error) {
+        // alert(`Coulnd't load your profile. Please log in again.`);
+        // auth.logout();
+        // auth.login();
+        // return;
+      // }
 
-function bootstrapApp(currentUser: ICurrentUserStore) {
+      // bootstrapApp({
+        // isAnonymous: false,
+        // email: profile.email,
+        // name: profile.name,
+        // routes: [],
+        // token,
+      // });
+    // },
+  // );
+// }
+
+function bootstrapApp(currentUser: ICurrentUserStore = initialCurrentUserStore) {
   const composeEnhancers = window['__REDUX_DEVTOOLS_EXTENSION_COMPOSE__'] || compose;
 
   return createSocket(currentUser.token)
@@ -94,8 +96,8 @@ function bootstrapApp(currentUser: ICurrentUserStore) {
             composeEnhancers(applyMiddleware(
               currentUserMiddleware,
               mapMiddleware,
-              thunk
-            ))
+              thunk,
+            )),
           );
 
           render(
@@ -104,11 +106,11 @@ function bootstrapApp(currentUser: ICurrentUserStore) {
                 <div>
                   <CLoader className='cr-app__loader' />
                   <Route exact path='/' component={CRoutesList} />
-                  <Route exact path='/map/:routeId' component={App} />
+                  <Route exact path='/map/:routeId' component={CApp} />
                 </div>
               </Router>
             </Provider>,
-            document.getElementById('app')
+            document.getElementById('app'),
           );
         });
     });

@@ -26,7 +26,13 @@ export function createMapChannel(store, events): Promise<any> {
     channel.leave();
   }
 
-  return connectChannel(state.meta.socket, topic, events, store.dispatch.bind(store))
+  return connectChannel(
+    state.meta.socket,
+    topic,
+    events,
+    store.dispatch.bind(store),
+    { accessToken: state.route.accessToken },
+  )
     .catch(err => {
       console.log(err);
       alert(`Couldn't join channel`);
