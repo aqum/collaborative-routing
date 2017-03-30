@@ -16,11 +16,11 @@ export class AuthService {
   }
 
   _doAuthentication(authResult) {
-    console.log('token set');
     this.setToken(authResult.idToken);
   }
 
   login() {
+    this.logout();
     this.lock.show();
   }
 

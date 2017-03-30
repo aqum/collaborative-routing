@@ -105,7 +105,7 @@ export function finishCreateToken(accessToken: string) {
   };
 }
 
-export function setToken(accessToken: string) {
+export function setToken(accessToken) {
   return dispatch => {
     dispatch({
       type: types.SET_TOKEN,

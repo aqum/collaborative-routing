@@ -11,12 +11,12 @@ defmodule CollaborativeRouting.MapChannel do
   def join("map:" <> route_id, message, socket) do
     case is_nil(socket.assigns.user_id) do
       true ->
-        case message["accessToken"] do
-          nil ->
+        case UUID.info(message["accessToken"]) do
+          {:error, _error} ->
             {:error, %{ reason: "unauthorized" }}
 
-          accessToken ->
-            token = Repo.get(Token, accessToken)
+          {:ok, details} ->
+            token = Repo.get(Token, message["accessToken"])
 
             case token do
               nil -> {:error, %{ reason: "unauthorized" }}

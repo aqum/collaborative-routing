@@ -1,4 +1,4 @@
-const { Socket } = require<any>('phoenix');
+const { Socket } = require('phoenix');
 
 export interface IChannelEvent {
   name: string;
