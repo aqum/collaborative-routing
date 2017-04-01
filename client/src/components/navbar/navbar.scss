@@ -1,0 +1,31 @@
+@import '../../variables';
+
+.cr-navbar {
+  position: relative;
+  background: $bg-light;
+  box-shadow: $bg-light-shadow;
+  padding: $spacing-base;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+
+  &__route-title {
+    flex-grow: 1;
+    font-size: $font-size-larger;
+  }
+
+  &__share {
+    background: $brand-secondary;
+    color: $color-inverse;
+    border: 0;
+    padding: 7px 12px;
+    font-size: $font-size-base;
+    border-radius: $radius-base;
+    flex-shrink: 2;
+    cursor: pointer;
+
+    &:hover {
+      background: $brand-secondary-dark;
+    }
+  }
+}

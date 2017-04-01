@@ -30,7 +30,7 @@ export class RoutesList extends React.Component<IRoutesList, {}> {
           { this.props.routes.map(route =>
             <li key={route.id}
                 className='cr-routes-list__item'>
-              <Link to={`/route/${route.id}`}>
+              <Link to={`/map/${route.id}`}>
                 {route.title || 'Route without title'}
               </Link>
             </li>,

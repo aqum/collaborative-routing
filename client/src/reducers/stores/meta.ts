@@ -1,5 +1,6 @@
 import { setStart } from '../../actions/route';
 import { MapMode } from '../../interfaces/map-mode.enum';
+import { AuthService } from '../../utils/auth0.service';
 
 export interface IMetaStore {
   isFetching: boolean;
@@ -8,6 +9,7 @@ export interface IMetaStore {
   socket?: any;
   routeChannel?: any;
   mainChannel?: any;
+  authService?: AuthService;
 }
 
 export const initialMetaStore: IMetaStore = Object.seal({

@@ -11,6 +11,9 @@ export const types = {
   SET_FINISH: 'route/SET_FINISH',
   APPLY_WAYPOINTS: 'route/APPLY_WAYPOINTS',
   MAKE_READ_ONLY: 'route/MAKE_READ_ONLY',
+  CREATE_TOKEN: 'route/CREATE_TOKEN',
+  FINISH_CREATE_TOKEN: 'route/FINISH_CREATE_TOKEN',
+  SET_TOKEN: 'route/SET_TOKEN',
 };
 
 export function setStart(coordinates: LatLngLiteral) {
@@ -78,6 +81,35 @@ export function finishFetchRoute(details) {
     dispatch({
       type: types.FINISH_FETCH_ROUTE,
       payload: details,
+    });
+  };
+}
+
+export function createToken(routeId: number) {
+  return dispatch => {
+    dispatch(fetchStart());
+    dispatch({
+      type: types.CREATE_TOKEN,
+      payload: { routeId },
+    });
+  };
+}
+
+export function finishCreateToken(accessToken: string) {
+  return dispatch => {
+    dispatch(fetchFinish());
+    dispatch({
+      type: types.FINISH_CREATE_TOKEN,
+      payload: { accessToken },
+    });
+  };
+}
+
+export function setToken(accessToken) {
+  return dispatch => {
+    dispatch({
+      type: types.SET_TOKEN,
+      payload: { accessToken },
     });
   };
 }

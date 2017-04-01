@@ -3,7 +3,7 @@ import { types } from '../actions/meta';
 
 export function metaReducer(
   state = initialMetaStore,
-  action
+  action,
 ): IMetaStore {
   switch (action.type) {
     case types.FETCH_START:
@@ -23,6 +23,10 @@ export function metaReducer(
         state.routeChannel.leave();
       }
       return Object.assign({}, state, { routeChannel: action.payload });
+
+    case types.AUTHORIZATION_FAILED:
+      state.authService.login();
+      return state;
 
     default:
       return state;

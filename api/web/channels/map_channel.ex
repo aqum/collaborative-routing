@@ -6,18 +6,32 @@ defmodule CollaborativeRouting.MapChannel do
   alias CollaborativeRouting.Point
   alias CollaborativeRouting.Route
   alias CollaborativeRouting.Suggestion
+  alias CollaborativeRouting.Token
 
-  def join("map:" <> route_id, _message, socket) do
-    query = from route in Route, where: route.user_id == ^socket.assigns.user_id
-    route = Repo.get(query, route_id)
+  def join("map:" <> route_id, message, socket) do
+    case is_nil(socket.assigns.user_id) do
+      true ->
+        case UUID.info(message["accessToken"]) do
+          {:error, _error} ->
+            {:error, %{ reason: "unauthorized" }}
 
-    case route do
-      nil ->
-        {:error, %{reason: "404"}}
+          {:ok, details} ->
+            token = Repo.get(Token, message["accessToken"])
 
-      _route ->
-        assign(socket, :route_id, route_id)
-        {:ok, socket}
+            case token do
+              nil -> {:error, %{ reason: "unauthorized" }}
+              _token -> {:ok, socket}
+            end
+        end
+
+      false ->
+        query = from route in Route, where: route.user_id == ^socket.assigns.user_id
+        route = Repo.get(query, route_id)
+
+        case route == nil do
+          true -> {:error, %{reason: "404"}}
+          false -> {:ok, socket}
+        end
     end
   end
 
@@ -71,6 +85,12 @@ defmodule CollaborativeRouting.MapChannel do
   def handle_in("method:route.details", _message, socket) do
     "map:" <> route_id = socket.topic
     route = Repo.get(Route, route_id)
+
+    token = Repo.get_by(Token, route_id: route.id)
+    if token do
+      route = Map.put(route, :accessToken, token.id)
+    end
+
     {:reply, {:ok, route}, socket}
   end
 
@@ -121,5 +141,29 @@ defmodule CollaborativeRouting.MapChannel do
     end
 
     {:reply, :ok, socket}
+  end
+
+  def handle_in("method:token.create", _message, socket) do
+    "map:" <> route_id = socket.topic
+    routeQuery = from route in Route, where: route.user_id == ^socket.assigns.user_id
+
+    case Repo.get(routeQuery, route_id) do
+      nil ->
+        {:reply, :error, socket}
+
+      route ->
+        case Repo.get_by(Token, route_id: route.id) do
+          nil ->
+            IO.puts("No token to delete")
+          token ->
+            Repo.delete!(token)
+        end
+
+        newToken = %Token{route: route}
+        token = Repo.insert!(newToken);
+        bareToken = Map.delete(token, :route)
+
+        {:reply, {:ok, bareToken}, socket}
+    end
   end
 end

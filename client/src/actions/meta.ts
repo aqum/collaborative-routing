@@ -1,4 +1,4 @@
-import { makeReadOnly } from './route';
+import { makeReadOnly, setToken } from './route';
 import { MapMode } from '../interfaces/map-mode.enum';
 
 export const types = {
@@ -7,6 +7,7 @@ export const types = {
   SET_MAP_CLICK_ACTION: 'meta/SET_MAP_CLICK_ACTION',
   SET_MAP_MODE: 'meta/SET_MAP_MODE',
   SET_ROUTE_CHANNEL: 'meta/SET_ROUTE_CHANNEL',
+  AUTHORIZATION_FAILED: 'meta/AUTHORIZATION_FAILED',
 };
 
 export function fetchStart() {
@@ -49,5 +50,14 @@ export function setRouteChannel(channel) {
   return {
     type: types.SET_ROUTE_CHANNEL,
     payload: channel,
+  };
+}
+
+export function authorizationFailed() {
+  return dispatch => {
+    dispatch(setToken(undefined));
+    dispatch( {
+      type: types.AUTHORIZATION_FAILED,
+    });
   };
 }

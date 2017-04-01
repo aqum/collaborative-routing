@@ -37,7 +37,8 @@ defmodule CollaborativeRouting.Mixfile do
      {:phoenix_html, "~> 2.6"},
      {:gettext, "~> 0.11"},
      {:joken, "~> 1.4.1"},
-     {:cowboy, "~> 1.0"}]
+     {:cowboy, "~> 1.0"},
+     {:uuid, "~> 1.1"}]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.

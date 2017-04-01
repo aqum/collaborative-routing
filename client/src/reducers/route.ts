@@ -28,12 +28,24 @@ export function routeReducer(
 
     case types.FINISH_FETCH_ROUTE:
       return Object.assign({}, state, {
+        title: action.payload.title,
+        accessToken: action.payload.accessToken,
         waypoints: action.payload.waypoints,
       });
 
     case types.INIT_ROUTE:
       return Object.assign({}, state, {
         routeId: action.payload.routeId,
+      });
+
+    case types.FINISH_CREATE_TOKEN:
+      return Object.assign({}, state, {
+        shareToken: action.payload.accessToken,
+      });
+
+    case types.SET_TOKEN:
+      return Object.assign({}, state, {
+        accessToken: action.payload.accessToken,
       });
 
     default:

@@ -6,7 +6,7 @@ import { IComment } from '../../interfaces/comment';
 import { MapMode } from '../../interfaces/map-mode.enum';
 import { LatLngLiteral } from 'leaflet';
 
-const L = require<any>('leaflet');
+const L = require('leaflet');
 // routing-machine doesn't expose Routing object
 require('leaflet-routing-machine');
 

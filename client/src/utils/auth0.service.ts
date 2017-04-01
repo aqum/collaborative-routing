@@ -1,9 +1,10 @@
+import { noop } from 'lodash';
 import Auth0Lock from 'auth0-lock';
 
 export class AuthService {
   lock: any;
 
-  constructor(clientId, domain, hashParseCallback) {
+  constructor(clientId, domain, hashParseCallback = noop) {
     this.lock = new Auth0Lock(clientId, domain, {
       auth: {
         redirectUrl: 'http://localhost:3000',
@@ -15,11 +16,11 @@ export class AuthService {
   }
 
   _doAuthentication(authResult) {
-    console.log('token set');
     this.setToken(authResult.idToken);
   }
 
   login() {
+    this.logout();
     this.lock.show();
   }
 

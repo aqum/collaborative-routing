@@ -29,7 +29,8 @@ defmodule CollaborativeRouting.UserSocket do
         {:ok, assign(socket, :user_id, payload.claims["sub"])}
 
       _error ->
-        :error
+        # anonymous connection, validate inside topic subscription
+        {:ok, assign(socket, :user_id, nil)}
     end
   end
 

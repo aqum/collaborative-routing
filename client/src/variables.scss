@@ -1,3 +1,4 @@
+$font-size-huge: 20px;
 $font-size-larger: 16px;
 $font-size-base: 14px;
 $font-size-smallest: 11px;
@@ -9,6 +10,8 @@ $color-light: #ccc;
 
 $brand-primary: #1B9AF7;
 $brand-primary-dark: darken($brand-primary, 10);
+$brand-secondary: #F8B54E;
+$brand-secondary-dark: darken($brand-secondary, 10);
 
 $spacing-base: 10px;
 $spacing-small: 5px;

@@ -2,7 +2,7 @@ import { connectChannel } from '../utils';
 import { commentsMethods, commentsEvents } from './comments';
 import { routeMethods, routeEvents } from './route';
 import { suggestionsMethods, suggestionsEvents } from './suggestions';
-import { setRouteChannel } from '../../actions/meta';
+import { setRouteChannel, authorizationFailed } from '../../actions/meta';
 import { throttle } from 'lodash';
 
 const mapEvents = [...commentsEvents, ...routeEvents, ...suggestionsEvents];
@@ -26,11 +26,13 @@ export function createMapChannel(store, events): Promise<any> {
     channel.leave();
   }
 
-  return connectChannel(state.meta.socket, topic, events, store.dispatch.bind(store))
-    .catch(err => {
-      console.log(err);
-      alert(`Couldn't join channel`);
-    })
+  return connectChannel(
+    state.meta.socket,
+    topic,
+    events,
+    store.dispatch.bind(store),
+    { accessToken: state.route.accessToken },
+  )
     .then(newChannel => {
       store.dispatch(setRouteChannel(newChannel));
       return newChannel;
@@ -46,7 +48,14 @@ export function mapMiddleware(store) {
         .then(channel => {
           method.callback(channel, store.dispatch.bind(store), action);
         })
-        .catch(console.log.bind(console));
+        .catch(err => {
+          if (err.reason === 'unauthorized') {
+            store.dispatch(authorizationFailed());
+            return;
+          }
+
+          return Promise.reject(err);
+        });
     }
 
     return next(action);

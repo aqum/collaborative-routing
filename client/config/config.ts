@@ -1,6 +1,7 @@
 import { defaults } from 'lodash';
 
 interface IAppConfig {
+  appUrl?: string;
   mapboxToken?: string;
   mapTileUrl?: string;
   mapAttribution?: string;
@@ -23,7 +24,7 @@ export const config: IAppConfig = defaults({}, defaultConfig, getLocalConfig());
 
 function getLocalConfig() {
   try {
-    return require<any>('./local.config').default;
+    return require('./local.config').default;
   } catch (err) {
     console.warn(`local.config.ts not found - using default instead`);
     return {};
