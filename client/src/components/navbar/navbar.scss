@@ -28,4 +28,23 @@
       background: $brand-secondary-dark;
     }
   }
+
+  &__dashboard-link {
+    margin-right: $spacing-small;
+
+    svg {
+      width: 24px;
+      height: 24px;
+
+      path {
+        fill: $color-secondary;
+      }
+    }
+
+    &:hover {
+      path {
+        fill: $brand-primary;
+      }
+    }
+  }
 }
