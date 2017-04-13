@@ -1,0 +1,37 @@
+.cr-form {
+  margin: 50px 0;
+
+  &__input {
+    width: 100%;
+    display: block;
+    border-radius: $radius-base;
+    padding: $spacing-base $spacing-large;
+    margin: $spacing-base ($spacing-large * -1);
+    border: 1px solid $border-color-base;
+    font-size: $font-size-larger;
+    font-family: $font-family-base;
+    outline: none;
+
+    &:focus {
+      border-color: $brand-primary;
+    }
+  }
+
+  &__help {
+    color: $color-light;
+    margin: $spacing-base 0;
+  }
+
+  &__horizontal-group {
+    display: flex;
+    width: 100%;
+
+    .cr-form__group {
+      flex: 1;
+
+      &:not(:last-child) {
+        margin-right: $spacing-base;
+      }
+    }
+  }
+}

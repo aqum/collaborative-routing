@@ -1,0 +1,15 @@
+@import '../../variables';
+
+.cr-button {
+  background: $brand-primary;
+  color: $color-inverse;
+  border: 0;
+  padding: $spacing-base $spacing-large;
+  font-size: $font-size-larger;
+  border-radius: $radius-base;
+  cursor: pointer;
+
+  &:hover {
+    background: $brand-primary-dark;
+  }
+}

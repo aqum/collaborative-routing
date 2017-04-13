@@ -20,6 +20,7 @@ import { createSocket, connectChannel } from './api/utils';
 import { mapMiddleware } from './api/map';
 import { CApp } from './containers/c-app';
 import { Dashboard } from './components/dashboard/dashboard';
+import { AccountPage } from './components/account-page/account-page';
 
 const authService = new AuthService(
   config.auth0.appId,
@@ -118,6 +119,7 @@ function startApp(initialState) {
           <CLoader className='cr-app__loader' />
           <Route exact path='/' component={Dashboard} />
           <Route exact path='/map/:routeId' component={CApp} />
+          <Route exact path='/account' component={AccountPage} />
         </div>
       </Router>
     </Provider>,

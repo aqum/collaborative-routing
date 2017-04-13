@@ -1,0 +1,13 @@
+@import '../../variables';
+@import './form';
+
+.cr-account-page {
+  max-width: $page-narrow-width;
+  margin: 100px auto;
+
+  &__title {
+    font-weight: normal;
+    font-size: 36px;
+    color: $color-light;
+  }
+}
