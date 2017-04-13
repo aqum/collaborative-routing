@@ -72,7 +72,7 @@ defmodule CollaborativeRouting.MapChannel do
 
     case Repo.insert(changeset) do
       {:ok, comment} ->
-        parsed_comment = Map.delete(comment, :route)
+        parsed_comment = Map.delete(Repo.preload(comment, :user), :route)
         broadcast_from! socket, "event:comment_added", %{payload: parsed_comment}
         {:reply, {:ok, parsed_comment}, socket}
 
