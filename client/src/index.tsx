@@ -10,16 +10,16 @@ import thunk from 'redux-thunk';
 import './index.scss';
 import { appReducer } from './reducers';
 import { AuthService } from './utils/auth0.service';
-import { ICurrentUserStore, initialCurrentUserStore } from './reducers/stores/current-user';
+import { initialCurrentUserStore } from './reducers/stores/current-user';
 import { config } from '../config/config';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import { CRoutesList } from './containers/c-routes-list';
 import { initialMetaStore } from './reducers/stores/meta';
 import { CLoader } from './containers/c-loader';
 import { currentUserMiddleware } from './api/current-user';
 import { createSocket, connectChannel } from './api/utils';
 import { mapMiddleware } from './api/map';
 import { CApp } from './containers/c-app';
+import { Dashboard } from './components/dashboard/dashboard';
 
 const authService = new AuthService(
   config.auth0.appId,
@@ -116,7 +116,7 @@ function startApp(initialState) {
       <Router>
         <div>
           <CLoader className='cr-app__loader' />
-          <Route exact path='/' component={CRoutesList} />
+          <Route exact path='/' component={Dashboard} />
           <Route exact path='/map/:routeId' component={CApp} />
         </div>
       </Router>
