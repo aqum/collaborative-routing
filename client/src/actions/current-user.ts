@@ -5,6 +5,8 @@ export const types = {
   FINISH_FETCH_ROUTES_LIST: 'current-user/FINISH_FETCH_ROUTES_LIST',
   CREATE_ROUTE: 'current-user/CREATE_ROUTE',
   FINISH_CREATE_ROUTE: 'current-user/FINISH_CREATE_ROUTE',
+  FETCH_PROFILE: 'currentUser/FETCH_PROFILE',
+  FINISH_FETCH_PROFILE: 'currentUser/FINISH_FETCH_PROFILE',
 };
 
 export function finishFetchRoutesList(routes) {
@@ -41,6 +43,25 @@ export function finishCreateRoute(route) {
     dispatch({
       type: types.FINISH_CREATE_ROUTE,
       payload: route,
+    });
+  };
+}
+
+export function fetchProfile() {
+  return dispatch => {
+    dispatch(fetchStart());
+    dispatch({
+      type: types.FETCH_PROFILE,
+    });
+  };
+}
+
+export function finishFetchProfile(profile) {
+  return dispatch => {
+    dispatch(fetchFinish());
+    dispatch({
+      type: types.FINISH_FETCH_PROFILE,
+      payload: profile,
     });
   };
 }

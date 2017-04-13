@@ -20,6 +20,13 @@ export function currentUserReducer(
         { routes: [action.payload, ...state.routes] },
       );
 
+    case types.FINISH_FETCH_PROFILE:
+      return Object.assign(
+        {},
+        state,
+        { name: action.payload.name },
+      );
+
     default:
       return state;
   }

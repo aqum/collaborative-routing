@@ -34,7 +34,7 @@ defmodule CollaborativeRouting.UserSocket do
           nil ->
             changeset = User.changeset(%User{
               id: user_id,
-              name: "Guest",
+              name: "Not Guest",
             })
             Repo.insert!(changeset)
           _ -> nil

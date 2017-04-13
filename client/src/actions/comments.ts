@@ -23,7 +23,7 @@ export function addComment(
   return {
     type: types.ADD,
     payload: {
-      author: {
+      user: {
         name: authorName,
       },
       date: moment(),

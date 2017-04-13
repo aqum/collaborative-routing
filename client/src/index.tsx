@@ -21,6 +21,7 @@ import { mapMiddleware } from './api/map';
 import { CApp } from './containers/c-app';
 import { Dashboard } from './components/dashboard/dashboard';
 import { AccountPage } from './components/account-page/account-page';
+import { fetchProfile } from './actions/current-user';
 
 const authService = new AuthService(
   config.auth0.appId,
@@ -111,6 +112,8 @@ function startApp(initialState) {
       thunk,
     )),
   );
+
+  store.dispatch(fetchProfile());
 
   render(
     <Provider store={store}>

@@ -3,6 +3,7 @@ defmodule CollaborativeRouting.MainChannel do
   use Phoenix.Channel
   alias CollaborativeRouting.Route
   alias CollaborativeRouting.Repo
+  alias CollaborativeRouting.User
 
   def join("main", _message, socket) do
     case is_nil(socket.assigns.user_id) do
@@ -37,5 +38,11 @@ defmodule CollaborativeRouting.MainChannel do
       {:error, _changeset} ->
         {:reply, :error, socket}
     end
+  end
+
+  def handle_in("method:profile.get", _message, socket) do
+    currentUser = Repo.get!(User, socket.assigns.user_id)
+
+    {:reply, {:ok, currentUser}, socket}
   end
 end
