@@ -3,7 +3,7 @@ defmodule CollaborativeRouting.Suggestion do
 
   @derive {Poison.Encoder, except: [:__meta__, :user]}
   schema "suggestions" do
-    belongs_to :user, CollaborativeRouting.User
+    belongs_to :user, CollaborativeRouting.User, type: :string
     embeds_many :waypoints, CollaborativeRouting.Point, on_replace: :delete
 
     timestamps()

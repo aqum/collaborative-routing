@@ -24,6 +24,7 @@ defmodule CollaborativeRouting.UserSocket do
   def connect(params, socket) do
     payload = JWTHelpers.verify(params["token"])
 
+    # TODO: create user on first successful auth
     case payload.error do
       nil ->
         {:ok, assign(socket, :user_id, payload.claims["sub"])}

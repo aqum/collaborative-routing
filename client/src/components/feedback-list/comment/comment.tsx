@@ -37,7 +37,10 @@ export class Comment extends React.Component<ICommentProps, {}> {
          'cr-comment',
          this.props.comment.isSaving ? 'cr-comment--saving' : null
        )}>
-         <FeedbackMeta date={this.props.comment.date} />
+         <FeedbackMeta
+           date={this.props.comment.date}
+           name={this.props.comment.user.name}
+         />
          <div className='cr-comment__content'>
            {
              this.props.comment.isEdited ?

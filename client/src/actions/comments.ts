@@ -17,14 +17,14 @@ export const types = {
 };
 
 export function addComment(
-  { lat, lng }: { lat: number, lng: number }
+  { lat, lng }: { lat: number, lng: number },
+  authorName,
 ) {
   return {
     type: types.ADD,
     payload: {
       author: {
-        avatarUrl: '',
-        name: 'Maria',
+        name: authorName,
       },
       date: moment(),
       content: '',
@@ -89,7 +89,7 @@ export function receiveAllComments(comments: ICommentResponse[]) {
 
 function standarizeComment(comment: ICommentResponse) {
   return Object.assign(
-    pick(comment, ['id', 'lat', 'lng', 'content']),
+    pick(comment, ['id', 'lat', 'lng', 'content', 'user']),
     {
       date: moment(comment.inserted_at),
     }

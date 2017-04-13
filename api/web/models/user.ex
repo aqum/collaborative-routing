@@ -1,7 +1,10 @@
 defmodule CollaborativeRouting.User do
   use CollaborativeRouting.Web, :model
 
+  @derive {Poison.Encoder, except: [:__meta__, :user]}
+  @primary_key {:id, :string, autogenerate: false}
   schema "users" do
+    field :name, :string
 
     timestamps()
   end
@@ -11,7 +14,7 @@ defmodule CollaborativeRouting.User do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [])
-    |> validate_required([])
+    |> cast(params, [:name, :id])
+    |> validate_required([:name, :id])
   end
 end
