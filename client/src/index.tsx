@@ -74,7 +74,7 @@ function checkProfile(token) {
 }
 
 function bootstrapApp(userData = {}, mapToken?: string) {
-  return createSocket(userData['token'])
+  return createSocket({ token: userData['token'], email: userData['email'] })
     .catch(err => {
       console.log(err);
       alert(`Couldn't connect to server. Try refreshing the page.`);
