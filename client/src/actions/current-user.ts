@@ -1,4 +1,5 @@
 import { fetchFinish, fetchStart } from './meta';
+import { AuthService } from '../utils/auth0.service';
 
 export const types = {
   FETCH_ROUTES_LIST: 'current-user/FETCH_ROUTES_LIST',
@@ -74,5 +75,21 @@ export function updateProfile(profile) {
       type: types.UPDATE_PROFILE,
       payload: profile,
     });
+  };
+}
+
+export function changePassword(email: string, auth: AuthService) {
+  return dispatch => {
+    dispatch(fetchStart());
+
+    auth.resetPassword(email)
+      .catch(err => {
+        alert(`Couldn't reset your password`);
+        console.error(err);
+      })
+      .then(() => {
+        alert(`We've send you an email with instructions`);
+        dispatch(fetchFinish());
+      });
   };
 }

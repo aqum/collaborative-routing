@@ -66,6 +66,7 @@ function checkProfile(token) {
         isAnonymous: false,
         email: profile.email,
         name: profile.name,
+        userId: profile.user_id,
         token,
       });
     },

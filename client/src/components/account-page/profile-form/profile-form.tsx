@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { CrButton } from '../../cr-button/cr-button';
 import { LabelledInput } from '../labelled-input/labelled-input';
+import { CrForm } from '../../cr-form/cr-form';
 
 interface IProfileFormProps {
   name: string;
@@ -8,33 +9,26 @@ interface IProfileFormProps {
 }
 
 export class ProfileForm extends React.Component<IProfileFormProps, {}> {
-  constructor() {
-    super();
-    this.state = {
-      name: '',
-    };
-  }
-
-  handleStateFactory(propName) {
-    return value => {
-      this.setState({
-        [propName]: value,
-      });
-    };
+  handleSubmit(data) {
+    this.props.onSave(data);
   }
 
   render() {
     return (
-      <form className='cr-profile-form'>
+      <CrForm
+        className='cr-profile-form'
+        onSubmit={this.handleSubmit.bind(this)}
+      >
         <LabelledInput
           label='Name'
           value={ this.props.name }
-          onChange={ this.handleStateFactory('name') }
+          name='name'
+          required={ true }
         />
-        <CrButton onClick={() => this.props.onSave(this.state)}>
+        <CrButton type='submit'>
           Save
         </CrButton>
-      </form>
+      </CrForm>
     );
   }
 }

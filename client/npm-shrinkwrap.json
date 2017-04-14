@@ -14,7 +14,7 @@
     },
     "auth0-js": {
       "version": "8.2.0",
-      "from": "auth0-js@8.2.0",
+      "from": "https://registry.npmjs.org/auth0-js/-/auth0-js-8.2.0.tgz",
       "resolved": "https://registry.npmjs.org/auth0-js/-/auth0-js-8.2.0.tgz"
     },
     "auth0-lock": {

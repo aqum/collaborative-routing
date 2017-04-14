@@ -6,7 +6,8 @@ interface ILabelledInputProps {
   label: string;
   type: string;
   value: string;
-  onChange: (value: string) => void;
+  name: string;
+  required: boolean;
 }
 
 interface ILabelledInputState {
@@ -30,7 +31,6 @@ export class LabelledInput extends React.Component<ILabelledInputProps, ILabelle
   handleChange(event) {
     const value = event.target.value;
     this.setState({ value });
-    this.props.onChange(value);
   }
 
   render() {
@@ -44,6 +44,8 @@ export class LabelledInput extends React.Component<ILabelledInputProps, ILabelle
           value={ this.state.value }
           className='cr-labelled-input__input'
           onChange={ this.handleChange.bind(this) }
+          name={ this.props.name }
+          required={ this.props.required }
         />
       </div>
     );

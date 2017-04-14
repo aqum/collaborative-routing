@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { PasswordForm } from './password-form/password-form';
 import { CProfileForm } from '../../containers/c-profile-form';
+import { CPasswordForm } from '../../containers/c-password-form';
 
 import './account-page.scss';
 
@@ -15,7 +15,7 @@ export class AccountPage extends React.Component<{}, {}> {
         </div>
 
         <div className='cr-account-page__section'>
-          <PasswordForm />
+          <CPasswordForm />
         </div>
       </div>
     );

@@ -1,34 +1,28 @@
 import * as React from 'react';
 import { CrButton } from '../../cr-button/cr-button';
-import { LabelledInput } from '../labelled-input/labelled-input';
 
 import './password-form.scss';
 
-export class PasswordForm extends React.Component<{}, {}> {
+interface IPasswordFormProps {
+  onSave: () => void;
+}
+
+interface IPasswordFormState {
+  isDifferent: boolean;
+}
+
+export class PasswordForm extends React.Component<IPasswordFormProps, IPasswordFormState> {
   render() {
     return (
-      <form className='cr-password-form'>
-        <div className='cr-password-form__horizontal'>
-          <div className='cr-password-form__group'>
-            <LabelledInput
-              label='Password'
-              type='password'
-            />
-          </div>
-          <div className='cr-password-form__group'>
-            <LabelledInput
-              label='Repeat'
-              type='password'
-            />
-          </div>
-        </div>
-
+      <div className='cr-password-form'>
         <p className='cr-password-form__help'>
-          We will send you an email to confirm password change
+          We will send you an email with instructions how to change password
         </p>
 
-        <CrButton>Save</CrButton>
-      </form>
+        <CrButton onClick={ () => this.props.onSave() }>
+          Reset password
+        </CrButton>
+      </div>
     );
   }
 }
