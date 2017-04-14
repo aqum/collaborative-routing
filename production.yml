@@ -1,0 +1,45 @@
+version: "3"
+
+services:
+  prod_db:
+    image: postgres:9.6.0
+    command: postgres
+    volumes:
+      - prod_db_data:/var/lib/postgresql/data
+    restart: always
+
+  prod_base_api:
+    build: ./api
+
+  prod_api:
+    build:
+      context: ./api
+      dockerfile: ./Dockerfile-encapsulated
+    command: mix phoenix.server
+    working_dir: /app
+    links:
+      - prod_db:db.link
+    env_file:
+      - ./api.env
+    restart: always
+    expose:
+      - "4000"
+    environment:
+      - VIRTUAL_HOST=api.routing.local
+
+  prod_static:
+    image: nginx:1.11.13
+    volumes:
+      - ./client/dist:/usr/share/nginx/html:ro
+    environment:
+      - VIRTUAL_HOST=routing.local
+
+  prod_nginx:
+    image: jwilder/nginx-proxy
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+
+volumes:
+  prod_db_data:
