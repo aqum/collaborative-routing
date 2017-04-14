@@ -30,6 +30,14 @@ export function currentUserMiddleware(store) {
           .receive('timeout', () => store.dispatch(fetchFinish('Server timeout')));
         break;
 
+      case types.UPDATE_PROFILE:
+        store.getState().meta.mainChannel
+          .push('method:profile.update', result.payload)
+          .receive('ok', (profile) => store.dispatch(fetchFinish()))
+          .receive('error', () => store.dispatch(fetchFinish(`Couldn't update profile`)))
+          .receive('timeout', () => store.dispatch(fetchFinish('Server timeout')));
+        break;
+
       default:
     }
 

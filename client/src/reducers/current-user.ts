@@ -27,6 +27,13 @@ export function currentUserReducer(
         { name: action.payload.name },
       );
 
+    case types.UPDATE_PROFILE:
+      return Object.assign(
+        {},
+        state,
+        { name: action.payload.name },
+      );
+
     default:
       return state;
   }

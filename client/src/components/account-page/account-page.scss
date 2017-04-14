@@ -1,5 +1,4 @@
 @import '../../variables';
-@import './form';
 
 .cr-account-page {
   max-width: $page-narrow-width;
@@ -9,5 +8,10 @@
     font-weight: normal;
     font-size: 36px;
     color: $color-light;
+  }
+
+
+  &__section {
+    margin: 50px 0;
   }
 }

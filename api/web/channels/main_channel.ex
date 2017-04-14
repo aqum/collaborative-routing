@@ -45,4 +45,12 @@ defmodule CollaborativeRouting.MainChannel do
 
     {:reply, {:ok, currentUser}, socket}
   end
+
+  def handle_in("method:profile.update", message, socket) do
+    currentUser = Repo.get!(User, socket.assigns.user_id)
+    changeset = Ecto.Changeset.change(currentUser, name: message["name"])
+    updatedUser = Repo.update!(changeset);
+
+    {:reply, {:ok, updatedUser}, socket}
+  end
 end
