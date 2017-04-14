@@ -12,9 +12,11 @@ $brand-primary: #1B9AF7;
 $brand-primary-dark: darken($brand-primary, 10);
 $brand-secondary: #F8B54E;
 $brand-secondary-dark: darken($brand-secondary, 10);
+$brand-error: #D50000;
 
 $spacing-base: 10px;
 $spacing-small: 5px;
+$spacing-large: 15px;
 $radius-base: 3px;
 
 $bg-light: #fff;
@@ -22,3 +24,5 @@ $bg-light-shadow: 0 0 3px rgba(0,0,0,0.5);
 
 $border-color-base: #E0E0E0;
 $border-color-active: $brand-primary;
+
+$page-narrow-width: 720px;

@@ -5,15 +5,11 @@ export interface IChannelEvent {
   action: Function;
 }
 
-export function createSocket(token) {
+export function createSocket(params) {
   return new Promise((resolve, reject) => {
     const socket = new Socket(
       'ws://localhost:4000/socket',
-      {
-        params: {
-          token,
-        },
-      }
+      { params }
     );
 
     socket.onError(reject);

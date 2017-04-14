@@ -1,6 +1,8 @@
 defmodule CollaborativeRouting.UserSocket do
   use Phoenix.Socket
   alias CollaborativeRouting.JWTHelpers
+  alias CollaborativeRouting.User
+  alias CollaborativeRouting.Repo
 
   ## Channels
   channel "map:*", CollaborativeRouting.MapChannel
@@ -24,9 +26,21 @@ defmodule CollaborativeRouting.UserSocket do
   def connect(params, socket) do
     payload = JWTHelpers.verify(params["token"])
 
+    # TODO: create user on first successful auth
     case payload.error do
       nil ->
-        {:ok, assign(socket, :user_id, payload.claims["sub"])}
+        user_id = payload.claims["sub"]
+        case Repo.get(User, user_id) do
+          nil ->
+            changeset = User.changeset(%User{
+              id: user_id,
+              name: params["email"],
+            })
+            Repo.insert!(changeset)
+          _ -> nil
+        end
+
+        {:ok, assign(socket, :user_id, user_id)}
 
       _error ->
         # anonymous connection, validate inside topic subscription

@@ -1,0 +1,17 @@
+@import '../../../variables';
+
+.cr-labelled-input__input {
+  width: 100%;
+  display: block;
+  border-radius: $radius-base;
+  padding: $spacing-base $spacing-large;
+  margin: $spacing-base ($spacing-large * -1);
+  border: 1px solid $border-color-base;
+  font-size: $font-size-larger;
+  font-family: $font-family-base;
+  outline: none;
+
+  &:focus {
+    border-color: $brand-primary;
+  }
+}

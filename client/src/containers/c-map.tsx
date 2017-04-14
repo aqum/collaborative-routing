@@ -4,6 +4,7 @@ import * as _ from 'lodash';
 import { Map } from '../components/map/map';
 import { setWaypoints, fetchRoute } from '../actions/route';
 import { setSuggestion } from '../actions/suggestions';
+import { addComment } from '../actions/comments';
 
 export const CMap = connect(
   mapStateToProps,
@@ -12,9 +13,14 @@ export const CMap = connect(
 )(Map);
 
 function mapStateToProps(state) {
+  let mapClickAction = state.meta.mapClickAction;
+  if (mapClickAction === addComment) {
+    mapClickAction = ev => addComment(ev, state.currentUser.name);
+  }
+
   return {
     comments: state.comments,
-    onMapClick: state.meta.mapClickAction,
+    onMapClick: mapClickAction,
     waypoints: state.route.waypoints,
     mode: state.meta.mapMode,
   };

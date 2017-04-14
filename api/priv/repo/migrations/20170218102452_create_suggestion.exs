@@ -3,7 +3,7 @@ defmodule CollaborativeRouting.Repo.Migrations.CreateSuggestion do
 
   def change do
     create table(:suggestions) do
-      add :user_id, references(:users, on_delete: :nothing)
+      add :user_id, references(:users, type: :string, on_delete: :nothing)
       add :waypoints, {:array, :map}, default: []
 
       timestamps()
