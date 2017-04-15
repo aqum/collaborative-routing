@@ -23,7 +23,7 @@ const defaultConfig = {
   `,
 };
 
-export const config: IAppConfig = defaults({}, defaultConfig, getLocalConfig());
+export const config: IAppConfig = Object.assign({}, defaultConfig, getLocalConfig());
 
 function getLocalConfig() {
   try {
