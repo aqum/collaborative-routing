@@ -1,5 +1,3 @@
-import { defaults } from 'lodash';
-
 interface IAppConfig {
   apiUrl?: string;
   appUrl?: string;

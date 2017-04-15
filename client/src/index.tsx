@@ -114,7 +114,9 @@ function startApp(initialState) {
     )),
   );
 
-  store.dispatch(fetchProfile());
+  if (!initialState.currentUser.isAnonymous) {
+    store.dispatch(fetchProfile());
+  }
 
   render(
     <Provider store={store}>
