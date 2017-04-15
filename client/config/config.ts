@@ -1,6 +1,7 @@
 import { defaults } from 'lodash';
 
 interface IAppConfig {
+  apiUrl?: string;
   appUrl?: string;
   mapboxToken?: string;
   mapTileUrl?: string;
@@ -12,6 +13,8 @@ interface IAppConfig {
 }
 
 const defaultConfig = {
+  apiUrl: 'ws://localhost:4000/socket',
+  appUrl: 'http://localhost:3000',
   mapTileUrl: 'https://api.tiles.mapbox.com/v4/mapbox.streets/{z}/{x}/{y}.png',
   mapAttribution: `
     © <a href="https://www.mapbox.com/map-feedback/">Mapbox</a>

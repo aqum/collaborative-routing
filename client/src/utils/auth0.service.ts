@@ -1,6 +1,7 @@
 import { noop } from 'lodash';
 import Auth0Lock from 'auth0-lock';
 import { WebAuth } from 'auth0-js';
+import { config } from '../../config/config';
 
 export class AuthService {
   lock: any;
@@ -9,7 +10,7 @@ export class AuthService {
   constructor(clientId, domain, hashParseCallback = noop) {
     this.lock = new Auth0Lock(clientId, domain, {
       auth: {
-        redirectUrl: 'http://localhost:3000',
+        redirectUrl: config.appUrl,
         responseType: 'token',
       },
     });

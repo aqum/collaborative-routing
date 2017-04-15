@@ -8,7 +8,7 @@ export interface IChannelEvent {
 export function createSocket(params) {
   return new Promise((resolve, reject) => {
     const socket = new Socket(
-      'ws://localhost:4000/socket',
+      config.apiUrl,
       { params }
     );
 
@@ -20,6 +20,7 @@ export function createSocket(params) {
   });
 }
 
+import { config } from '../../config/config';
 export function connectChannel(
   socket,
   name,
