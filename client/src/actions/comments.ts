@@ -91,7 +91,7 @@ function standarizeComment(comment: ICommentResponse) {
   return Object.assign(
     pick(comment, ['id', 'lat', 'lng', 'content', 'user']),
     {
-      date: moment(comment.inserted_at),
+      date: moment.utc(comment.inserted_at),
     }
   );
 }
