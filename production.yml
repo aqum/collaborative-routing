@@ -30,7 +30,7 @@ services:
       - prod_api_build:/app/_build
 
   prod_static:
-    image: nginx:1.11.13
+    build: ./deploy/nginx
     volumes:
       - ./client/dist:/usr/share/nginx/html:ro
     environment:
