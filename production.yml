@@ -33,6 +33,7 @@ services:
       - ./client/dist:/usr/share/nginx/html:ro
     environment:
       - VIRTUAL_HOST=routing.local
+    restart: always
 
   prod_nginx:
     image: jwilder/nginx-proxy
@@ -40,6 +41,7 @@ services:
       - "80:80"
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
+    restart: always
 
 volumes:
   prod_db_data:
