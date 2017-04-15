@@ -3,14 +3,33 @@ import { commentsMethods, commentsEvents } from './comments';
 import { routeMethods, routeEvents } from './route';
 import { suggestionsMethods, suggestionsEvents } from './suggestions';
 import { setRouteChannel, authorizationFailed } from '../../actions/meta';
-import { throttle } from 'lodash';
 
 const mapEvents = [...commentsEvents, ...routeEvents, ...suggestionsEvents];
 const mapMethods = [...commentsMethods, ...routeMethods, ...suggestionsMethods];
 
 // Multiple actions can be fired on init before channel is opened
 // when channel is opened more than one time server disconnects previous connections
-const throttledCreateMapChannel = throttle(createMapChannel, 10);
+const throttledCreateMapChannel: any = createThrottledMapChannel(createMapChannel);
+
+function createThrottledMapChannel(createFn) {
+  let promiseCache = null;
+
+  return function () {
+    if (promiseCache) {
+      return promiseCache;
+    }
+
+    return promiseCache = createFn.apply(null, arguments)
+      .then(response => {
+        promiseCache = null;
+        return response;
+      })
+      .catch(err => {
+        promiseCache = null;
+        return Promise.reject(err);
+      });
+  };
+}
 
 export function createMapChannel(store, events): Promise<any> {
   const state = store.getState();
