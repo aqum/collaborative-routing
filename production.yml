@@ -26,6 +26,8 @@ services:
       - "4000"
     environment:
       - VIRTUAL_HOST=api.routing.local
+    volumes:
+      - prod_api_build:/app/_build
 
   prod_static:
     image: nginx:1.11.13
@@ -41,7 +43,7 @@ services:
       - "80:80"
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
-    restart: always
 
 volumes:
   prod_db_data:
+  prod_api_build:

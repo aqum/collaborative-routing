@@ -1,12 +1,9 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const webpack = require('webpack');
 const path = require('path');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
   entry: [
-    'webpack-dev-server/client?http://localhost:3000',
-    'webpack/hot/only-dev-server',
     './src/index.tsx',
   ],
   output: {
@@ -34,7 +31,6 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.resolve('./src/index.html'),
     }),
-    new webpack.HotModuleReplacementPlugin(),
     new CleanWebpackPlugin(['dist']),
   ],
   devtool: 'source-map',
