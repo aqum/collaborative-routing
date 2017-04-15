@@ -21,6 +21,7 @@ export class InputAddress extends React.Component<IInputAddress, {}> {
           </div>
           <input className='cr-input-address__input'
                  type='text'
+                 disabled={true}
                  value={this.props.value} />
         </div>
       </div>

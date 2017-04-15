@@ -29,9 +29,20 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     _dispatch: dispatch,
-    onReroute: ev => dispatch(
-      setWaypoints(ev.waypoints.map(waypoint => waypoint.latLng)),
-    ),
+    onReroute: ev => {
+      const route = ev.routes[0];
+      if (!route) {
+        return;
+      }
+
+      const waypoints = route.waypoints.map(waypoint => ({
+        name: waypoint.name,
+        lat: waypoint.latLng.lat,
+        lng: waypoint.latLng.lng,
+      }));
+
+      dispatch(setWaypoints(waypoints));
+    },
     onSuggestion: ev => dispatch(
       setSuggestion(ev.waypoints.map(waypoint => waypoint.latLng)),
     ),
