@@ -1,4 +1,4 @@
-FROM collaborativeroutingelixir_prod_base_api
+FROM collaborativerouting_prod_base_api
 
 COPY ./ /app
 RUN mix deps.get
