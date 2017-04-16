@@ -1,0 +1,13 @@
+@import '../../../variables';
+
+.cr-route-details {
+  font-weight: bold;
+
+  &__distance {
+    font-size: $font-size-enormous;
+  }
+
+  &__duration {
+    font-size: $font-size-huge;
+  }
+}

@@ -10,8 +10,12 @@ export interface IRouteStore {
   routeId?: number;
   title?: string;
   waypoints: IWaypoint[];
+  duration: number;
+  distance: number;
 }
 
 export const initialRouteStore = Object.seal({
   waypoints: [],
+  duration: 0,
+  distance: 0,
 });

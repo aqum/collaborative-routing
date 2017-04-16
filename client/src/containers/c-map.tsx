@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { MouseEvent } from 'leaflet';
 import * as _ from 'lodash';
 import { Map } from '../components/map/map';
-import { setWaypoints, fetchRoute } from '../actions/route';
+import { setWaypoints, fetchRoute, setDetails } from '../actions/route';
 import { setSuggestion } from '../actions/suggestions';
 import { addComment } from '../actions/comments';
 
@@ -42,6 +42,10 @@ function mapDispatchToProps(dispatch) {
       }));
 
       dispatch(setWaypoints(waypoints));
+      dispatch(setDetails({
+        distance: route.summary.totalDistance,
+        duration: route.summary.totalTime,
+      }));
     },
     onSuggestion: ev => dispatch(
       setSuggestion(ev.waypoints.map(waypoint => waypoint.latLng)),
