@@ -1,10 +1,14 @@
-import { types, applyWaypoints, finishFetchRoute, finishCreateToken } from '../../actions/route';
+import { types, applyWaypoints, finishFetchRoute, finishCreateToken, receiveTitle } from '../../actions/route';
 import { fetchFinish } from '../../actions/meta';
 
 export const routeEvents = [
   {
     name: 'event:route_changed',
     action: applyWaypoints,
+  },
+  {
+    name: 'event:title_changed',
+    action: receiveTitle,
   },
 ];
 
@@ -35,6 +39,16 @@ export const routeMethods = [
         .push('method:token.create')
         .receive('ok', token => dispatch(finishCreateToken(token.id)))
         .receive('error', () => dispatch(fetchFinish(`Couldn't restore route`)))
+        .receive('timeout', () => dispatch(fetchFinish('Server timeout')));
+    },
+  },
+  {
+    type: types.SET_TITLE,
+    callback: (channel, dispatch, action) => {
+      channel
+        .push('method:route.changeTitle', { title: action.payload })
+        .receive('ok', () => dispatch(fetchFinish()))
+        .receive('error', () => dispatch(fetchFinish(`Couldn't restore title`)))
         .receive('timeout', () => dispatch(fetchFinish('Server timeout')));
     },
   },

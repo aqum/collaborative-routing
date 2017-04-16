@@ -166,4 +166,15 @@ defmodule CollaborativeRouting.MapChannel do
         {:reply, {:ok, bareToken}, socket}
     end
   end
+
+  def handle_in("method:route.changeTitle", message, socket) do
+    "map:" <> route_id = socket.topic
+    query = from route in Route, where: route.user_id == ^socket.assigns.user_id
+    route = Repo.get(query, route_id)
+    changeset = Ecto.Changeset.change(route, title: message["title"])
+    Repo.update!(changeset)
+
+    broadcast_from! socket, "event:title_changed", %{payload: message["title"]}
+    {:reply, :ok, socket}
+  end
 end

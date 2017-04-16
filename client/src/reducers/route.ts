@@ -54,6 +54,12 @@ export function routeReducer(
         distance: action.payload.distance,
       });
 
+    case types.SET_TITLE: // fallthrough
+    case types.RECEIVE_TITLE:
+      return Object.assign({}, state, {
+        title: action.payload,
+      });
+
     default:
       return state;
   }

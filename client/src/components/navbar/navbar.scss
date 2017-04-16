@@ -47,4 +47,34 @@
       }
     }
   }
+
+  &__route-title {
+    display: flex;
+    align-items: center;
+
+    svg {
+      width: 20px;
+      height: 20px;
+      margin-left: $spacing-small;
+
+      path {
+        fill: $color-light;
+      }
+    }
+  }
+
+  &__route-title-input {
+    border: 1px solid transparent;
+    border-radius: $radius-base;
+    padding: $spacing-base $spacing-small;
+    outline: none;
+
+    &:hover {
+      border-color: $border-color-base;
+    }
+
+    &:focus {
+      border-color: $brand-primary;
+    }
+  }
 }

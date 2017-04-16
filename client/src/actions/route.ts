@@ -15,6 +15,8 @@ export const types = {
   FINISH_CREATE_TOKEN: 'route/FINISH_CREATE_TOKEN',
   SET_TOKEN: 'route/SET_TOKEN',
   SET_DETAILS: 'route/SET_DETAILS',
+  SET_TITLE: 'route/SET_TITLE',
+  RECEIVE_TITLE: 'route/RECEIVE_TITLE',
 };
 
 export function setStart(coordinates: LatLngLiteral) {
@@ -119,5 +121,19 @@ export function setDetails({ duration, distance }) {
   return {
     type: types.SET_DETAILS,
     payload: { duration, distance },
+  };
+}
+
+export function setTitle(title: string) {
+  return {
+    type: types.SET_TITLE,
+    payload: title,
+  };
+}
+
+export function receiveTitle(title: string) {
+  return {
+    type: types.RECEIVE_TITLE,
+    payload: title,
   };
 }
