@@ -9,9 +9,13 @@ export interface IWaypointsList {
 }
 
 export class WaypointsList extends React.Component<IWaypointsList, {}> {
-  stringifyWaipoint(waypoint: LatLngLiteral) {
+  stringifyWaipoint(waypoint) {
     if (!waypoint) {
       return '';
+    }
+
+    if (waypoint.name) {
+      return waypoint.name;
     }
 
     return `${_.round(waypoint.lat, 2)} ${_.round(waypoint.lng, 2)}`;

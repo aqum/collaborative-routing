@@ -34,7 +34,7 @@ function standarizeSuggestion(suggestion: ISuggestionResponse) {
   return Object.assign(
     pick(suggestion, ['id', 'waypoints']),
     {
-      date: moment(suggestion.inserted_at),
+      date: moment.utc(suggestion.inserted_at),
     }
   );
 }

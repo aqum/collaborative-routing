@@ -1,15 +1,21 @@
-import { LatLngLiteral } from 'leaflet';
+export interface IWaypoint {
+  lat: number;
+  lng: number;
+  name?: string;
+}
 
 export interface IRouteStore {
   accessToken?: string;
   shareToken?: string;
   routeId?: number;
   title?: string;
-  waypoints: LatLngLiteral[];
-  suggestions: LatLngLiteral[][];
+  waypoints: IWaypoint[];
+  duration: number;
+  distance: number;
 }
 
 export const initialRouteStore = Object.seal({
   waypoints: [],
-  suggestions: [],
+  duration: 0,
+  distance: 0,
 });

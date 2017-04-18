@@ -18,3 +18,15 @@
 ## Developing with Docker containers
 ### Running commands
 `docker-compose run --rm CONTAINER_NAME COMMAND`
+
+## Production setup
+- set envrionment variables in `api.env` and `db.env`
+- build containers `docker-compose -f ./production.yml build`
+- create database `docker-compose -f ./production.yml run --rm prod_api mix ecto.create`
+- run migrations `docker-compose -f ./production.yml run --rm prod_api mix ecto.migrate`
+- start services `docker-compose -f ./production.yml up -d prod_db prod_api prod_static prod_nginx`
+
+### Build frontend
+- create `client/config/local.config.ts` file and fill necessary properties
+- install deps `docker-compose run --rm client npm install`
+- build `docker-compose run --rm client npm run build`

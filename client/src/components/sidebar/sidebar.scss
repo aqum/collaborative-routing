@@ -4,4 +4,8 @@
   background: $bg-light;
   box-shadow: $bg-light-shadow;
   padding: $spacing-base;
+
+  &__details {
+    margin: 2*$spacing-large 32px $spacing-large;
+  }
 }

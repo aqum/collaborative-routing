@@ -48,6 +48,18 @@ export function routeReducer(
         accessToken: action.payload.accessToken,
       });
 
+    case types.SET_DETAILS:
+      return Object.assign({}, state, {
+        duration: action.payload.duration,
+        distance: action.payload.distance,
+      });
+
+    case types.SET_TITLE: // fallthrough
+    case types.RECEIVE_TITLE:
+      return Object.assign({}, state, {
+        title: action.payload,
+      });
+
     default:
       return state;
   }

@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "webpack",
+    "build": "webpack --config build/webpack.prod.js",
     "start": "node ./server.js",
     "typings": "typings",
     "postinstall": "npm run typings install"
@@ -17,7 +17,7 @@
     "classnames": "^2.2.5",
     "core-js": "1.2.7",
     "leaflet": "^1.0.1",
-    "leaflet-routing-machine": "^3.2.5",
+    "leaflet-routing-machine": "github:aqum/leaflet-routing-machine",
     "lodash": "4.16.6",
     "moment": "^2.16.0",
     "phoenix": "^1.2.1",
@@ -43,6 +43,7 @@
     "typescript": "2.1.6",
     "typings": "^1.5.0",
     "webpack": "1.13.3",
-    "webpack-dev-server": "^1.16.2"
+    "webpack-dev-server": "^1.16.2",
+    "webpack-merge": "^4.1.0"
   }
 }
