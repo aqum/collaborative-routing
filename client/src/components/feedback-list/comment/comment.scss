@@ -3,9 +3,17 @@
 .cr-comment {
   background: $bg-light;
   box-shadow: $bg-light-shadow;
-  padding: $spacing-base;
   border-radius: $radius-base;
   transition: 0.3s opacity ease-in-out;
+
+  &__form,
+  &__inner {
+    padding: $spacing-base;
+  }
+
+  &__form {
+    border-top: 1px solid $border-color-base;
+  }
 
   &__content {
     margin-top: $spacing-base;

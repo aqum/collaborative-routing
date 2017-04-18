@@ -8,6 +8,11 @@
     border: 1px solid $border-color-base;
     border-radius: $radius-base;
     resize: vertical;
+    outline: none;
+
+    &:focus {
+      border-color: $brand-primary;
+    }
   }
 
   &__actions {

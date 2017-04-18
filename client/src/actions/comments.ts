@@ -27,6 +27,7 @@ export function addComment(
         name: authorName,
       },
       date: moment(),
+      replies: [],
       content: '',
       lat,
       lng,

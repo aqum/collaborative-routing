@@ -4,6 +4,8 @@ import { get } from 'lodash';
 import { FeedbackMeta } from '../../feedback-meta/feedback-meta';
 import { IComment } from '../../../../interfaces/comment';
 
+import './comment-reply.scss';
+
 export interface ICommentReplyProps {
   comment: IComment;
   className?: string;
@@ -14,8 +16,8 @@ export class CommentReply extends React.Component<ICommentReplyProps, {}> {
     return (
        <div className={classNames(
          this.props.className,
-         'cr-comment',
-         this.props.comment.isSaving ? 'cr-comment--saving' : null
+         'cr-comment-reply',
+         this.props.comment.isSaving ? 'cr-comment-reply--saving' : null
        )}>
          <FeedbackMeta
            date={this.props.comment.date}

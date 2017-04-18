@@ -25,9 +25,9 @@ export class FeedbackList extends React.Component<IFeedbackList, {}> {
         )}
 
         {this.props.comments.map(
-          comment => <CComment comment={comment}
+          (comment, index) => <CComment comment={comment}
             className='cr-feedback-list__item'
-            key={comment.id} />
+            key={index} />
         )}
       </div>
     );
