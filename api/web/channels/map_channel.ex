@@ -41,10 +41,12 @@ defmodule CollaborativeRouting.MapChannel do
 
     comments = Repo.all(
       from comment in Comment,
-      where: comment.route_id == ^route_id,
+      where: comment.route_id == ^route_id and is_nil(comment.reply_to_id),
       order_by: [desc: comment.inserted_at],
-      preload: :user
+      preload: [:user, replies: [:user, :replies]]
     )
+
+    IO.inspect comments
 
     {:reply, {:ok, %{ :comments => comments }}, socket}
   end
@@ -68,11 +70,12 @@ defmodule CollaborativeRouting.MapChannel do
       lng: message["lng"],
       route_id: route_id_int,
       user_id: socket.assigns.user_id,
+      reply_to: message["reply_to"],
     })
 
     case Repo.insert(changeset) do
       {:ok, comment} ->
-        parsed_comment = Map.delete(Repo.preload(comment, :user), :route)
+        parsed_comment = Map.delete(Map.delete(Repo.preload(comment, :user), :route), :replies)
         broadcast_from! socket, "event:comment_added", %{payload: parsed_comment}
         {:reply, {:ok, parsed_comment}, socket}
 

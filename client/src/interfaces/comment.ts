@@ -11,4 +11,5 @@ export interface IComment {
   user: IUser;
   isEdited: boolean;
   isSaving: boolean;
+  replies: IComment[];
 }
