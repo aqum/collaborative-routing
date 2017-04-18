@@ -10,7 +10,7 @@ export class DashboardNavbar extends React.Component<IDashboardNavbarProps, {}> 
   render() {
     return (<div>
       Logged as { this.props.name ? this.props.name : this.props.email }
-      <Link to='/profile'>(profile)</Link>
+      <Link to='/account'>(account)</Link>
     </div>);
   }
 }
