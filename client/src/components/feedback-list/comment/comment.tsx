@@ -5,6 +5,7 @@ import './comment.scss';
 import { FeedbackMeta } from '../feedback-meta/feedback-meta';
 import { IComment } from '../../../interfaces/comment';
 import { CommentForm } from './comment-form/comment-form';
+import { CommentReply } from './comment-reply/comment-reply';
 
 export interface ICommentProps {
   comment: IComment;
@@ -49,6 +50,12 @@ export class Comment extends React.Component<ICommentProps, {}> {
                             onCancel={this.handleOnCancel.bind(this)} /> :
                this.props.comment.content
            }
+         </div>
+
+         <div>
+           { this.props.comment.replies.map(
+             reply => <CommentReply comment={reply} key={reply.id} />
+           ) }
          </div>
        </div>
     );

@@ -3,6 +3,7 @@ import { IAuthor } from './author';
 import { IUser } from './user';
 
 export interface IComment {
+  id: number;
   author: IAuthor;
   date: Moment;
   content: string;

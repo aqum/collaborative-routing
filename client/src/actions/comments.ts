@@ -92,6 +92,7 @@ function standarizeComment(comment: ICommentResponse) {
     pick(comment, ['id', 'lat', 'lng', 'content', 'user']),
     {
       date: moment.utc(comment.inserted_at),
+      replies: comment.replies ? comment.replies.map(standarizeComment) : [],
     }
   );
 }
