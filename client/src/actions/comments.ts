@@ -14,6 +14,7 @@ export const types = {
   RECEIVE_ALL: 'comment/RECEIVE_ALL',
   FETCH_ALL_COMMENTS: 'comment/FETCH_ALL_COMMENTS',
   FINISH_FETCH_ALL_COMMENTS: 'comment/FINISH_FETCH_ALL_COMMENTS',
+  SAVE_REPLY: 'comment/SAVE_REPLY',
 };
 
 export function addComment(
@@ -90,7 +91,7 @@ export function receiveAllComments(comments: ICommentResponse[]) {
 
 function standarizeComment(comment: ICommentResponse) {
   return Object.assign(
-    pick(comment, ['id', 'lat', 'lng', 'content', 'user']),
+    pick(comment, ['id', 'lat', 'lng', 'content', 'user', 'reply_to_id']),
     {
       date: moment.utc(comment.inserted_at),
       replies: comment.replies ? comment.replies.map(standarizeComment) : [],
@@ -103,6 +104,19 @@ export function fetchAllComments() {
     dispatch(fetchStart());
     dispatch({
       type: types.FETCH_ALL_COMMENTS,
+    });
+  };
+}
+
+export function saveReply(content: string, target: IComment) {
+  return dispatch => {
+    dispatch(fetchStart());
+    dispatch({
+      type: types.SAVE_REPLY,
+      payload: {
+        content,
+        reply_to_id: target.id,
+      },
     });
   };
 }

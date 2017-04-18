@@ -41,6 +41,9 @@ export class CommentForm extends React.Component<ICommentFormProps, ICommentForm
     }
 
     this.props.onSave(this.state.content);
+    this.setState({
+      content: '',
+    });
   }
 
   expand() {

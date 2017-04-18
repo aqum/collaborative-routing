@@ -1,7 +1,7 @@
 defmodule CollaborativeRouting.Comment do
   use CollaborativeRouting.Web, :model
 
-  @derive {Poison.Encoder, except: [:__meta__, :route, :reply_to, :reply_to_id, :user_id]}
+  @derive {Poison.Encoder, except: [:__meta__, :route, :reply_to, :user_id]}
   schema "comments" do
     field :content, :string
     field :lat, :float
@@ -20,6 +20,6 @@ defmodule CollaborativeRouting.Comment do
   def changeset(struct, params \\ %{}) do
     struct
     |> cast(params, [:content, :lat, :lng])
-    |> validate_required([:content, :lat, :lng])
+    |> validate_required([:content])
   end
 end

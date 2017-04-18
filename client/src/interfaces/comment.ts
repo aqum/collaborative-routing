@@ -13,4 +13,5 @@ export interface IComment {
   isEdited: boolean;
   isSaving: boolean;
   replies: IComment[];
+  reply_to_id: number;
 }

@@ -70,7 +70,7 @@ defmodule CollaborativeRouting.MapChannel do
       lng: message["lng"],
       route_id: route_id_int,
       user_id: socket.assigns.user_id,
-      reply_to: message["reply_to"],
+      reply_to_id: message["reply_to_id"],
     })
 
     case Repo.insert(changeset) do

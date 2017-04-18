@@ -12,7 +12,7 @@ export interface ICommentProps {
   className?: string;
   onSave?: (comment: IComment) => void;
   onRemove?: (comment: IComment) => void;
-  onReply?: (comment: IComment) => void;
+  onReply?: (content: string, target: IComment) => void;
 }
 
 export class Comment extends React.Component<ICommentProps, {}> {
@@ -23,7 +23,7 @@ export class Comment extends React.Component<ICommentProps, {}> {
       return this.props.onSave(updatedComment);
     }
 
-    return this.props.onReply(updatedComment);
+    return this.props.onReply(content, this.props.comment);
   }
 
   handleOnCancel() {
