@@ -4,7 +4,7 @@ defmodule CollaborativeRouting.Route do
   @derive {Poison.Encoder, except: [:__meta__, :user]}
   schema "routes" do
     embeds_many :waypoints, CollaborativeRouting.Point, on_replace: :delete
-    field :user_id, :string
+    belongs_to :user, CollaborativeRouting.User, type: :string
     field :title, :string
 
     timestamps()

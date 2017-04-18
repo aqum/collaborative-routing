@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
+import { get } from 'lodash';
 import './comment.scss';
 import { FeedbackMeta } from '../feedback-meta/feedback-meta';
 import { IComment } from '../../../interfaces/comment';
@@ -37,7 +38,10 @@ export class Comment extends React.Component<ICommentProps, {}> {
          'cr-comment',
          this.props.comment.isSaving ? 'cr-comment--saving' : null
        )}>
-         <FeedbackMeta date={this.props.comment.date} />
+         <FeedbackMeta
+           date={this.props.comment.date}
+           name={get(this.props, 'comment.user.name')}
+         />
          <div className='cr-comment__content'>
            {
              this.props.comment.isEdited ?

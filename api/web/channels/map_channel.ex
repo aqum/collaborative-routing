@@ -7,6 +7,7 @@ defmodule CollaborativeRouting.MapChannel do
   alias CollaborativeRouting.Route
   alias CollaborativeRouting.Suggestion
   alias CollaborativeRouting.Token
+  alias CollaborativeRouting.User
 
   def join("map:" <> route_id, message, socket) do
     case is_nil(socket.assigns.user_id) do
@@ -41,12 +42,11 @@ defmodule CollaborativeRouting.MapChannel do
     comments = Repo.all(
       from comment in Comment,
       where: comment.route_id == ^route_id,
-      order_by: [desc: comment.inserted_at]
+      order_by: [desc: comment.inserted_at],
+      preload: :user
     )
 
-    parsed_comments = Enum.map(comments, fn comment -> Map.delete(comment, :route) end)
-
-    {:reply, {:ok, %{ :comments => parsed_comments }}, socket}
+    {:reply, {:ok, %{ :comments => comments }}, socket}
   end
 
   def handle_in("method:suggestion.list", _message, socket) do
@@ -72,7 +72,7 @@ defmodule CollaborativeRouting.MapChannel do
 
     case Repo.insert(changeset) do
       {:ok, comment} ->
-        parsed_comment = Map.delete(comment, :route)
+        parsed_comment = Map.delete(Repo.preload(comment, :user), :route)
         broadcast_from! socket, "event:comment_added", %{payload: parsed_comment}
         {:reply, {:ok, parsed_comment}, socket}
 

@@ -1,7 +1,7 @@
 @import '../../variables';
 
 .cr-routes-list {
-  max-width: 720px;
+  max-width: $page-narrow-width;
   margin: 100px auto;
 
   &__title {

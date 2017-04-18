@@ -10,16 +10,18 @@ import thunk from 'redux-thunk';
 import './index.scss';
 import { appReducer } from './reducers';
 import { AuthService } from './utils/auth0.service';
-import { ICurrentUserStore, initialCurrentUserStore } from './reducers/stores/current-user';
+import { initialCurrentUserStore } from './reducers/stores/current-user';
 import { config } from '../config/config';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import { CRoutesList } from './containers/c-routes-list';
 import { initialMetaStore } from './reducers/stores/meta';
 import { CLoader } from './containers/c-loader';
 import { currentUserMiddleware } from './api/current-user';
 import { createSocket, connectChannel } from './api/utils';
 import { mapMiddleware } from './api/map';
 import { CApp } from './containers/c-app';
+import { Dashboard } from './components/dashboard/dashboard';
+import { AccountPage } from './components/account-page/account-page';
+import { fetchProfile } from './actions/current-user';
 
 const authService = new AuthService(
   config.auth0.appId,
@@ -64,6 +66,7 @@ function checkProfile(token) {
         isAnonymous: false,
         email: profile.email,
         name: profile.name,
+        userId: profile.user_id,
         token,
       });
     },
@@ -71,7 +74,7 @@ function checkProfile(token) {
 }
 
 function bootstrapApp(userData = {}, mapToken?: string) {
-  return createSocket(userData['token'])
+  return createSocket({ token: userData['token'], email: userData['email'] })
     .catch(err => {
       console.log(err);
       alert(`Couldn't connect to server. Try refreshing the page.`);
@@ -111,13 +114,16 @@ function startApp(initialState) {
     )),
   );
 
+  store.dispatch(fetchProfile());
+
   render(
     <Provider store={store}>
       <Router>
         <div>
           <CLoader className='cr-app__loader' />
-          <Route exact path='/' component={CRoutesList} />
+          <Route exact path='/' component={Dashboard} />
           <Route exact path='/map/:routeId' component={CApp} />
+          <Route exact path='/account' component={AccountPage} />
         </div>
       </Router>
     </Provider>,
