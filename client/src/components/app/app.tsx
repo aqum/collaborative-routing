@@ -37,9 +37,6 @@ export class App extends React.Component<IAppProps, {}> {
           <Sidebar className='cr-app__sidebar' />
           <div className='cr-app__main'>
             <div className='cr-app__floating-right'>
-              <div className='cr-app__floating-item'>
-                <CModeSwitch />
-              </div>
               <CFeedbackList />
             </div>
             <CMap className='cr-app__map'
