@@ -6,6 +6,7 @@ export interface ICommentFormProps {
   onSave: Function;
   onCancel: Function;
   content: string;
+  placeholder: string;
   isExpanded?: boolean;
   focusOnInit?: string;
 }
@@ -87,6 +88,7 @@ export class CommentForm extends React.Component<ICommentFormProps, ICommentForm
          <textarea className='cr-comment-form__field'
                    value={this.state.content}
                    ref='field'
+                   placeholder={this.props.placeholder}
                    onChange={this.handleContentChange.bind(this)}
                    onFocus={this.expand.bind(this)}
                    onBlur={this.gracefullyShrink.bind(this)} />

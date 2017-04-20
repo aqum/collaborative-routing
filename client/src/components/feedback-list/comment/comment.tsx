@@ -38,7 +38,7 @@ export class Comment extends React.Component<ICommentProps, {}> {
     return (
        <div className='cr-comment__replies'>
          { this.props.comment.replies.map(
-           reply => <CommentReply comment={reply} key={reply.id} />
+           reply => <CommentReply comment={reply} key={reply.id} />,
          ) }
        </div>
     );
@@ -48,9 +48,12 @@ export class Comment extends React.Component<ICommentProps, {}> {
     const isEdited = this.props.comment.isEdited;
     return (
       <div className='cr-comment__form'>
-        <CommentForm onSave={this.handleFormSubmit.bind(this)}
-                     onCancel={isEdited ? this.handleOnCancel.bind(this) : null}
-                     isExpanded={isEdited} />
+        <CommentForm
+          onSave={this.handleFormSubmit.bind(this)}
+          onCancel={isEdited ? this.handleOnCancel.bind(this) : null}
+          isExpanded={isEdited}
+          placeholder={isEdited ? 'Comment' : 'Reply...' }
+        />
       </div>
     );
   }
@@ -60,7 +63,7 @@ export class Comment extends React.Component<ICommentProps, {}> {
        <div className={classNames(
          this.props.className,
          'cr-comment',
-         this.props.comment.isSaving ? 'cr-comment--saving' : null
+         this.props.comment.isSaving ? 'cr-comment--saving' : null,
        )}>
          <div className='cr-comment__inner'>
            <FeedbackMeta
