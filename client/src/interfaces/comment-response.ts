@@ -6,4 +6,5 @@ export interface ICommentResponse {
   lat: number;
   lng: number;
   content: string;
+  replies: ICommentResponse[];
 }

@@ -42,6 +42,9 @@ export function commentsReducer(
       return _.without(state, state[removedIndex]);
 
     case types.RECEIVE:
+      if (action.payload.reply_to_id) {
+        return insertReplyComment(state, action.payload);
+      }
       return [action.payload, ...state];
 
     case types.RECEIVE_ALL:
@@ -50,6 +53,22 @@ export function commentsReducer(
     default:
       return state;
   }
+}
+
+function insertReplyComment(state: IComment[], replyComment: IComment) {
+  const targetStateIndex = state.findIndex(comment => comment.id === replyComment.reply_to_id);
+  const targetComment = state[targetStateIndex];
+  if (!targetComment) {
+    console.log(`Couldn't find target comment for updated reply`, replyComment);
+    return state;
+  }
+
+  state[targetStateIndex] = Object.assign(
+    {},
+    targetComment,
+    { replies: targetComment.replies.concat(replyComment) }
+  );
+  return [...state];
 }
 
 function findCommentIndex(state: IComment[], comment: IComment): number {

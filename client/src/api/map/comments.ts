@@ -20,7 +20,7 @@ export const commentsMethods = [
     callback: (channel, dispatch, action) => {
       channel
         .push('method:comment.add', action.payload)
-        .receive('ok', () => dispatch(saveCommentSuccess(action.payload)))
+        .receive('ok', comment => dispatch(saveCommentSuccess(comment)))
         .receive('error', () => dispatch(saveCommentError(action.payload)))
         .receive('timeout', () => dispatch(saveCommentError(action.payload)));
     },
@@ -35,6 +35,16 @@ export const commentsMethods = [
         })
         .receive('error', () => dispatch(fetchFinish(`Couldn't restore comments`)))
         .receive('timeout', () => dispatch(fetchFinish('Server timeout')));
+    },
+  },
+  {
+    type: types.SAVE_REPLY,
+    callback: (channel, dispatch, action) => {
+      channel
+        .push('method:comment.add', action.payload)
+        .receive('ok', comment => dispatch(receiveComment(comment)))
+        .receive('error', () => dispatch(fetchFinish(`Couldn't save your reply`)))
+        .receive('timeout', () => dispatch(fetchFinish(`Server timeout`)));
     },
   },
 ];

@@ -1,7 +1,7 @@
 defmodule CollaborativeRouting.User do
   use CollaborativeRouting.Web, :model
 
-  @derive {Poison.Encoder, except: [:__meta__, :user]}
+  @derive {Poison.Encoder, except: [:__meta__, :user, :insterted_at, :updated_at]}
   @primary_key {:id, :string, autogenerate: false}
   schema "users" do
     field :name, :string
