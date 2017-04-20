@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
+import './dashboard-navbar.scss';
 
 export interface IDashboardNavbarProps {
   email: string;
@@ -8,9 +9,10 @@ export interface IDashboardNavbarProps {
 
 export class DashboardNavbar extends React.Component<IDashboardNavbarProps, {}> {
   render() {
-    return (<div>
-      Logged as { this.props.name ? this.props.name : this.props.email }
-      <Link to='/account'>(account)</Link>
-    </div>);
+    return (
+      <div className='cr-dashboard-navbar'>
+        Logged as { this.props.name } <Link to='/account'>(account)</Link>
+      </div>
+    );
   }
 }

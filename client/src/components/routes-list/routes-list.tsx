@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { IRouteMeta } from '../../interfaces/route-meta';
-import { CDashboardNavbar } from '../../containers/c-dashboard-navbar';
 
 import './routes-list.scss';
 
@@ -19,7 +18,6 @@ export class RoutesList extends React.Component<IRoutesList, {}> {
   render() {
     return (
       <div className='cr-routes-list'>
-        <CDashboardNavbar />
         <h2 className='cr-routes-list__title'>
           <span className='cr-routes-list__title-text'>Your routes</span>
           <button type='button'
