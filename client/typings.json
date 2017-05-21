@@ -9,6 +9,7 @@
     "classnames": "registry:dt/classnames#0.0.0+20160316155526",
     "core-js": "registry:dt/core-js#0.0.0+20160914114559",
     "geojson": "registry:dt/geojson#0.0.0+20160619034323",
+    "jest": "registry:dt/jest#19.2.0+20170312200138",
     "leaflet": "registry:dt/leaflet#1.0.0-rc3+20161013145239"
   }
 }
