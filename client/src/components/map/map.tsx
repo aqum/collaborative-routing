@@ -56,7 +56,9 @@ export class Map extends React.Component<IMap, {}> {
   }
 
   componentDidMount() {
-    this.props.onInit(this.props.routeId);
+    if (isFunction(this.props.onInit)) {
+      this.props.onInit(this.props.routeId);
+    }
   }
 
   compareWaypoints(control, toCompare) {
@@ -72,6 +74,10 @@ export class Map extends React.Component<IMap, {}> {
     return compareList(control._selectedRoute.inputWaypoints, toCompare);
 
     function compareList(waypoints, compareWith) {
+      if (waypoints.length !== compareWith.length) {
+        return false;
+      }
+
       return waypoints.every(
         (waypoint, index) => compare(waypoint.latLng, compareWith[index])
       );
